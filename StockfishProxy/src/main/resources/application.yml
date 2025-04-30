@@ -1,3 +1,6 @@
 spring:
   application:
     name: StockfishProxy
+
+stockfish:
+  path: ./engine/stockfish-macos-m1-apple-silicon
