@@ -16,7 +16,10 @@ public class StockfishController {
     private final StockfishService stockfishService;
 
     @GetMapping
-    public ResponseEntity<String> getEngineAnalyze(@RequestParam String fen) {
-        return ResponseEntity.ok(stockfishService.getEngineAnalyze(fen));
+    public ResponseEntity<String> getEngineAnalyze(
+            @RequestParam String fen,
+            @RequestParam(defaultValue = "1") String multiPV,
+            @RequestParam(defaultValue = "1000") String moveTime) {
+        return ResponseEntity.ok(stockfishService.getEngineAnalyze(fen, multiPV, moveTime));
     }
 }
