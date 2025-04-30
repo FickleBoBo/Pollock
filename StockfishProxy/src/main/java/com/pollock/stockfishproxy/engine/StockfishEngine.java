@@ -17,6 +17,8 @@ public class StockfishEngine {
 
     private final String stockfishPath;
 
+    private final long TIMEOUT = 1000;
+
     public StockfishEngine(String stockfishPath) {
         this.stockfishPath = stockfishPath;
     }
@@ -28,13 +30,13 @@ public class StockfishEngine {
             bw = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
             sendCommand("uci");
-            if (!waitFor("uciok", 2000)) {
+            if (!waitFor("uciok")) {
                 log.error("❌ Stockfish 응답 없음: 'uciok' 누락");
                 return false;
             }
 
             sendCommand("isready");
-            if (!waitFor("readyok", 2000)) {
+            if (!waitFor("readyok")) {
                 log.error("❌ Stockfish 응답 없음: 'readyok' 누락");
                 return false;
             }
@@ -57,14 +59,14 @@ public class StockfishEngine {
         }
     }
 
-    public boolean waitFor(String keyword, long timeout) {
+    public boolean waitFor(String keyword) {
         long startTime = System.currentTimeMillis();
         try {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.contains(keyword)) return true;
-                if (System.currentTimeMillis() - startTime > timeout) {
-                    log.warn("⏰ '{}' 키워드 대기 중 타임아웃 발생 ({}ms)", keyword, timeout);
+                if (System.currentTimeMillis() - startTime > TIMEOUT) {
+                    log.warn("⏰ '{}' 키워드 대기 중 타임아웃 발생 ({}ms)", keyword, TIMEOUT);
                     break;
                 }
             }
@@ -72,28 +74,6 @@ public class StockfishEngine {
             log.error("❌ Stockfish 응답 수신 중 오류 발생: {}", e.getMessage(), e);
         }
         return false;
-    }
-
-    public String readCommand(String keyword, long timeout) {
-        long start = System.currentTimeMillis();
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
-
-                if (line.contains(keyword)) break;
-                if (System.currentTimeMillis() - start > timeout) {
-                    log.warn("⏰ Timeout waiting for keyword '{}'", keyword);
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            log.error("❌ Error reading from Stockfish: {}", e.getMessage(), e);
-        }
-
-        return sb.toString().trim();
     }
 
     public boolean quit() {
@@ -110,17 +90,32 @@ public class StockfishEngine {
         return true;
     }
 
-    public String go(String fen) {
-        sendCommand("position fen " + fen);
-        sendCommand("go movetime " + 1000);
-
-        return readCommand("bestmove", 2000);
-    }
-
-    public String go(String fen, int moveTime) {
+    public String getAnalyze(String fen, String multiPV, String moveTime) {
+        sendCommand("setoption name MultiPV value  " + multiPV);
         sendCommand("position fen " + fen);
         sendCommand("go movetime " + moveTime);
+        return readCommand("bestmove", Long.parseLong(moveTime));
+    }
 
-        return readCommand("bestmove", 1000 + moveTime);
+    public String readCommand(String keyword, long moveTime) {
+        long start = System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+
+                if (line.contains(keyword)) break;
+                if (System.currentTimeMillis() - start > moveTime + TIMEOUT) {
+                    log.warn("⏰ Timeout waiting for keyword '{}'", keyword);
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            log.error("❌ Error reading from Stockfish: {}", e.getMessage(), e);
+        }
+
+        return sb.toString().trim();
     }
 }
