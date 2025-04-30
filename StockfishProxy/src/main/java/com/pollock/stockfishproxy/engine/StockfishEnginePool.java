@@ -2,6 +2,7 @@ package com.pollock.stockfishproxy.engine;
 
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.BlockingQueue;
@@ -13,11 +14,11 @@ public class StockfishEnginePool {
 
     private final BlockingQueue<StockfishEngine> pool;
 
-    public StockfishEnginePool() {
+    public StockfishEnginePool(@Value("${stockfish.path}") String stockfishPath) {
         this.pool = new LinkedBlockingQueue<>();
 
         for (int i = 0; i < 4; i++) {
-            StockfishEngine engine = new StockfishEngine();
+            StockfishEngine engine = new StockfishEngine(stockfishPath);
 
             if (engine.start()) {
                 pool.add(engine);
