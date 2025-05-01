@@ -1,9 +1,13 @@
-function App() {
+import ChessAnalysisPage from "./pages/ChessAnalysisPage.tsx";
+
+const App = () => {
   return (
-    <div className="text-3xl font-bold text-blue-600">
-      Hello Tailwind!
-    </div>
+    <>
+      <div>
+        <ChessAnalysisPage />
+      </div>
+    </>
   );
-}
+};
 
 export default App;
