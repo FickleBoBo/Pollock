@@ -1,33 +1,35 @@
 package com.pollock.user.oauth2.dto;
 
 import com.pollock.user.entity.Gender;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
-@RequiredArgsConstructor
 public class NaverResponse implements OAuth2Response {
 
-    private final Map<String, Object> attribute;
+    private final Map<String, Object> attributes;
+
+    public NaverResponse(Map<String, Object> attributes) {
+        this.attributes = (Map<String, Object>) attributes.get("response");
+    }
 
     @Override
     public String getEmail() {
-        return attribute.get("email").toString();
+        return attributes.get("email").toString();
     }
 
     @Override
     public String getName() {
-        return attribute.get("name").toString();
+        return attributes.get("name").toString();
     }
 
     @Override
     public String getBirthyear() {
-        return attribute.get("birthyear").toString();
+        return attributes.get("birthyear").toString();
     }
 
     @Override
     public Gender getGender() {
-        String gender = attribute.get("gender").toString();
+        String gender = attributes.get("gender").toString();
 
         if (gender.equals("M")) {
             return Gender.MALE;
