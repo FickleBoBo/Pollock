@@ -8,6 +8,8 @@ public interface OAuth2Response {
 
     String getName();
 
+    String getProfileImageUrl();
+
     String getBirthyear();
 
     Gender getGender();

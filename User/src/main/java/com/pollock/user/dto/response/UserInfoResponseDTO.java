@@ -11,6 +11,7 @@ public class UserInfoResponseDTO {
 
     private String email;
     private String nickname;
+    private String profileImageUrl;
     private String birthyear;
     private Gender gender;
     private Grade grade;

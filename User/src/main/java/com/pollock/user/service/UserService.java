@@ -19,6 +19,7 @@ public class UserService {
         return UserInfoResponseDTO.builder()
                 .email(userEntity.getEmail())
                 .nickname(userEntity.getNickname())
+                .profileImageUrl(userEntity.getProfileImageUrl())
                 .birthyear(userEntity.getBirthyear())
                 .gender(userEntity.getGender())
                 .grade(userEntity.getGrade())

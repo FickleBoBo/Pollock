@@ -23,6 +23,11 @@ public class NaverResponse implements OAuth2Response {
     }
 
     @Override
+    public String getProfileImageUrl() {
+        return attributes.get("profile_image").toString();
+    }
+
+    @Override
     public String getBirthyear() {
         return attributes.get("birthyear").toString();
     }

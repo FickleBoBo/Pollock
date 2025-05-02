@@ -23,6 +23,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        System.out.println(oAuth2User.getAttributes());
 
         OAuth2Response oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
 
@@ -32,6 +33,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserEntity userEntity = UserEntity.builder()
                     .email(oAuth2Response.getEmail())
                     .nickname(oAuth2Response.getName())
+                    .profileImageUrl(oAuth2Response.getProfileImageUrl())
                     .birthyear(oAuth2Response.getBirthyear())
                     .gender(oAuth2Response.getGender())
                     .build();
