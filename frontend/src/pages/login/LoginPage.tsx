@@ -1,9 +1,11 @@
-import NaverLoginButton from "../../components/\blogin/NaverLoginButton";
+import NaverLoginButton from "../../components/login/NaverLoginButton";
 
 const LoginPage = () => {
   return (
     <>
-      <NaverLoginButton />
+      <div>
+        <NaverLoginButton />
+      </div>
     </>
   );
 };
