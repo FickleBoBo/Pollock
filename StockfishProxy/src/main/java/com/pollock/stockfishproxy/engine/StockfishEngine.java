@@ -101,6 +101,7 @@ public class StockfishEngine {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("info") || line.startsWith("bestmove")) {
+                    log.info("📤 Redis Publish to '{}' → {}", gameId, line);
                     redisPublisher.publish(gameId.toString(), line);
                     if (line.startsWith("bestmove")) break;
                 }
