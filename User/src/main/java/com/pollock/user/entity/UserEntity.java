@@ -23,7 +23,7 @@ public class UserEntity {
 
     private String profileImageUrl;
 
-    private String birthyear;
+    private Integer birthyear;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -34,7 +34,7 @@ public class UserEntity {
     private Grade grade;
 
     @Builder
-    public UserEntity(String email, String nickname, String profileImageUrl, String birthyear, Gender gender) {
+    public UserEntity(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
         this.email = email;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;

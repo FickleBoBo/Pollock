@@ -10,7 +10,7 @@ public interface OAuth2Response {
 
     String getProfileImageUrl();
 
-    String getBirthyear();
+    Integer getBirthyear();
 
     Gender getGender();
 }

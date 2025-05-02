@@ -48,7 +48,7 @@ public class CustomOAuth2User implements OAuth2User {
         return userEntity.getProfileImageUrl();
     }
 
-    public String getBirthyear() {
+    public Integer getBirthyear() {
         return userEntity.getBirthyear();
     }
 

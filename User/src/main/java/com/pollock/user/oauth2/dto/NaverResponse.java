@@ -28,8 +28,8 @@ public class NaverResponse implements OAuth2Response {
     }
 
     @Override
-    public String getBirthyear() {
-        return attributes.get("birthyear").toString();
+    public Integer getBirthyear() {
+        return Integer.parseInt(attributes.get("birthyear").toString());
     }
 
     @Override
