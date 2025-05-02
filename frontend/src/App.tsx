@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import HomePage from "./pages/home/HomePage";
-import ChessAnalysisPage from "./pages/ChessAnalysisPage";
+import LoginPage from "./pages/login/LoginPage";
+import AnalysisPage from "./pages/analysis/AnalysisPage";
 
 const App = () => {
   return (
@@ -9,7 +10,8 @@ const App = () => {
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/analysis" element={<ChessAnalysisPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/analysis" element={<AnalysisPage />} />
       </Routes>
     </BrowserRouter>
   );
