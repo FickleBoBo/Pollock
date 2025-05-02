@@ -1,5 +1,6 @@
 package com.pollock.stockfishproxy.engine;
 
+import com.pollock.stockfishproxy.redis.RedisPublisher;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,11 +91,30 @@ public class StockfishEngine {
         return true;
     }
 
-    public String getAnalysis(String fen, String multiPV, String moveTime) {
+    public void publishEngineAnalysis(Long gameId, String fen, Integer multiPV, Long moveTime, RedisPublisher redisPublisher) {
         sendCommand("setoption name MultiPV value  " + multiPV);
         sendCommand("position fen " + fen);
         sendCommand("go movetime " + moveTime);
-        return readCommand("bestmove", Long.parseLong(moveTime));
+
+        long start = System.currentTimeMillis();
+        try {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("info") || line.startsWith("bestmove")) {
+                    redisPublisher.publish(gameId.toString(), line);
+                    if (line.startsWith("bestmove")) break;
+                }
+
+                if (System.currentTimeMillis() - start > moveTime + 1000) {
+                    log.warn("⏰ 분석 타임아웃");
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            log.error("❌ Stockfish 로그 읽기 실패", e);
+        }
+
+//        return readCommand("bestmove", Long.parseLong(moveTime));
     }
 
     public String readCommand(String keyword, long moveTime) {
