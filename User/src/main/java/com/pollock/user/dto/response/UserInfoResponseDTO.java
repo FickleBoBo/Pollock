@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 public class UserInfoResponseDTO {
 
-    private Long id;
     private String email;
     private String nickname;
     private String birthyear;
