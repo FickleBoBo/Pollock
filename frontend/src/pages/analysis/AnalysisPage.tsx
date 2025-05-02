@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { Chess } from "chess.js";
 
-import ChessBoard from "../../components/ChessBoard";
-import ChessEngine from "../../components/ChessEngine";
+import ChessBoard from "../../components/common/ChessBoard";
+import ChessEngine from "../../components/common/ChessEngine";
 
 const AnalysisPage = () => {
   const [game, setGame] = useState(new Chess());
