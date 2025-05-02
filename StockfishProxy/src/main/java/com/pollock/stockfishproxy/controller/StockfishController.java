@@ -1,5 +1,6 @@
 package com.pollock.stockfishproxy.controller;
 
+import com.pollock.stockfishproxy.dto.request.EngineAnalysisRequestDTO;
 import com.pollock.stockfishproxy.service.StockfishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +14,9 @@ public class StockfishController {
 
     private final StockfishService stockfishService;
 
-    @GetMapping
-    public ResponseEntity<String> getEngineAnalysis(
-            @RequestParam String fen,
-            @RequestParam(defaultValue = "1") String multiPV,
-            @RequestParam(defaultValue = "1000") String moveTime) {
-        return ResponseEntity.ok(stockfishService.getEngineAnalysis(fen, multiPV, moveTime));
+    @PostMapping
+    public ResponseEntity<Void> publishEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
+        stockfishService.publishEngineAnalysis(requestDTO);
+        return ResponseEntity.ok().build();
     }
 }
