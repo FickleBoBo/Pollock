@@ -1,11 +1,11 @@
 package com.pollock.user.controller;
 
 import com.pollock.user.dto.response.UserInfoResponseDTO;
+import com.pollock.user.oauth2.annotation.Auth;
+import com.pollock.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public ResponseEntity<UserInfoResponseDTO> getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
-        return ResponseEntity.ok(userService.getUserInfo(principal));
+    public ResponseEntity<UserInfoResponseDTO> getUserInfo(@Auth CustomOAuth2User user) {
+        return ResponseEntity.ok(userService.getUserInfo(user));
     }
 }
