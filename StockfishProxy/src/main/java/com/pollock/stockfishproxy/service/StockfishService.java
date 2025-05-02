@@ -13,7 +13,7 @@ public class StockfishService {
 
     private final StockfishEnginePool pool;
 
-    public String getEngineAnalyze(String fen, String multiPV, String moveTime) {
+    public String getEngineAnalysis(String fen, String multiPV, String moveTime) {
         StockfishEngine engine = null;
         try {
             engine = pool.acquire();
@@ -24,10 +24,10 @@ public class StockfishService {
 
         log.info("Engine PID: {}", engine.getEnginePid());
 
-        String engineAnalyze = engine.getAnalyze(fen, multiPV, moveTime);
+        String engineAnalysis = engine.getAnalysis(fen, multiPV, moveTime);
 
         pool.release(engine);
 
-        return engineAnalyze;
+        return engineAnalysis;
     }
 }

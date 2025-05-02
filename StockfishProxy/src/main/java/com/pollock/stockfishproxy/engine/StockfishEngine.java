@@ -90,7 +90,7 @@ public class StockfishEngine {
         return true;
     }
 
-    public String getAnalyze(String fen, String multiPV, String moveTime) {
+    public String getAnalysis(String fen, String multiPV, String moveTime) {
         sendCommand("setoption name MultiPV value  " + multiPV);
         sendCommand("position fen " + fen);
         sendCommand("go movetime " + moveTime);
