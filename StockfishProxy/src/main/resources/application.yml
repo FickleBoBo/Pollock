@@ -1,6 +1,8 @@
 spring:
   application:
     name: StockfishProxy
+  profiles:
+    active: docker
 
 stockfish:
   path: ${STOCKFISH_PATH:engine/stockfish-macos-m1-apple-silicon}
