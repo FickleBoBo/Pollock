@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import axios from "axios";
+import api from "../../common/api";
 
 import Button from "./Button";
 
 interface UserInfo {
   nickname: string;
   profileImageUrl: string;
+  elo: number;
   grade: string;
 }
 
@@ -16,22 +17,23 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://www.pollock.kr:8080/api/pollock/user/me", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        const { nickname, profileImageUrl, grade } = response.data;
-        setUserInfo({ nickname, profileImageUrl, grade });
-      })
-      .catch((error) => {
+    const fetchUserInfo = async () => {
+      try {
+        const { data } = await api.get<UserInfo>("/api/pollock/user/me");
+        setUserInfo(data);
+      } catch (error) {
         console.error("유저 정보 요청 실패:", error);
-      });
+      }
+    };
+
+    fetchUserInfo();
   }, []);
 
   return (
     <div className="flex items-center justify-between p-4 bg-gray-100 shadow">
-      <Button text="Pollock" onClick={() => window.location.reload()} />
+      <div>
+        <Button text="Pollock" onClick={() => window.location.reload()} />
+      </div>
       {userInfo ? (
         <div className="flex items-center space-x-4">
           <img
