@@ -30,27 +30,30 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-between p-4 bg-gray-100 shadow">
+    <div className="flex justify-between bg-red-600">
       <div>
         <Button text="Pollock" onClick={() => window.location.reload()} />
       </div>
-      {userInfo ? (
-        <div className="flex items-center space-x-4">
-          <img
-            src={userInfo.profileImageUrl}
-            alt="프로필 이미지"
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <div className="text-right">
-            <p className="text-sm font-semibold">{userInfo.nickname}</p>
-            <p className="text-xs text-gray-600">{userInfo.grade}</p>
+      <div>
+        {userInfo ? (
+          <>
+            <div className="flex">
+              <div>
+                <img src={userInfo.profileImageUrl} alt="profile" />
+              </div>
+              <div>{userInfo.nickname}</div>
+              <div>{userInfo.grade}</div>
+            </div>
+            <div>
+              <div>ELO {userInfo.elo}</div>
+            </div>
+          </>
+        ) : (
+          <div>
+            <Button text="login" onClick={() => navigate("/login")} />
           </div>
-        </div>
-      ) : (
-        <div>
-          <Button text="로그인" onClick={() => navigate("/login")} />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

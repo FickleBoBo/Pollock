@@ -2,8 +2,8 @@ const NaverLoginButton = () => {
   return (
     <div>
       <a
-        href="http://www.pollock.kr:8080/api/pollock/user/oauth2/authorization/naver"
-        className="inline-block bg-[#1ec800] text-white font-semibold py-2 px-8 rounded hover:bg-[#16a000] transition duration-200"
+        href="http://www.pollock.kr/api/pollock/user/oauth2/authorization/naver"
+        className="bg-green-600"
       >
         Naver 로그인
       </a>

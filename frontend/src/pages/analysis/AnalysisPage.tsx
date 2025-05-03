@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Chess } from "chess.js";
 
 import ChessBoard from "../../components/common/ChessBoard";
-import ChessEngine from "../../components/common/ChessEngine";
+import EngineAnalysis from "../../components/common/EngineAnalysis";
 
 const AnalysisPage = () => {
   const [game, setGame] = useState(new Chess());
@@ -15,7 +15,7 @@ const AnalysisPage = () => {
         <ChessBoard game={game} setGame={setGame} />
       </div>
       <div>
-        <ChessEngine
+        <EngineAnalysis
           fen={game.fen()}
           analysis={analysis}
           setAnalysis={setAnalysis}

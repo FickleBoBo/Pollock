@@ -2,13 +2,17 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8081/api/pollock/stockfish";
 
-interface Props {
+interface EngineAnalysisProps {
   fen: string;
   analysis: string;
   setAnalysis: (result: string) => void;
 }
 
-const ChessEngine = ({ fen, analysis, setAnalysis }: Props) => {
+const EngineAnalysis = ({
+  fen,
+  analysis,
+  setAnalysis,
+}: EngineAnalysisProps) => {
   const requestAnalysis = async () => {
     try {
       const response = await axios.get(API_URL, {
@@ -39,4 +43,4 @@ const ChessEngine = ({ fen, analysis, setAnalysis }: Props) => {
   );
 };
 
-export default ChessEngine;
+export default EngineAnalysis;
