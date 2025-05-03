@@ -23,6 +23,9 @@ public class UserEntity {
 
     private String profileImageUrl;
 
+    @Column(nullable = false)
+    private Integer elo;
+
     private Integer birthyear;
 
     @Enumerated(EnumType.STRING)
@@ -38,6 +41,7 @@ public class UserEntity {
         this.email = email;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
+        this.elo = 0;
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
         this.grade = Grade.BASIC;

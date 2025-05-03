@@ -20,6 +20,7 @@ public class UserService {
                 .email(userEntity.getEmail())
                 .nickname(userEntity.getNickname())
                 .profileImageUrl(userEntity.getProfileImageUrl())
+                .elo(userEntity.getElo())
                 .birthyear(userEntity.getBirthyear())
                 .gender(userEntity.getGender())
                 .grade(userEntity.getGrade())
