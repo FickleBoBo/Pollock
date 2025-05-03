@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/login/LoginPage";
+import ComputerPage from "./pages/play/computer/ComputerPage";
 import AnalysisPage from "./pages/analysis/AnalysisPage";
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
         <Route path="/home" element={<HomePage />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/play/computer" element={<ComputerPage />} />
         <Route path="/analysis" element={<AnalysisPage />} />
       </Routes>
     </BrowserRouter>
