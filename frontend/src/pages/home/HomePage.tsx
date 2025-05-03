@@ -13,16 +13,20 @@ const HomePage = () => {
         <Header />
       </div>
       <div>
-        <Button
-          text="봇과 플레이"
-          onClick={() => navigate("/play/computer")}
-          className="w-48 h-14 bg-blue-600 text-white px-5 py-3 m-4"
-        />
-        <Button
-          text="분석"
-          onClick={() => navigate("/analysis")}
-          className="w-48 h-14 bg-blue-600 text-white px-5 py-3 m-4"
-        />
+        <div>
+          <Button
+            text="봇과 플레이"
+            onClick={() => navigate("/play/computer")}
+            className="bg-blue-600"
+          />
+        </div>
+        <div>
+          <Button
+            text="분석"
+            onClick={() => navigate("/analysis")}
+            className="bg-yellow-600"
+          />
+        </div>
       </div>
       <div>
         <Footer />
