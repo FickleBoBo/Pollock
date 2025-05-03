@@ -28,7 +28,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(request -> {
             CorsConfiguration configuration = new CorsConfiguration();
 
-            configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://pollock.kr", "https://pollock.kr"));
+            configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://pollock.kr:5173", "http://pollock.kr", "https://pollock.kr"));
             configuration.setAllowedHeaders(Collections.singletonList("*"));
             configuration.setAllowedMethods(Collections.singletonList("*"));
             configuration.setAllowCredentials(true);
@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService))
                 ).successHandler((request, response, authentication) -> {
-                    response.sendRedirect("http://localhost:5173/");
+                    response.sendRedirect("http://pollock.kr:5173/");
                 }));
 
         // 미인증 미인가 예외처리
