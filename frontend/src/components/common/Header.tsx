@@ -17,7 +17,7 @@ const Header = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/pollock/user/me", {
+      .get("http://www.pollock.kr:8080/api/pollock/user/me", {
         withCredentials: true,
       })
       .then((response) => {
