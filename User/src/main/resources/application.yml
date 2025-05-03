@@ -22,7 +22,7 @@ spring:
             client-name: naver
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            redirect-uri: http://www.pollock.kr:8080/api/pollock/user/login/oauth2/code/naver
             authorization-grant-type: authorization_code
         provider:
           naver:
