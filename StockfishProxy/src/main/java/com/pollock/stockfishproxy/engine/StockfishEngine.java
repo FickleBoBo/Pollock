@@ -114,8 +114,6 @@ public class StockfishEngine {
         } catch (IOException e) {
             log.error("❌ Stockfish 로그 읽기 실패", e);
         }
-
-//        return readCommand("bestmove", Long.parseLong(moveTime));
     }
 
     public String readCommand(String keyword, long moveTime) {
