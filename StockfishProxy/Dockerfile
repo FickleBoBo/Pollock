@@ -1,9 +1,10 @@
 FROM ubuntu:22.04
 
-RUN apt update && apt install -y wget unzip software-properties-common \
-    && wget https://corretto.aws/downloads/latest/amazon-corretto-21-x64-linux-jdk.deb \
-    && dpkg -i amazon-corretto-21-x64-linux-jdk.deb \
-    && rm amazon-corretto-21-x64-linux-jdk.deb
+RUN apt update && \
+    apt install -y wget unzip software-properties-common && \
+    wget https://corretto.aws/downloads/latest/amazon-corretto-21-x64-linux-jdk.deb && \
+    apt install -y ./amazon-corretto-21-x64-linux-jdk.deb && \
+    rm amazon-corretto-21-x64-linux-jdk.deb
 
 WORKDIR /app
 
