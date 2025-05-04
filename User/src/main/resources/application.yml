@@ -17,9 +17,9 @@ spring:
   session:
     store-type: redis
 
-  redis:
-    host: user-session-redis
-    port: 6379
+  data:
+    redis:
+      host: ${REDIS_HOST}
 
   security:
     oauth2:
@@ -29,7 +29,7 @@ spring:
             client-name: naver
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
-            redirect-uri: http://pollock.kr/api/pollock/user/login/oauth2/code/naver
+            redirect-uri: ${REDIRECT_URI}
             authorization-grant-type: authorization_code
         provider:
           naver:
