@@ -2,20 +2,31 @@ package com.pollock.user.oauth2.dto;
 
 import com.pollock.user.entity.Gender;
 import com.pollock.user.entity.Grade;
-import com.pollock.user.entity.UserEntity;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+@Builder
+@Getter
 @RequiredArgsConstructor
-public class CustomOAuth2User implements OAuth2User {
+public class CustomOAuth2User implements OAuth2User, Serializable {
 
-    private final UserEntity userEntity;
+    private final Long Id;
+    private final String email;
+    private final String nickname;
+    private final String profileImageUrl;
+    private final Integer elo;
+    private final Integer birthyear;
+    private final Gender gender;
+    private final Grade grade;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -24,39 +35,11 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + userEntity.getGrade().name()));
+        return List.of(new SimpleGrantedAuthority(grade.name()));
     }
 
     @Override
     public String getName() {
-        return userEntity.getId().toString();
-    }
-
-    public Long getId() {
-        return userEntity.getId();
-    }
-
-    public String getEmail() {
-        return userEntity.getEmail();
-    }
-
-    public String getNickname() {
-        return userEntity.getNickname();
-    }
-
-    public String getProfileImageUrl() {
-        return userEntity.getProfileImageUrl();
-    }
-
-    public Integer getBirthyear() {
-        return userEntity.getBirthyear();
-    }
-
-    public Gender getGender() {
-        return userEntity.getGender();
-    }
-
-    public Grade getGrade() {
-        return userEntity.getGrade();
+        return Id.toString();
     }
 }
