@@ -1,6 +1,6 @@
 package com.pollock.user.service;
 
-import com.pollock.exception.UnAuthenticatedException;
+import com.pollock.user.exception.UnAuthenticatedException;
 import com.pollock.user.dto.response.UserInfoResponseDTO;
 import com.pollock.user.entity.UserEntity;
 import com.pollock.user.oauth2.dto.CustomOAuth2User;

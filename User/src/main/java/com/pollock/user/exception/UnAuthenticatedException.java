@@ -1,4 +1,4 @@
-package com.pollock.exception;
+package com.pollock.user.exception;
 
 public class UnAuthenticatedException extends ServiceException {
 
