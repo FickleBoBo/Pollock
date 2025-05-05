@@ -17,9 +17,17 @@ public class StockfishController {
 
     @PostMapping
     public ResponseEntity<Void> publishEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
-        log.info("publishEngineAnalysis 요청 수신");
+        log.info("StockfishController.publishEngineAnalysis 요청 수신");
         stockfishService.publishEngineAnalysis(requestDTO);
-        log.info("publishEngineAnalysis 응답");
+        log.info("StockfishController.publishEngineAnalysis 응답 완료");
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{gameId}")
+    public ResponseEntity<Void> cancelEngineAnalysis(@PathVariable Long gameId) {
+        log.info("StockfishController.cancelEngineAnalysis 요청 수신: gameId = {}", gameId);
+        stockfishService.cancelEngineAnalysis(gameId);
+        log.info("StockfishController.cancelEngineAnalysis 응답 완료: gameId = {}", gameId);
         return ResponseEntity.ok().build();
     }
 }
