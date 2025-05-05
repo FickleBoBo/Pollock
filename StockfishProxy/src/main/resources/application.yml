@@ -8,3 +8,4 @@ spring:
 
 stockfish:
   path: ${STOCKFISH_PATH}
+  pool-size: ${STOCKFISH_POOL_SIZE}
