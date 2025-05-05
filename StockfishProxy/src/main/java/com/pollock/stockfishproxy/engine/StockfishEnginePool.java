@@ -14,10 +14,10 @@ public class StockfishEnginePool {
 
     private final BlockingQueue<StockfishEngine> pool;
 
-    public StockfishEnginePool(@Value("${stockfish.path}") String stockfishPath) {
+    public StockfishEnginePool(@Value("${stockfish.path}") String stockfishPath, @Value("${stockfish.pool-size}") int poolSize) {
         this.pool = new LinkedBlockingQueue<>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < poolSize; i++) {
             StockfishEngine engine = new StockfishEngine(stockfishPath);
 
             if (engine.start()) {
@@ -26,6 +26,10 @@ public class StockfishEnginePool {
                 log.error("❌ StockfishEngine #{} 시작 실패", i);
             }
         }
+    }
+
+    public int getPoolSize() {
+        return pool.size();
     }
 
     public StockfishEngine acquire() throws InterruptedException {
