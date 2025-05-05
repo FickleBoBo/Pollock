@@ -5,7 +5,6 @@ spring:
   data:
     redis:
       host: ${ENGINE_ANALYSIS_REDIS_HOST}
-      port: ${ENGINE_ANALYSIS_REDIS_PORT}
 
 stockfish:
   path: ${STOCKFISH_PATH}
