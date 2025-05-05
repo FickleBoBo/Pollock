@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/pollock/stockfish")
-@CrossOrigin
 @RequiredArgsConstructor
 public class StockfishController {
 
