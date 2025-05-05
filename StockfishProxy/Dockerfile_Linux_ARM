@@ -1,0 +1,16 @@
+FROM ubuntu:22.04
+
+RUN apt update && \
+    apt install -y wget unzip software-properties-common && \
+    wget https://corretto.aws/downloads/latest/amazon-corretto-21-aarch64-linux-jdk.deb && \
+    apt install -y ./amazon-corretto-21-aarch64-linux-jdk.deb && \
+    rm amazon-corretto-21-aarch64-linux-jdk.deb
+
+WORKDIR /app
+
+COPY build/libs/StockfishProxy-0.0.1-SNAPSHOT.jar app.jar
+COPY engine/stockfish-android-armv8 /app/engine/stockfish
+
+RUN chmod +x /app/engine/stockfish
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
