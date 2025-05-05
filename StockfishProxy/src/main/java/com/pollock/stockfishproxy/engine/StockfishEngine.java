@@ -2,11 +2,13 @@ package com.pollock.stockfishproxy.engine;
 
 import com.pollock.stockfishproxy.redis.RedisPublisher;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
 @Slf4j
+@RequiredArgsConstructor
 public class StockfishEngine {
 
     private Process process;
@@ -17,12 +19,7 @@ public class StockfishEngine {
     private long enginePid;
 
     private final String stockfishPath;
-
-    private final long TIMEOUT = 1000;
-
-    public StockfishEngine(String stockfishPath) {
-        this.stockfishPath = stockfishPath;
-    }
+    private final long TIMEOUT = 3000;
 
     public boolean start() {
         try {
@@ -100,41 +97,29 @@ public class StockfishEngine {
         try {
             String line;
             while ((line = br.readLine()) != null) {
+                // 🔁 중단 요청 감지
+                if (Thread.currentThread().isInterrupted()) {
+                    log.warn("🛑 분석 중단 감지됨 → stop 명령 전송: gameId={}", gameId);
+                    sendCommand("stop");
+                    break;
+                }
+
+                // 🔁 퍼블리시
                 if (line.startsWith("info") || line.startsWith("bestmove")) {
                     log.info("📤 Redis Publish to '{}' → {}", gameId, line);
                     redisPublisher.publish(gameId.toString(), line);
+
                     if (line.startsWith("bestmove")) break;
                 }
 
-                if (System.currentTimeMillis() - start > moveTime + 1000) {
-                    log.warn("⏰ 분석 타임아웃");
+                // ⏰ 타임아웃
+                if (System.currentTimeMillis() - start > moveTime + TIMEOUT) {
+                    log.warn("⏰ 분석 타임아웃: gameId={}", gameId);
                     break;
                 }
             }
         } catch (IOException e) {
             log.error("❌ Stockfish 로그 읽기 실패", e);
         }
-    }
-
-    public String readCommand(String keyword, long moveTime) {
-        long start = System.currentTimeMillis();
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
-
-                if (line.contains(keyword)) break;
-                if (System.currentTimeMillis() - start > moveTime + TIMEOUT) {
-                    log.warn("⏰ Timeout waiting for keyword '{}'", keyword);
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            log.error("❌ Error reading from Stockfish: {}", e.getMessage(), e);
-        }
-
-        return sb.toString().trim();
     }
 }
