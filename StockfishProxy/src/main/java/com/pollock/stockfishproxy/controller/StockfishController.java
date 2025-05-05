@@ -20,7 +20,7 @@ public class StockfishController {
         log.info("StockfishController.publishEngineAnalysis 요청 수신");
         stockfishService.publishEngineAnalysis(requestDTO);
         log.info("StockfishController.publishEngineAnalysis 응답 완료");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.accepted().build();
     }
 
     @DeleteMapping("/{gameId}")
