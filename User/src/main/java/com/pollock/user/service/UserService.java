@@ -1,8 +1,9 @@
 package com.pollock.user.service;
 
-import com.pollock.user.exception.UnAuthenticatedException;
 import com.pollock.user.dto.response.UserInfoResponseDTO;
 import com.pollock.user.entity.UserEntity;
+import com.pollock.user.exception.UnAuthenticatedException;
+import com.pollock.user.exception.UserNotFoundException;
 import com.pollock.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class UserService {
             throw UnAuthenticatedException.getInstance();
         }
 
-        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(UnAuthenticatedException::getInstance);
+        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::getInstance);
 
         return UserInfoResponseDTO.builder()
                 .email(userEntity.getEmail())
