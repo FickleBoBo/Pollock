@@ -3,6 +3,7 @@ package com.pollock.user.config;
 import com.pollock.user.oauth2.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,9 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    @Value("${custom.frontend-uri}")
+    private String frontendUri;
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
@@ -54,7 +58,7 @@ public class SecurityConfig {
                 .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService))
                 ).successHandler((request, response, authentication) -> {
-                    response.sendRedirect("http://pollock.kr:5173/");
+                    response.sendRedirect(frontendUri);
                 }));
 
         // 미인증 미인가 예외처리

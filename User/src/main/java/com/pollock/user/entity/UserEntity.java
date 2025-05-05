@@ -41,7 +41,7 @@ public class UserEntity {
         this.email = email;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
-        this.elo = 0;
+        this.elo = 400;
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
         this.grade = Grade.BASIC;

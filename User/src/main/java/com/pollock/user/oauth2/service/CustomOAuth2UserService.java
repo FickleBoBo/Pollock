@@ -31,16 +31,34 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (existUser.isEmpty()) {
             UserEntity userEntity = UserEntity.builder()
                     .email(oAuth2Response.getEmail())
-                    .nickname(oAuth2Response.getName())
+                    .nickname(oAuth2Response.getNickname())
                     .profileImageUrl(oAuth2Response.getProfileImageUrl())
                     .birthyear(oAuth2Response.getBirthyear())
                     .gender(oAuth2Response.getGender())
                     .build();
             userRepository.save(userEntity);
 
-            return new CustomOAuth2User(userEntity);
+            return CustomOAuth2User.builder()
+                    .Id(userEntity.getId())
+                    .email(userEntity.getEmail())
+                    .nickname(userEntity.getNickname())
+                    .profileImageUrl(userEntity.getProfileImageUrl())
+                    .elo(userEntity.getElo())
+                    .birthyear(userEntity.getBirthyear())
+                    .gender(userEntity.getGender())
+                    .grade(userEntity.getGrade())
+                    .build();
         } else {
-            return new CustomOAuth2User(existUser.get());
+            return CustomOAuth2User.builder()
+                    .Id(existUser.get().getId())
+                    .email(existUser.get().getEmail())
+                    .nickname(existUser.get().getNickname())
+                    .profileImageUrl(existUser.get().getProfileImageUrl())
+                    .elo(existUser.get().getElo())
+                    .birthyear(existUser.get().getBirthyear())
+                    .gender(existUser.get().getGender())
+                    .grade(existUser.get().getGrade())
+                    .build();
         }
     }
 }
