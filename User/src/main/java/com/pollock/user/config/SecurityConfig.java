@@ -56,21 +56,24 @@ public class SecurityConfig {
                 .redirectionEndpoint(redirection -> redirection
                         .baseUri("/api/pollock/user/login/oauth2/code/*"))
                 .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
-                        .userService(customOAuth2UserService))
-                ).successHandler((request, response, authentication) -> {
-                    response.sendRedirect(frontendUri);
-                }));
+                        .userService(customOAuth2UserService)))
+                .successHandler((request, response, authentication) -> response.sendRedirect(frontendUri)));
+
+        // 로그아웃
+        http.logout(logout -> logout
+                .logoutUrl("/api/pollock/user/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("SESSION")
+                .logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK)));
 
         // 미인증 미인가 예외처리
         http.exceptionHandling(exception -> exception
-                .authenticationEntryPoint((request, response, authException) -> {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                })
-        );
+                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED)));
 
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/api/pollock/user/**").permitAll()
-                .anyRequest().authenticated());
+                .anyRequest()
+                .authenticated());
 
         return http.build();
     }
