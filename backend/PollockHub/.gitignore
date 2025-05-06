@@ -37,4 +37,4 @@ out/
 .vscode/
 
 # .gitignore
-../backend/PollockHub/.env
+.env
