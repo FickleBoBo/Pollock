@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../common/api";
 
 import Button from "./Button";
+import LogoutButton from "./LogoutButton";
 
 interface UserInfo {
   nickname: string;
@@ -46,6 +47,7 @@ const Header = () => {
             </div>
             <div>
               <div>ELO {userInfo.elo}</div>
+              <LogoutButton />
             </div>
           </>
         ) : (
