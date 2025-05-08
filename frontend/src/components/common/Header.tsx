@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import api from "../../common/api";
 
 import Button from "./Button";
-import LogoutButton from "./LogoutButton";
 
 interface UserInfo {
   nickname: string;
@@ -30,6 +29,15 @@ const Header = () => {
     fetchUserInfo();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await api.post("/api/pollock/user/logout");
+      navigate("/");
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+    }
+  };
+
   return (
     <div className="flex justify-between bg-red-600">
       <div>
@@ -47,7 +55,7 @@ const Header = () => {
             </div>
             <div>
               <div>ELO {userInfo.elo}</div>
-              <LogoutButton />
+              <Button text="logout" onClick={handleLogout} />
             </div>
           </>
         ) : (
