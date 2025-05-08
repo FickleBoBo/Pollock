@@ -2,7 +2,7 @@ package com.pollock.pollockhub.engine.service;
 
 import com.pollock.pollockhub.common.BadGatewayException;
 import com.pollock.pollockhub.engine.dto.request.EngineAnalysisRequestDTO;
-import com.pollock.pollockhub.engine.dto.response.EngineAnalysisResponseDTO;
+import com.pollock.pollockhub.engine.dto.response.RedisStreamKeyResponseDTO;
 import com.pollock.pollockhub.engine.router.EngineType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class Stockfish17EngineService implements EngineService {
     }
 
     @Override
-    public EngineAnalysisResponseDTO startEngineAnalysis(EngineAnalysisRequestDTO requestDTO) {
+    public RedisStreamKeyResponseDTO startEngineAnalysis(EngineAnalysisRequestDTO requestDTO) {
         String streamKey = UUID.randomUUID().toString();
         String url = stockfish17ProxyServerUri + "?streamKey=" + streamKey;
 
@@ -43,7 +43,7 @@ public class Stockfish17EngineService implements EngineService {
                 log.warn("Stockfish17 응답 비정상: statusCode={}, url={}", responseEntity.getStatusCode(), url);
             }
 
-            return EngineAnalysisResponseDTO.builder()
+            return RedisStreamKeyResponseDTO.builder()
                     .streamKey(streamKey)
                     .build();
         } catch (RestClientException e) {
