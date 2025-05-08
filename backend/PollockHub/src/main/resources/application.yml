@@ -45,3 +45,4 @@ custom:
   engine-analysis:
     redis:
       host: ${ENGINE_ANALYSIS_REDIS_HOST}
+      port: ${ENGINE_ANALYSIS_REDIS_PORT}
