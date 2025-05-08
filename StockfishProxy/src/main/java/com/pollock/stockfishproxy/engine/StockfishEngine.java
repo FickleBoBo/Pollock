@@ -1,6 +1,6 @@
 package com.pollock.stockfishproxy.engine;
 
-import com.pollock.stockfishproxy.redis.RedisPublisher;
+import com.pollock.stockfishproxy.redis.RedisStreamPublisher;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +88,7 @@ public class StockfishEngine {
         return true;
     }
 
-    public void publishEngineAnalysis(Long gameId, String fen, Integer multiPV, Long moveTime, RedisPublisher redisPublisher) {
+    public void publishEngineAnalysis(String streamKey, String fen, Integer multiPV, Long moveTime, RedisStreamPublisher redisStreamPublisher) {
         sendCommand("setoption name MultiPV value  " + multiPV);
         sendCommand("position fen " + fen);
         sendCommand("go movetime " + moveTime);
@@ -99,22 +99,22 @@ public class StockfishEngine {
             while ((line = br.readLine()) != null) {
                 // 🔁 중단 요청 감지
                 if (Thread.currentThread().isInterrupted()) {
-                    log.warn("🛑 분석 중단 감지됨 → stop 명령 전송: gameId={}", gameId);
+                    log.warn("🛑 분석 중단 감지됨 → stop 명령 전송: streamKey={}", streamKey);
                     sendCommand("stop");
                     break;
                 }
 
                 // 🔁 퍼블리시
                 if (line.startsWith("info") || line.startsWith("bestmove")) {
-                    log.info("📤 Redis Publish to '{}' → {}", gameId, line);
-                    redisPublisher.publish(gameId.toString(), line);
+                    log.info("📤 Redis Publish to '{}' → {}", streamKey, line);
+                    redisStreamPublisher.publish(streamKey, line);
 
                     if (line.startsWith("bestmove")) break;
                 }
 
                 // ⏰ 타임아웃
                 if (System.currentTimeMillis() - start > moveTime + TIMEOUT) {
-                    log.warn("⏰ 분석 타임아웃: gameId={}", gameId);
+                    log.warn("⏰ 분석 타임아웃: streamKey={}", streamKey);
                     break;
                 }
             }
