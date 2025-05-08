@@ -1,5 +1,5 @@
 package com.pollock.stockfishproxy.router;
 
-public enum EngineType {
+public enum StockfishEngineType {
     STOCKFISH_17
 }
