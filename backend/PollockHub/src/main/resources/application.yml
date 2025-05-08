@@ -44,3 +44,4 @@ engine-analysis:
 
 custom:
   frontend-uri: ${FRONTEND_URI}
+  stockfish-17-proxy-server-uri: ${STOCKFISH_17_PROXY_SERVER_URI}
