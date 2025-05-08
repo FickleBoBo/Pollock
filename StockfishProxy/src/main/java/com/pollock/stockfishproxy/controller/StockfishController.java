@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/pollock/stockfish")
+@RequestMapping("/api/pollock/engine/stockfish17")
 @RequiredArgsConstructor
 public class StockfishController {
 
     private final StockfishService stockfishService;
 
     @PostMapping
-    public ResponseEntity<Void> publishEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
+    public ResponseEntity<Void> publishEngineAnalysis(@RequestParam String streamKey, @RequestBody EngineAnalysisRequestDTO requestDTO) {
         log.info("StockfishController.publishEngineAnalysis 요청 수신");
-        stockfishService.publishEngineAnalysis(requestDTO);
+        stockfishService.publishEngineAnalysis(streamKey, requestDTO);
         log.info("StockfishController.publishEngineAnalysis 응답 완료");
         return ResponseEntity.accepted().build();
     }
 
-    @DeleteMapping("/{gameId}")
-    public ResponseEntity<Void> cancelEngineAnalysis(@PathVariable Long gameId) {
-        log.info("StockfishController.cancelEngineAnalysis 요청 수신: gameId = {}", gameId);
-        stockfishService.cancelEngineAnalysis(gameId);
-        log.info("StockfishController.cancelEngineAnalysis 응답 완료: gameId = {}", gameId);
+    @DeleteMapping("/{streamKey}")
+    public ResponseEntity<Void> cancelEngineAnalysis(@PathVariable String streamKey) {
+        log.info("StockfishController.cancelEngineAnalysis 요청 수신: streamKey = {}", streamKey);
+        stockfishService.cancelEngineAnalysis(streamKey);
+        log.info("StockfishController.cancelEngineAnalysis 응답 완료: streamKey = {}", streamKey);
         return ResponseEntity.ok().build();
     }
 }
