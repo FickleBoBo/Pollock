@@ -71,7 +71,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED)));
 
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/api/pollock/user/**").permitAll()
+                .requestMatchers("/api/pollock/**").permitAll()
                 .anyRequest()
                 .authenticated());
 
