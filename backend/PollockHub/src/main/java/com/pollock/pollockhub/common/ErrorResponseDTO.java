@@ -1,12 +1,13 @@
 package com.pollock.pollockhub.common;
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 public class ErrorResponseDTO {
 
-    private final int httpStatus;
-    private final String code;
+    private final HttpStatus httpStatus;
+    private final int code;
     private final String message;
 
     public ErrorResponseDTO(ErrorCode errorCode) {
