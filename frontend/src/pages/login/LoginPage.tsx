@@ -8,9 +8,11 @@ const LoginPage = () => {
       <div>
         <Header />
       </div>
+
       <div className="flex flex-grow justify-center items-center">
         <NaverLoginButton />
       </div>
+
       <div>
         <Footer />
       </div>
