@@ -9,7 +9,7 @@ const LoginPage = () => {
         <Header />
       </div>
 
-      <div className="flex flex-grow justify-center items-center">
+      <div className="flex-grow flex flex-col justify-center items-center gap-4">
         <NaverLoginButton />
       </div>
 
