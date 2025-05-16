@@ -1,17 +1,31 @@
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaChessPawn } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="bg-gray-700 py-8 text-center">
-        <a
-          href="https://github.com/FickleBoBo/Pollock"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex hover:text-gray-400"
-        >
-          <FaGithub size={32} />
-        </a>
+    <footer className="mt-16">
+      <div className="flex justify-center gap-4 py-8 bg-gray-700">
+        <div>
+          <a
+            href="https://github.com/FickleBoBo/Pollock"
+            aria-label="GitHub"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-400"
+          >
+            <FaGithub size={32} />
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://www.chess.com/home"
+            aria-label="Chess.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-400"
+          >
+            <FaChessPawn size={32} />
+          </a>
+        </div>
       </div>
     </footer>
   );
