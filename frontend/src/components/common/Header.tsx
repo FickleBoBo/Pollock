@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 
-import api from "../../common/api";
 import axios from "axios";
+import api from "../../common/api";
 
 import Button from "./Button";
 
@@ -52,14 +52,30 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <div className="flex justify-between bg-gray-700 px-4 py-8">
-        <div>
-          <Button
-            className="text-xl font-bold"
-            text="Pollock"
-            onClick={() => (window.location.href = "/")}
-          />
+    <header className="mb-16">
+      <div className="flex justify-between p-8 bg-gray-700">
+        <div className="flex items-center gap-16">
+          <div className="mr-32">
+            <Button
+              className="text-3xl font-bold"
+              text="Pollock"
+              onClick={() => (window.location.href = "/")}
+            />
+          </div>
+          <div>
+            <Button
+              className="text-xl font-bold"
+              text="학습"
+              onClick={() => navigate("/learn")}
+            />
+          </div>
+          <div>
+            <Button
+              className="text-xl font-bold"
+              text="분석"
+              onClick={() => navigate("/analysis")}
+            />
+          </div>
         </div>
         <div>
           {userInfo ? (
@@ -74,15 +90,15 @@ const Header = () => {
               <div>{userInfo.nickname}</div>
               <div>ELO {userInfo.elo}</div>
               <div>{userInfo.grade}</div>
-              <div className="flex">
-                <Button onClick={handleLogout}>
+              <div>
+                <Button onClick={handleLogout} className="flex">
                   <BiLogOut size={32} />
                 </Button>
               </div>
             </div>
           ) : (
-            <div className="flex">
-              <Button onClick={() => navigate("/login")}>
+            <div>
+              <Button onClick={() => navigate("/login")} className="flex">
                 <BiLogIn size={32} />
               </Button>
             </div>
