@@ -1,5 +1,5 @@
 const ComputerPage = () => {
-  return <div className="bg-blue-600">ComputerPage</div>;
+  return <div>봇과 플레이</div>;
 };
 
 export default ComputerPage;
