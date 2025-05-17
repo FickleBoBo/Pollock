@@ -30,7 +30,7 @@ const OAuthLoginButton = ({ provider }: OAuthLoginButtonProps) => {
     <div>
       <a
         href={href}
-        className={`${className} text-center text-xl font-bold inline-block w-[400px] py-8 rounded`}
+        className={`${className} inline-block w-[400px] text-center text-xl font-bold py-8 rounded`}
       >
         {label}
       </a>
