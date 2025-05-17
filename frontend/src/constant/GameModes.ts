@@ -16,5 +16,5 @@ export const gameModes: GameMode[] = [
   { gameType: 9, timeControl: "15 + 10", gameFormat: "Rapid" },
   { gameType: 10, timeControl: "30 + 0", gameFormat: "Classical" },
   { gameType: 11, timeControl: "30 + 20", gameFormat: "Classical" },
-  { gameType: 12, timeControl: "사용자 지정", gameFormat: "" },
+  { gameType: 12, timeControl: "90 + 30", gameFormat: "Classical" },
 ];
