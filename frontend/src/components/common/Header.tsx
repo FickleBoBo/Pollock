@@ -49,7 +49,7 @@ const Header = () => {
 
   return (
     <header className="mb-16">
-      <div className="flex justify-between items-center px-16 bg-gray-700">
+      <div className="flex justify-between items-center px-16 bg-grayDark">
         {/* 헤더 좌측 */}
         <div className="flex items-center">
           {/* 메인 로고 */}
@@ -61,18 +61,18 @@ const Header = () => {
             />
           </div>
           {/* 학습 */}
-          <div className="px-16 py-8 hover:bg-gray-600 transition relative group">
+          <div className="px-16 py-8 hover:bg-grayBase transition relative group">
             <div className="text-xl font-bold">학습</div>
 
-            <div className="absolute top-full left-0 w-full hidden group-hover:block bg-gray-700">
-              <div className="hover:bg-gray-600 transition">
+            <div className="absolute top-full left-0 w-full hidden group-hover:block bg-grayDark">
+              <div className="hover:bg-grayBase transition">
                 <Button
                   className="w-full py-4 text-xl font-bold"
                   text="기보 학습"
                   onClick={() => navigate("/learn/notation")}
                 />
               </div>
-              <div className="hover:bg-gray-600 transition">
+              <div className="hover:bg-grayBase transition">
                 <Button
                   className="w-full py-4 text-xl font-bold"
                   text="전술 학습"
@@ -82,7 +82,7 @@ const Header = () => {
             </div>
           </div>
           {/* 분석 */}
-          <div className="hover:bg-gray-600 transition">
+          <div className="hover:bg-grayBase transition">
             <Button
               className="text-xl font-bold px-16 py-8"
               text="분석"
