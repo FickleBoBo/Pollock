@@ -76,7 +76,7 @@ const Header = () => {
                 <Button
                   className="w-full py-4 text-xl font-bold"
                   text="전술 학습"
-                  onClick={() => navigate("/learn/tactics")}
+                  onClick={() => navigate("/learn/tactic")}
                 />
               </div>
             </div>
