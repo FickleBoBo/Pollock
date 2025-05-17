@@ -17,6 +17,7 @@ interface UserInfo {
 
 const Header = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
   const navigate = useNavigate();
 
   // 유저 정보 요청
@@ -81,15 +82,22 @@ const Header = () => {
           {userInfo ? (
             <div className="flex items-center gap-4">
               <div>
-                <img
-                  src={userInfo.profileImageUrl}
-                  alt="profile"
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+                <Button
+                  onClick={() => navigate("/setting")}
+                  className="flex items-center gap-4"
+                >
+                  <div>
+                    <img
+                      src={userInfo.profileImageUrl}
+                      alt="profile"
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  </div>
+                  <div>{userInfo.nickname}</div>
+                  <div>ELO {userInfo.elo}</div>
+                  <div>{userInfo.grade}</div>
+                </Button>
               </div>
-              <div>{userInfo.nickname}</div>
-              <div>ELO {userInfo.elo}</div>
-              <div>{userInfo.grade}</div>
               <div>
                 <Button onClick={handleLogout} className="flex">
                   <BiLogOut size={32} />
