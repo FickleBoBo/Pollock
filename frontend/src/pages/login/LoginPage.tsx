@@ -1,6 +1,6 @@
 import Header from "../../components/common/Header";
 import Footer from "../../components/common/Footer";
-import NaverLoginButton from "../../components/login/NaverLoginButton";
+import OAuthLoginButton from "../../components/login/OAuthLoginButton";
 
 const LoginPage = () => {
   return (
@@ -9,8 +9,10 @@ const LoginPage = () => {
         <Header />
       </div>
 
-      <div className="flex-grow flex flex-col justify-center items-center gap-4">
-        <NaverLoginButton />
+      <div className="flex-grow flex flex-col items-center justify-center gap-4">
+        <OAuthLoginButton provider="naver" />
+        <OAuthLoginButton provider="kakao" />
+        <OAuthLoginButton provider="google" />
       </div>
 
       <div>
