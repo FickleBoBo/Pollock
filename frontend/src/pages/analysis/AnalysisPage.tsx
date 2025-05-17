@@ -198,6 +198,8 @@ const AnalysisPage = () => {
             engineType={engineType}
             multiPV={multiPV}
             moveTime={moveTime}
+            setScoreCp={setScoreCp}
+            setScoreMate={setScoreMate}
           />
         </div>
       </div>
