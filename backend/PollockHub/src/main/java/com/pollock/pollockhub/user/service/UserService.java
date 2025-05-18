@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+import static com.pollock.pollockhub.game.entity.PlayerColor.BLACK;
+import static com.pollock.pollockhub.game.entity.PlayerColor.WHITE;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -41,8 +44,8 @@ public class UserService {
 
         return UserInfoListResponseDTO.builder()
                 .users(Map.of(
-                        "black", UserInfo.from(gameEntity.getBlackUser()),
-                        "white", UserInfo.from(gameEntity.getWhiteUser())))
+                        BLACK, UserInfo.from(gameEntity.getBlackUser()),
+                        WHITE, UserInfo.from(gameEntity.getWhiteUser())))
                 .build();
     }
 }

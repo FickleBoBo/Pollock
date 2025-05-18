@@ -1,5 +1,6 @@
 package com.pollock.pollockhub.user.dto.response;
 
+import com.pollock.pollockhub.game.entity.PlayerColor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,5 +10,5 @@ import java.util.Map;
 @Getter
 public class UserInfoListResponseDTO {
 
-    private Map<String, UserInfo> users;
+    private Map<PlayerColor, UserInfo> users;
 }
