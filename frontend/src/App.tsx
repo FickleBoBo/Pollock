@@ -2,8 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/login/LoginPage";
-import ComputerPage from "./pages/play/computer/ComputerPage";
+import SettingPage from "./pages/setting/SettingPage";
+import NotationPage from "./pages/learn/notation/NotationPage";
+import TacticPage from "./pages/learn/tactic/TacticPage";
 import AnalysisPage from "./pages/analysis/AnalysisPage";
+import ComputerPage from "./pages/play/computer/ComputerPage";
+import FriendPage from "./pages/play/friend/FriendPage";
 
 const App = () => {
   return (
@@ -12,8 +16,13 @@ const App = () => {
         <Route path="/home" element={<HomePage />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/play/computer" element={<ComputerPage />} />
+        <Route path="/setting" element={<SettingPage />} />
+        <Route path="/learn/notation" element={<NotationPage />} />
+        <Route path="/learn/tactic" element={<TacticPage />} />
         <Route path="/analysis" element={<AnalysisPage />} />
+        <Route path="/analysis/:gameId" element={<AnalysisPage />} />
+        <Route path="/play/computer" element={<ComputerPage />} />
+        <Route path="/play/friend" element={<FriendPage />} />
       </Routes>
     </BrowserRouter>
   );
