@@ -13,7 +13,7 @@ public class WebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/heartbeat/{channelKey}")
-    public void heartbeat(@DestinationVariable String channelKey, String message) {
+    public void heartbeat(@DestinationVariable String channelKey) {
         messagingTemplate.convertAndSend("/topic/analysis." + channelKey, "pong");
     }
 }
