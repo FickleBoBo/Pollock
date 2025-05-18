@@ -5,15 +5,13 @@ import { Chess } from "chess.js";
 
 import { UserInfo } from "../../constant/User";
 import { PIECE_ORDER, PIECE_VALUES } from "../../constant/Piece";
-import defaultProfileImg from "../../assets/image/defaultProfileImg.jpg";
 
 import api from "../../common/api";
 
 import EngineSettingsForm from "../../components/analysis/EngineSettingForm";
-import ScoreBar from "../../components/analysis/ScoreBar";
-import ChessBoard from "../../components/common/ChessBoard";
-import PieceIcon from "../../components/analysis/PieceIcon";
+import ChessBoard from "../../components/chessboard/ChessBoard";
 import EngineAnalysis from "../../components/analysis/EngineAnalysis";
+import PgnUpload from "../../components/analysis/PgnUpload";
 
 const AnalysisPage = () => {
   const { gameId } = useParams();
@@ -69,124 +67,62 @@ const AnalysisPage = () => {
     }
   };
 
+  const handlePgnUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      await api.post("/api/pollock/engine/analysis/pgn", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("업로드 성공!");
+    } catch (error) {
+      console.error("업로드 실패:", error);
+      alert("업로드 실패");
+    }
+  };
+
   return (
     <>
       <div className="w-3/4 mx-auto flex gap-8 my-16">
-        {/* 엔진 옵션 선택 폼 */}
         <div className="w-[10%]">
-          <EngineSettingsForm
-            engineType={engineType}
-            setEngineType={setEngineType}
-            multiPV={multiPV}
-            setMultiPV={setMultiPV}
-            moveTime={moveTime}
-            setMoveTime={setMoveTime}
-          />
+          <div className="flex flex-col gap-8">
+            {/* 엔진 옵션 선택 폼 */}
+            <div>
+              <EngineSettingsForm
+                engineType={engineType}
+                setEngineType={setEngineType}
+                multiPV={multiPV}
+                setMultiPV={setMultiPV}
+                moveTime={moveTime}
+                setMoveTime={setMoveTime}
+              />
+            </div>
+            {/* pgn 업로드 폼 */}
+            <div>
+              <PgnUpload onUpload={handlePgnUpload} />
+            </div>
+          </div>
         </div>
 
         {/* 체스 보드 */}
         <div className="w-[60%]">
-          <div className="flex flex-col gap-4">
-            <div className="flex">
-              <div className="w-[10%]"></div>
-              <div className="w-[90%]">
-                <div>
-                  {users ? (
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={users[0].profileImageUrl}
-                        alt="profile"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>{users[0].nickname}</div>
-                      <div>ELO {users[0].elo}</div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={defaultProfileImg}
-                        alt="profile"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>흑</div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="w-[10%]"></div>
-              <div className="w-[90%]">
-                <div className="flex">
-                  {capturedByWhite.map((p, i) => (
-                    <PieceIcon key={i} color="white" piece={p} />
-                  ))}
-                  <div>
-                    {capturedScore < 0 ? (
-                      <div className="mx-2">+{Math.abs(capturedScore)}</div>
-                    ) : (
-                      <div className="invisible">0</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="w-[5%]">
-                <ScoreBar scoreCp={scoreCp} scoreMate={scoreMate} />
-              </div>
-              <div className="w-[5%]"></div>
-              <div className="w-[90%]">
-                <ChessBoard
-                  game={game}
-                  setGame={setGame}
-                  onCapture={handleCapture}
-                />
-              </div>
-            </div>
-            <div className="flex">
-              <div className="w-[10%]"></div>
-              <div className="w-[90%]">
-                <div className="flex">
-                  {capturedByBlack.map((p, i) => (
-                    <PieceIcon key={i} color="black" piece={p} />
-                  ))}
-                  <div>
-                    {capturedScore > 0 ? (
-                      <div className="mx-2">+{capturedScore}</div>
-                    ) : (
-                      <div className="invisible">0</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="w-[10%]"></div>
-              <div className="w-[90%]">
-                <div>
-                  {users ? (
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={users[1].profileImageUrl}
-                        alt="profile"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>{users[1].nickname}</div>
-                      <div>ELO {users[1].elo}</div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={defaultProfileImg}
-                        alt="profile"
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>백</div>
-                    </div>
-                  )}
-                </div>
-              </div>
+          <div className="flex flex-col gap-8">
+            <div>
+              <ChessBoard
+                game={game}
+                setGame={setGame}
+                onCapture={handleCapture}
+                scoreCp={scoreCp}
+                scoreMate={scoreMate}
+                capturedByWhite={capturedByWhite}
+                capturedByBlack={capturedByBlack}
+                capturedScore={capturedScore}
+                users={users}
+              />
             </div>
           </div>
         </div>
