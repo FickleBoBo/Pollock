@@ -10,6 +10,7 @@ import static org.springframework.http.HttpStatus.*;
 @AllArgsConstructor
 public enum ErrorCode {
     UnAuthenticatedException(UNAUTHORIZED, 401, "로그인하지 않은 사용자입니다."),
+
     UserNotFoundException(NOT_FOUND, 404, "해당 유저를 찾을 수 없습니다."),
     GameNotFoundException(NOT_FOUND, 404, "해당 게임을 찾을 수 없습니다."),
     EngineNotFoundException(NOT_FOUND, 404, "해당 엔진을 찾을 수 없습니다."),
