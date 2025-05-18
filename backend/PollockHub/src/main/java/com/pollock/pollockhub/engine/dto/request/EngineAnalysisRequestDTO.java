@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public class EngineAnalysisRequestDTO {
 
+    private String channelKey;
     private EngineType engineType;
     private String fen;
     private Integer multiPV;
