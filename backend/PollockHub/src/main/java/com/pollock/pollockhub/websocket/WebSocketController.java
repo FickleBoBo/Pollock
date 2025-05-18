@@ -14,6 +14,6 @@ public class WebSocketController {
 
     @MessageMapping("/heartbeat/{channelKey}")
     public void heartbeat(@DestinationVariable String channelKey) {
-        messagingTemplate.convertAndSend("/topic/analysis." + channelKey, "pong");
+        messagingTemplate.convertAndSend("/topic/ping/" + channelKey, "pong");
     }
 }
