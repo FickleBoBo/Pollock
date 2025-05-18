@@ -33,9 +33,6 @@ public class GameEntity {
     @JoinColumn(name = "white_user_id", nullable = false)
     private UserEntity whiteUser;
 
-    @Column(nullable = false)
-    private String mongoId;
-
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -45,11 +42,10 @@ public class GameEntity {
     }
 
     @Builder
-    public GameEntity(Integer gameType, GameResult result, UserEntity blackUser, UserEntity whiteUser, String mongoId) {
+    public GameEntity(Integer gameType, GameResult result, UserEntity blackUser, UserEntity whiteUser) {
         this.gameType = gameType;
         this.result = result;
         this.blackUser = blackUser;
         this.whiteUser = whiteUser;
-        this.mongoId = mongoId;
     }
 }
