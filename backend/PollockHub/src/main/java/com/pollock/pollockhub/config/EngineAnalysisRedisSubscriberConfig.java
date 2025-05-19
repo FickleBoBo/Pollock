@@ -1,6 +1,6 @@
 package com.pollock.pollockhub.config;
 
-import com.pollock.pollockhub.redis.EngineAnalysisRedisSubscriber;
+import com.pollock.pollockhub.subscriber.EngineAnalysisRedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
