@@ -20,6 +20,7 @@ spring:
   data:
     redis:
       host: ${USER_SESSION_REDIS_HOST}
+      port: ${USER_SESSION_REDIS_PORT}
 
   security:
     oauth2:
