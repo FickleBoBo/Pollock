@@ -9,7 +9,7 @@ const LoginPage = () => {
         <Header />
       </div>
 
-      <div className="flex-grow flex flex-col items-center justify-center gap-4">
+      <div className="flex-grow flex flex-col items-center justify-center gap-8">
         <OAuthLoginButton provider="naver" />
         <OAuthLoginButton provider="kakao" />
         <OAuthLoginButton provider="google" />
