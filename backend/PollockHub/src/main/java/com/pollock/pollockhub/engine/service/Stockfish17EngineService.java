@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import static com.pollock.pollockhub.engine.router.EngineType.STOCKFISH_17;
+import static com.pollock.pollockhub.engine.router.EngineType.STOCKFISH_17_1;
 
 @Slf4j
 @Service
@@ -25,7 +25,7 @@ public class Stockfish17EngineService implements EngineService {
 
     @Override
     public EngineType getEngineType() {
-        return STOCKFISH_17;
+        return STOCKFISH_17_1;
     }
 
     @Override
