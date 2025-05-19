@@ -1,6 +1,6 @@
 package com.pollock.pollockhub.engine.service;
 
-import com.pollock.pollockhub.common.BadGatewayException;
+import com.pollock.pollockhub.common.exception.BadGatewayException;
 import com.pollock.pollockhub.engine.dto.request.EngineAnalysisRequestDTO;
 import com.pollock.pollockhub.engine.router.EngineType;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class Stockfish17EngineService implements EngineService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${custom.stockfish-17-proxy-server-uri}")
+    @Value("${custom.stockfish-17-1-proxy-server-uri}")
     private String stockfish17ProxyServerUri;
 
     @Override

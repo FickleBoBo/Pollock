@@ -41,7 +41,7 @@ spring:
 
 custom:
   frontend-uri: ${FRONTEND_URI}
-  stockfish-17-proxy-server-uri: ${STOCKFISH_17_PROXY_SERVER_URI}
+  stockfish-17-1-proxy-server-uri: ${STOCKFISH_17_1_PROXY_SERVER_URI}
 
   engine-analysis:
     redis:
