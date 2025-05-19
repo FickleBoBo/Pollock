@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import { Chess } from "chess.js";
 
 import { UserInfo } from "../../constant/User";
 import { PIECE_ORDER, PIECE_VALUES } from "../../constant/Piece";
+import { v4 as uuidv4 } from "uuid";
 
 import api from "../../common/api";
 
@@ -14,6 +15,7 @@ import EngineAnalysis from "../../components/analysis/EngineAnalysis";
 import PgnUpload from "../../components/analysis/PgnUpload";
 
 const AnalysisPage = () => {
+  const channelKeyRef = useRef(uuidv4());
   const { gameId } = useParams();
 
   const [users, setUsers] = useState<UserInfo[] | null>(null);
@@ -37,7 +39,7 @@ const AnalysisPage = () => {
 
   const [game, setGame] = useState(new Chess());
 
-  const [engineType, setEngineType] = useState("STOCKFISH_17");
+  const [engineType, setEngineType] = useState("STOCKFISH_17_1");
   const [multiPV, setMultiPV] = useState(3);
   const [moveTime, setMoveTime] = useState(5000);
 
@@ -136,6 +138,7 @@ const AnalysisPage = () => {
             moveTime={moveTime}
             setScoreCp={setScoreCp}
             setScoreMate={setScoreMate}
+            channelKey={channelKeyRef.current}
           />
         </div>
       </div>

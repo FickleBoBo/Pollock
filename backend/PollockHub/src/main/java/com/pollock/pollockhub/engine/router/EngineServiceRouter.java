@@ -16,6 +16,7 @@ public class EngineServiceRouter {
 
     public EngineServiceRouter(List<EngineService> engineServices) {
         this.engineServiceMap = new HashMap<>();
+
         for (EngineService engineService : engineServices) {
             engineServiceMap.put(engineService.getEngineType(), engineService);
         }

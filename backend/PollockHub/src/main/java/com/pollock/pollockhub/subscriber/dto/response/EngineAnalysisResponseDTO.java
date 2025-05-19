@@ -1,11 +1,9 @@
-package com.pollock.stockfishproxy.dto.response;
+package com.pollock.pollockhub.subscriber.dto.response;
 
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
-@Builder
 @Getter
 public class EngineAnalysisResponseDTO {
 

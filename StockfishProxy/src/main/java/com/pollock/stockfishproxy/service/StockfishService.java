@@ -3,7 +3,7 @@ package com.pollock.stockfishproxy.service;
 import com.pollock.stockfishproxy.dto.request.EngineAnalysisRequestDTO;
 import com.pollock.stockfishproxy.engine.StockfishEngine;
 import com.pollock.stockfishproxy.engine.StockfishEnginePool;
-import com.pollock.stockfishproxy.redis.RedisStreamPublisher;
+import com.pollock.stockfishproxy.redis.RedisPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,20 @@ public class StockfishService {
 
     private final StockfishEnginePool pool;
     private final Map<String, Thread> threadMap = new ConcurrentHashMap<>();
-    private final RedisStreamPublisher redisStreamPublisher;
+    private final RedisPublisher redisPublisher;
 
-    public void publishEngineAnalysis(String streamKey, EngineAnalysisRequestDTO requestDTO) {
+    public void publishEngineAnalysis(EngineAnalysisRequestDTO requestDTO) {
+        Thread previousThread = threadMap.get(requestDTO.getChannelKey());
+
+        if (previousThread != null && previousThread.isAlive()) {
+            log.info("🛑 분석 중단 요청: channelKey = {}", requestDTO.getChannelKey());
+            log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
+            previousThread.interrupt();
+            log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
+        } else {
+            log.warn("⚠️ 중단 요청 실패: 실행 중인 분석이 없음 (channelKey = {})", requestDTO.getChannelKey());
+        }
+
         Thread thread = new Thread(() -> {
             StockfishEngine engine = null;
 
@@ -33,7 +44,7 @@ public class StockfishService {
 
                 log.info("Engine PID: {}", engine.getEnginePid());
 
-                engine.publishEngineAnalysis(streamKey, requestDTO.getFen(), requestDTO.getMultiPV(), requestDTO.getMoveTime(), redisStreamPublisher);
+                engine.publishEngineAnalysis(requestDTO.getChannelKey(), requestDTO.getFen(), requestDTO.getMultiPV(), requestDTO.getMoveTime(), redisPublisher);
 
             } catch (InterruptedException e) {
                 log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
@@ -51,7 +62,7 @@ public class StockfishService {
                 }
                 log.info("finally 블록2 엔진 반환 전");
                 log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
-                threadMap.remove(streamKey);
+                threadMap.remove(requestDTO.getChannelKey());
                 log.info("finally 블록2 엔진 반환 후");
                 log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
             }
@@ -59,22 +70,9 @@ public class StockfishService {
 
         log.info("map에 넣기 전");
         log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
-        threadMap.put(streamKey, thread);
+        threadMap.put(requestDTO.getChannelKey(), thread);
         log.info("map에 넣은 후");
         log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
         thread.start();
-    }
-
-    public void cancelEngineAnalysis(String streamKey) {
-        Thread thread = threadMap.get(streamKey);
-
-        if (thread != null && thread.isAlive()) {
-            log.info("🛑 분석 중단 요청: streamKey = {}", streamKey);
-            log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
-            thread.interrupt();
-            log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());
-        } else {
-            log.warn("⚠️ 중단 요청 실패: 실행 중인 분석이 없음 (streamKey = {})", streamKey);
-        }
     }
 }

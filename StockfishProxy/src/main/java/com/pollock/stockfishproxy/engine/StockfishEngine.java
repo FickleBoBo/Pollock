@@ -1,11 +1,17 @@
 package com.pollock.stockfishproxy.engine;
 
-import com.pollock.stockfishproxy.redis.RedisStreamPublisher;
+import com.pollock.stockfishproxy.dto.response.EngineAnalysisResponseDTO;
+import com.pollock.stockfishproxy.redis.RedisPublisher;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -88,10 +94,15 @@ public class StockfishEngine {
         return true;
     }
 
-    public void publishEngineAnalysis(String streamKey, String fen, Integer multiPV, Long moveTime, RedisStreamPublisher redisStreamPublisher) {
+    public void publishEngineAnalysis(String channelKey, String fen, Integer multiPV, Long moveTime, RedisPublisher redisPublisher) {
         sendCommand("setoption name MultiPV value  " + multiPV);
         sendCommand("position fen " + fen);
         sendCommand("go movetime " + moveTime);
+
+        Integer score = null;
+        Integer mate = null;
+        Integer currentPv = null;
+        List<String> pvList = new ArrayList<>();
 
         long start = System.currentTimeMillis();
         try {
@@ -99,27 +110,76 @@ public class StockfishEngine {
             while ((line = br.readLine()) != null) {
                 // 🔁 중단 요청 감지
                 if (Thread.currentThread().isInterrupted()) {
-                    log.warn("🛑 분석 중단 감지됨 → stop 명령 전송: streamKey={}", streamKey);
+                    log.warn("🛑 분석 중단 감지됨 → stop 명령 전송: channelKey={}", channelKey);
                     sendCommand("stop");
                     break;
                 }
 
-                // 🔁 퍼블리시
-                if (line.startsWith("info") || line.startsWith("bestmove")) {
-                    log.info("📤 Redis Publish to '{}' → {}", streamKey, line);
-                    redisStreamPublisher.publish(streamKey, line);
+                if (line.startsWith("bestmove")) break;
 
-                    if (line.startsWith("bestmove")) break;
+                // 🔁 퍼블리시
+                if (line.startsWith("info")) {
+                    log.info("📤 Redis Publish to '{}' → {}", channelKey, line);
+
+                    if (line.contains("score mate")) {
+                        mate = extractMate(line);
+                        score = null;
+                    } else if (line.contains("score cp")) {
+                        score = extractScore(line);
+                        mate = null;
+                    }
+
+                    if (line.contains("multipv")) {
+                        currentPv = extractMultipv(line);
+                    }
+
+                    if (line.contains(" pv ")) {
+                        pvList = extractPV(line);
+                    }
+
+                    EngineAnalysisResponseDTO responseDTO = EngineAnalysisResponseDTO.builder()
+                            .score(score)
+                            .mate(mate)
+                            .currentPv(currentPv)
+                            .pvList(pvList)
+                            .build();
+
+                    redisPublisher.publish(channelKey, responseDTO);
                 }
 
                 // ⏰ 타임아웃
                 if (System.currentTimeMillis() - start > moveTime + TIMEOUT) {
-                    log.warn("⏰ 분석 타임아웃: streamKey={}", streamKey);
+                    log.warn("⏰ 분석 타임아웃: channelKey={}", channelKey);
                     break;
                 }
             }
         } catch (IOException e) {
             log.error("❌ Stockfish 로그 읽기 실패", e);
         }
+    }
+
+    private Integer extractScore(String line) {
+        Pattern p = Pattern.compile("score cp (-?\\d+)");
+        Matcher m = p.matcher(line);
+        return m.find() ? Integer.parseInt(m.group(1)) : null;
+    }
+
+    private Integer extractMate(String line) {
+        Pattern p = Pattern.compile("score mate (-?\\d+)");
+        Matcher m = p.matcher(line);
+        return m.find() ? Integer.parseInt(m.group(1)) : null;
+    }
+
+    private Integer extractMultipv(String line) {
+        Pattern p = Pattern.compile("multipv (-?\\d+)");
+        Matcher m = p.matcher(line);
+        return m.find() ? Integer.parseInt(m.group(1)) : null;
+    }
+
+    private List<String> extractPV(String line) {
+        int index = line.indexOf(" pv ");
+        if (index == -1) return List.of();
+        String[] tokens = line.substring(index + 4).split(" ");
+        return Arrays.asList(tokens);
     }
 }
