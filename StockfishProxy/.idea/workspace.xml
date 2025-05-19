@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f45daa31-f2df-4137-9385-2bdb288f9321" name="Changes" comment="feat: line 파싱 로직 추가">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile_Linux_AMD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile_Linux_ARM" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/stockfish-android-armv8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/stockfish-macos-m1-apple-silicon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/engine/stockfish-ubuntu-x86-64-avx2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/StockfishProxyApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/config/RedisConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/controller/StockfishController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/dto/request/EngineAnalysisRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/dto/response/EngineAnalysisResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/engine/StockfishEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/engine/StockfishEnginePool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/redis/RedisPublisher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/service/StockfishService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/pollock/stockfishproxy/StockfishProxyApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2wSac3hT4SHSimJXjJsWvWVp4T3" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build StockfishProxy.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.StockfishProxyApplication.executor": "Run",
+    "git-widget-placeholder": "stockfish-proxy",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/mwzz6/Desktop/GITHUB/Pollock/StockfishProxy/src/main/java/com/pollock/stockfishproxy/common",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy/common" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/pollock/stockfishproxy" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/engine" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.pollock.stockfishproxy.common" />
+      <recent name="com.pollock.stockfishproxy.router" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="StockfishProxyApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <envs>
+        <env name="ENGINE_ANALYSIS_REDIS_HOST" value="localhost" />
+        <env name="STOCKFISH_PATH" value="engine/stockfish-macos-m1-apple-silicon" />
+        <env name="STOCKFISH_POOL_SIZE" value="6" />
+      </envs>
+      <module name="StockfishProxy.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pollock.stockfishproxy.StockfishProxyApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.24978.46" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-IU-243.24978.46" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f45daa31-f2df-4137-9385-2bdb288f9321" name="Changes" comment="" />
+      <created>1746037504448</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1746037504448</updated>
+      <workItem from="1746037505446" duration="20498000" />
+      <workItem from="1746159999535" duration="6182000" />
+      <workItem from="1746315709256" duration="278000" />
+      <workItem from="1746315994525" duration="15223000" />
+      <workItem from="1746415226787" duration="7800000" />
+      <workItem from="1746580911421" duration="5270000" />
+      <workItem from="1746663027395" duration="14695000" />
+      <workItem from="1747559566823" duration="2970000" />
+      <workItem from="1747580888233" duration="7642000" />
+      <workItem from="1747649258849" duration="10604000" />
+    </task>
+    <task id="LOCAL-00021" summary="feat: 퍼블리싱 기반 메서드로 변경">
+      <option name="closed" value="true" />
+      <created>1746171661758</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1746171661758</updated>
+    </task>
+    <task id="LOCAL-00022" summary="feat: 퍼블리싱 기반 메서드로 변경">
+      <option name="closed" value="true" />
+      <created>1746171664361</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1746171664361</updated>
+    </task>
+    <task id="LOCAL-00023" summary="feat: 도커 설정 추가">
+      <option name="closed" value="true" />
+      <created>1746179135810</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1746179135810</updated>
+    </task>
+    <task id="LOCAL-00024" summary="feat: 퍼블리싱 로그 추가">
+      <option name="closed" value="true" />
+      <created>1746179149484</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1746179149484</updated>
+    </task>
+    <task id="LOCAL-00025" summary="feat: log 추가">
+      <option name="closed" value="true" />
+      <created>1746317825779</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1746317825779</updated>
+    </task>
+    <task id="LOCAL-00026" summary="feat: 주석 삭제">
+      <option name="closed" value="true" />
+      <created>1746317836249</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1746317836249</updated>
+    </task>
+    <task id="LOCAL-00027" summary="style: 탭 정리">
+      <option name="closed" value="true" />
+      <created>1746317850642</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1746317850642</updated>
+    </task>
+    <task id="LOCAL-00028" summary="feat: redis 컨테이너 연결 설정">
+      <option name="closed" value="true" />
+      <created>1746318138513</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1746318138513</updated>
+    </task>
+    <task id="LOCAL-00029" summary="feat: EC2용 스톡피시 엔진으로 변경">
+      <option name="closed" value="true" />
+      <created>1746318155393</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1746318155393</updated>
+    </task>
+    <task id="LOCAL-00030" summary="feat: glibc 호환 이미지로 변경">
+      <option name="closed" value="true" />
+      <created>1746319722103</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1746319722103</updated>
+    </task>
+    <task id="LOCAL-00031" summary="feat: redis 설정 변경">
+      <option name="closed" value="true" />
+      <created>1746320787395</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1746320787395</updated>
+    </task>
+    <task id="LOCAL-00032" summary="feat: docker-compose 설정에 맞춰 yml 변경">
+      <option name="closed" value="true" />
+      <created>1746335858382</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1746335858382</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat: 우분투 + 아마존 JDK21 이미지로 변경">
+      <option name="closed" value="true" />
+      <created>1746335874190</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1746335874190</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat: 우분투 + 아마존 JDK21 이미지로 변경">
+      <option name="closed" value="true" />
+      <created>1746337443966</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1746337443966</updated>
+    </task>
+    <task id="LOCAL-00035" summary="feat: env 파일 추가">
+      <option name="closed" value="true" />
+      <created>1746417198261</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1746417198261</updated>
+    </task>
+    <task id="LOCAL-00036" summary="feat: 레디스, 스톡피시 경로 환경변수 처리">
+      <option name="closed" value="true" />
+      <created>1746417214271</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1746417214271</updated>
+    </task>
+    <task id="LOCAL-00037" summary="feat: 로컬, 배포 도커 파일 분리">
+      <option name="closed" value="true" />
+      <created>1746417227946</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1746417227946</updated>
+    </task>
+    <task id="LOCAL-00038" summary="style: 탭 정리">
+      <option name="closed" value="true" />
+      <created>1746417240119</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1746417240119</updated>
+    </task>
+    <task id="LOCAL-00039" summary="feat: 레디스 포트 명시 제거">
+      <option name="closed" value="true" />
+      <created>1746483312126</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1746483312126</updated>
+    </task>
+    <task id="LOCAL-00040" summary="feat: pool 사이즈 환경 변수 처리">
+      <option name="closed" value="true" />
+      <created>1746486413869</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1746486413869</updated>
+    </task>
+    <task id="LOCAL-00041" summary="feat: CORS 설정 삭제">
+      <option name="closed" value="true" />
+      <created>1746486492643</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1746486492643</updated>
+    </task>
+    <task id="LOCAL-00042" summary="feat: 엔진 분석 중단 API 작성">
+      <option name="closed" value="true" />
+      <created>1746486723092</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1746486723092</updated>
+    </task>
+    <task id="LOCAL-00043" summary="feat: 퍼블리싱 API 202 상태코드로 변경">
+      <option name="closed" value="true" />
+      <created>1746486858469</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1746486858469</updated>
+    </task>
+    <task id="LOCAL-00044" summary="feat: pool size 환경변수 처리">
+      <option name="closed" value="true" />
+      <created>1746487057217</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1746487057217</updated>
+    </task>
+    <task id="LOCAL-00045" summary="feat: log PID 기반으로 변경">
+      <option name="closed" value="true" />
+      <created>1746487277259</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1746487277259</updated>
+    </task>
+    <task id="LOCAL-00046" summary="feat: 분석 중단 로직 추가">
+      <option name="closed" value="true" />
+      <created>1746487807248</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1746487807248</updated>
+    </task>
+    <task id="LOCAL-00047" summary="feat: 분석 중단 로직 추가 및 로깅">
+      <option name="closed" value="true" />
+      <created>1746487828277</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1746487828277</updated>
+    </task>
+    <task id="LOCAL-00048" summary="feat: gitkeep 추가">
+      <option name="closed" value="true" />
+      <created>1746676462823</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676462823</updated>
+    </task>
+    <task id="LOCAL-00049" summary="feat: 엔진 타입 필드 추가">
+      <option name="closed" value="true" />
+      <created>1746676471801</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676471801</updated>
+    </task>
+    <task id="LOCAL-00050" summary="feat: 엔진 타입 enum 추가">
+      <option name="closed" value="true" />
+      <created>1746676480947</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676480947</updated>
+    </task>
+    <task id="LOCAL-00051" summary="style: 엔진 타입 enum 이름 변경">
+      <option name="closed" value="true" />
+      <created>1746676565952</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676565952</updated>
+    </task>
+    <task id="LOCAL-00052" summary="style: 엔진 타입 enum 이름 변경">
+      <option name="closed" value="true" />
+      <created>1746676578082</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676578082</updated>
+    </task>
+    <task id="LOCAL-00053" summary="feat: 엔진 타입 json 매핑 추가">
+      <option name="closed" value="true" />
+      <created>1746676753093</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676753093</updated>
+    </task>
+    <task id="LOCAL-00054" summary="style: 엔진 타입 이름 변경">
+      <option name="closed" value="true" />
+      <created>1746676875977</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676875977</updated>
+    </task>
+    <task id="LOCAL-00055" summary="feat: 엔진 타입 필드 제거">
+      <option name="closed" value="true" />
+      <created>1746677574709</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1746677574709</updated>
+    </task>
+    <task id="LOCAL-00056" summary="feat: 컨트롤러 매핑 경로 수정">
+      <option name="closed" value="true" />
+      <created>1746677778289</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1746677778289</updated>
+    </task>
+    <task id="LOCAL-00057" summary="feat: 해시 관련 설정 제거">
+      <option name="closed" value="true" />
+      <created>1746678027424</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1746678027424</updated>
+    </task>
+    <task id="LOCAL-00058" summary="style: 파일 이름 변경">
+      <option name="closed" value="true" />
+      <created>1746678492197</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1746678492197</updated>
+    </task>
+    <task id="LOCAL-00059" summary="style: 파일 이름 변경 및 파라미터 이름 변경">
+      <option name="closed" value="true" />
+      <created>1746678506613</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1746678506613</updated>
+    </task>
+    <task id="LOCAL-00060" summary="style: 파라미터 이름 변경">
+      <option name="closed" value="true" />
+      <created>1746678659106</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1746678659106</updated>
+    </task>
+    <task id="LOCAL-00061" summary="style: 파라미터 이름 변경">
+      <option name="closed" value="true" />
+      <created>1746678668335</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1746678668335</updated>
+    </task>
+    <task id="LOCAL-00062" summary="feat: 레디스 스트림에서 레디스 펍섭 방식으로 변경">
+      <option name="closed" value="true" />
+      <created>1747664696192</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1747664696193</updated>
+    </task>
+    <task id="LOCAL-00063" summary="feat: 엔진 버전 필드 무시">
+      <option name="closed" value="true" />
+      <created>1747664713091</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1747664713091</updated>
+    </task>
+    <task id="LOCAL-00064" summary="feat: 엔진 응답 dto 작성">
+      <option name="closed" value="true" />
+      <created>1747664759377</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1747664759377</updated>
+    </task>
+    <task id="LOCAL-00065" summary="feat: 퍼블리싱 클래스 작성">
+      <option name="closed" value="true" />
+      <created>1747664861464</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1747664861464</updated>
+    </task>
+    <task id="LOCAL-00066" summary="feat: 클래스 메타 데이터 제거 설정">
+      <option name="closed" value="true" />
+      <created>1747665330252</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1747665330252</updated>
+    </task>
+    <task id="LOCAL-00067" summary="delete: 레디스 스트림 클래스 제거">
+      <option name="closed" value="true" />
+      <created>1747665342758</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1747665342758</updated>
+    </task>
+    <task id="LOCAL-00068" summary="feat: 기존 분석 중단 로직 분석 시작에 포함">
+      <option name="closed" value="true" />
+      <created>1747666111872</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1747666111872</updated>
+    </task>
+    <task id="LOCAL-00069" summary="feat: line 파싱 로직 추가">
+      <option name="closed" value="true" />
+      <created>1747666127867</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1747666127867</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: 퍼블리싱 API 202 상태코드로 변경" />
+    <MESSAGE value="feat: pool size 환경변수 처리" />
+    <MESSAGE value="feat: log PID 기반으로 변경" />
+    <MESSAGE value="feat: 분석 중단 로직 추가" />
+    <MESSAGE value="feat: 분석 중단 로직 추가 및 로깅" />
+    <MESSAGE value="feat: gitkeep 추가" />
+    <MESSAGE value="feat: 엔진 타입 필드 추가" />
+    <MESSAGE value="feat: 엔진 타입 enum 추가" />
+    <MESSAGE value="style: 엔진 타입 enum 이름 변경" />
+    <MESSAGE value="feat: 엔진 타입 json 매핑 추가" />
+    <MESSAGE value="style: 엔진 타입 이름 변경" />
+    <MESSAGE value="feat: 엔진 타입 필드 제거" />
+    <MESSAGE value="feat: 컨트롤러 매핑 경로 수정" />
+    <MESSAGE value="feat: 해시 관련 설정 제거" />
+    <MESSAGE value="style: 파일 이름 변경" />
+    <MESSAGE value="style: 파일 이름 변경 및 파라미터 이름 변경" />
+    <MESSAGE value="style: 파라미터 이름 변경" />
+    <MESSAGE value="feat: 레디스 스트림에서 레디스 펍섭 방식으로 변경" />
+    <MESSAGE value="feat: 엔진 버전 필드 무시" />
+    <MESSAGE value="feat: 엔진 응답 dto 작성" />
+    <MESSAGE value="feat: 퍼블리싱 클래스 작성" />
+    <MESSAGE value="feat: 클래스 메타 데이터 제거 설정" />
+    <MESSAGE value="delete: 레디스 스트림 클래스 제거" />
+    <MESSAGE value="feat: 기존 분석 중단 로직 분석 시작에 포함" />
+    <MESSAGE value="feat: line 파싱 로직 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: line 파싱 로직 추가" />
+  </component>
+</project>
