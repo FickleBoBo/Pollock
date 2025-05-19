@@ -44,7 +44,7 @@ public class StockfishService {
 
                 log.info("Engine PID: {}", engine.getEnginePid());
 
-                engine.publishEngineAnalysis(requestDTO.getChannelKey(), requestDTO.getFen(), requestDTO.getMultiPV(), requestDTO.getMoveTime(), redisPublisher);
+                engine.publishEngineAnalysis(requestDTO.getChannelKey(), requestDTO.getFen(), requestDTO.getMultipv(), requestDTO.getMovetime(), redisPublisher);
 
             } catch (InterruptedException e) {
                 log.info("pool 크기: {}, map 크기: {}", pool.getPoolSize(), threadMap.size());

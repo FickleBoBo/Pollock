@@ -94,10 +94,10 @@ public class StockfishEngine {
         return true;
     }
 
-    public void publishEngineAnalysis(String channelKey, String fen, Integer multiPV, Long moveTime, RedisPublisher redisPublisher) {
-        sendCommand("setoption name MultiPV value  " + multiPV);
+    public void publishEngineAnalysis(String channelKey, String fen, Integer multipv, Long movetime, RedisPublisher redisPublisher) {
+        sendCommand("setoption name MultiPV value  " + multipv);
         sendCommand("position fen " + fen);
-        sendCommand("go movetime " + moveTime);
+        sendCommand("go movetime " + movetime);
 
         Integer score = null;
         Integer mate = null;
@@ -148,7 +148,7 @@ public class StockfishEngine {
                 }
 
                 // ⏰ 타임아웃
-                if (System.currentTimeMillis() - start > moveTime + TIMEOUT) {
+                if (System.currentTimeMillis() - start > movetime + TIMEOUT) {
                     log.warn("⏰ 분석 타임아웃: channelKey={}", channelKey);
                     break;
                 }
