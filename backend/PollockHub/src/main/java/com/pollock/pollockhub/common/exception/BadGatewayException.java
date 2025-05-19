@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.common;
+package com.pollock.pollockhub.common.exception;
 
 public class BadGatewayException extends ServiceException {
 

@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.common;
+package com.pollock.pollockhub.common.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
