@@ -32,7 +32,7 @@ const HomePage = () => {
         <div className="w-1/4"></div>
 
         {/* 중앙 영역 */}
-        <div className="w-1/2">
+        <div className="w-1/2 min-w-[800px]">
           <div>
             <Button
               text="새 게임 생성"
