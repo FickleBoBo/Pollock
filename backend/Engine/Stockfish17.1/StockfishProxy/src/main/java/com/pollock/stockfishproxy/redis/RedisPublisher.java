@@ -13,7 +13,6 @@ public class RedisPublisher {
 
     public void publish(String channelKey, EngineAnalysisResponseDTO resultDTO) {
         String channel = "engine:" + channelKey;
-
         redisTemplate.convertAndSend(channel, resultDTO);
     }
 }
