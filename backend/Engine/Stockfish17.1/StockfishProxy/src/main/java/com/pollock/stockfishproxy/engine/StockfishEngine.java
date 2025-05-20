@@ -159,8 +159,6 @@ public class StockfishEngine {
                     mate = null;
                     currentPv = null;
                     pvList = null;
-
-                    log.info(line);
                 }
 
                 // ⏰ 타임아웃
