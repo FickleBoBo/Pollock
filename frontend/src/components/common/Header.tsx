@@ -5,7 +5,6 @@ import { BiLogIn, BiLogOut } from "react-icons/bi";
 
 import { UserInfo } from "../../constant/User";
 
-import axios from "axios";
 import api from "../../common/api";
 
 import Button from "./Button";
@@ -15,22 +14,14 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  // 유저 정보 요청
+  // 유저 정보 요청 API
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
         const { data } = await api.get<UserInfo>("/api/pollock/user/me");
         setUserInfo(data);
-      } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-          const status = error.response?.status;
-
-          if (status !== 401) {
-            console.error("유저 정보 요청 실패:", error);
-          }
-        } else {
-          console.error("알 수 없는 에러:", error);
-        }
+      } catch (error) {
+        console.error("유저 정보 조회 실패:", error);
       }
     };
 
@@ -61,20 +52,20 @@ const Header = () => {
             />
           </div>
           {/* 학습 */}
-          <div className="px-16 py-8 hover:bg-grayBase transition relative group">
-            <div className="text-xl font-bold">학습</div>
+          <div className="relative group px-16 py-8 hover:bg-grayBase transition">
+            <div className="text-xl font-bold whitespace-nowrap">학습</div>
 
             <div className="absolute top-full left-0 w-full hidden group-hover:block bg-grayDark">
               <div className="hover:bg-grayBase transition">
                 <Button
-                  className="w-full py-4 text-xl font-bold"
+                  className="w-full py-4 text-xl font-bold whitespace-nowrap"
                   text="기보 학습"
                   onClick={() => navigate("/learn/notation")}
                 />
               </div>
               <div className="hover:bg-grayBase transition">
                 <Button
-                  className="w-full py-4 text-xl font-bold"
+                  className="w-full py-4 text-xl font-bold whitespace-nowrap"
                   text="전술 학습"
                   onClick={() => navigate("/learn/tactic")}
                 />
@@ -84,7 +75,7 @@ const Header = () => {
           {/* 분석 */}
           <div className="hover:bg-grayBase transition">
             <Button
-              className="text-xl font-bold px-16 py-8"
+              className="text-xl font-bold px-16 py-8 whitespace-nowrap"
               text="분석"
               onClick={() => navigate("/analysis")}
             />
@@ -99,16 +90,16 @@ const Header = () => {
                   onClick={() => navigate("/setting")}
                   className="flex items-center gap-4"
                 >
-                  <div>
+                  <div className="w-10 h-10">
                     <img
                       src={userInfo.profileImageUrl}
                       alt="profile"
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-full h-full rounded-xl object-cover"
                     />
                   </div>
-                  <div>{userInfo.nickname}</div>
-                  <div>ELO {userInfo.elo}</div>
-                  <div>{userInfo.grade}</div>
+                  <div className="whitespace-nowrap">{userInfo.nickname}</div>
+                  <div className="whitespace-nowrap">ELO {userInfo.elo}</div>
+                  <div className="whitespace-nowrap">{userInfo.grade}</div>
                 </Button>
               </div>
               <div>
