@@ -7,11 +7,11 @@ import { UserInfo } from "../../constant/User";
 
 import Button from "../common/Button";
 
-interface UserInfoProps {
+interface UserInfoSectionProps {
   userInfo: UserInfo;
 }
 
-const UserInfoSection = ({ userInfo }: UserInfoProps) => {
+const UserInfoSection = ({ userInfo }: UserInfoSectionProps) => {
   const [isOpenBulletElo, setIsOpenBulletElo] = useState(false);
   const [isOpenBlitzElo, setIsOpenBlitzElo] = useState(false);
   const [isOpenClassicalElo, setIsOpenClassicalElo] = useState(false);
@@ -23,7 +23,7 @@ const UserInfoSection = ({ userInfo }: UserInfoProps) => {
     <div className="flex flex-col gap-2 font-bold">
       <div>
         <Button
-          onClick={() => navigate("/setting")}
+          onClick={() => navigate("/profile")}
           className="w-full flex items-center gap-4 p-4"
         >
           <div className="w-10 h-10">
