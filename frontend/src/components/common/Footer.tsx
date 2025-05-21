@@ -3,7 +3,7 @@ import { FaGithub, FaChessPawn } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="mt-16">
-      <div className="flex justify-center gap-4 py-8 bg-grayDark">
+      <div className="flex justify-center gap-4 py-16">
         <div>
           <a
             href="https://github.com/FickleBoBo/Pollock"
