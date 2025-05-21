@@ -1,6 +1,9 @@
 export interface UserInfo {
   nickname: string;
   profileImageUrl: string;
-  elo: number;
+  bulletElo: number;
+  blitzElo: number;
+  classicalElo: number;
+  puzzleElo: number;
   grade: string;
 }
