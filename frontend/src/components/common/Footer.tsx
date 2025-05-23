@@ -10,7 +10,7 @@ const Footer = () => {
             aria-label="GitHub"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-grayLight"
+            className="hover:text-pollock400"
           >
             <FaGithub size={32} />
           </a>
@@ -21,7 +21,7 @@ const Footer = () => {
             aria-label="Chess.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-grayLight"
+            className="hover:text-pollock400"
           >
             <FaChessPawn size={32} />
           </a>
