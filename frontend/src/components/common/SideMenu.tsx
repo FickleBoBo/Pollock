@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../store/userStore";
 
 import {
   FaBookOpen,
@@ -14,8 +15,6 @@ import {
 } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
-
-import { UserInfo } from "../../constant/User";
 
 import api from "../../common/api";
 
@@ -56,11 +55,10 @@ const menu = [
   },
 ];
 
-interface SideMenuProps {
-  userInfo: UserInfo | null;
-}
+const SideMenu = () => {
+  const userInfo = useUserStore((state) => state.userInfo);
+  const clearUserInfo = useUserStore((state) => state.clearUserInfo);
 
-const SideMenu = ({ userInfo }: SideMenuProps) => {
   const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
 
   const navigate = useNavigate();
@@ -69,6 +67,7 @@ const SideMenu = ({ userInfo }: SideMenuProps) => {
   const handleLogout = async () => {
     try {
       await api.post("/api/pollock/user/logout");
+      clearUserInfo();
       window.location.href = "/";
     } catch (error) {
       console.error("로그아웃 실패:", error);
