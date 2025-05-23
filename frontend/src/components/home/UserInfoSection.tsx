@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { HiChevronUp, HiChevronDown } from "react-icons/hi";
 
-import { UserInfo } from "../../constant/User";
+import { UserInfo } from "../../store/userStore";
 
 import Button from "../common/Button";
 
