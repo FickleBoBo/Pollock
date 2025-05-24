@@ -22,6 +22,23 @@ public class RedisConfig {
         return new LettuceConnectionFactory(host, port);
     }
 
+    @Bean(name = "gameEventRedisConnectionFactory")
+    public RedisConnectionFactory gameEventRedisConnectionFactory(
+            @Value("${custom.game-event.redis.host}") String host,
+            @Value("${custom.game-event.redis.port}") int port) {
+        return new LettuceConnectionFactory(host, port);
+    }
+
+    @Bean(name = "gameEventRedisTemplate")
+    public RedisTemplate<String, Object> gameEventRedisTemplate(
+            @Qualifier("gameEventRedisConnectionFactory") RedisConnectionFactory factory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(factory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return redisTemplate;
+    }
+
     @Bean(name = "engineAnalysisRedisConnectionFactory")
     public RedisConnectionFactory engineAnalysisRedisConnectionFactory(
             @Value("${custom.engine-analysis.redis.host}") String host,

@@ -43,6 +43,11 @@ custom:
   frontend-uri: ${FRONTEND_URI}
   stockfish-17-1-proxy-server-uri: ${STOCKFISH_17_1_PROXY_SERVER_URI}
 
+  game-event:
+    redis:
+      host: ${GAME_EVENT_REDIS_HOST}
+      port: ${GAME_EVENT_REDIS_PORT}
+
   engine-analysis:
     redis:
       host: ${ENGINE_ANALYSIS_REDIS_HOST}
