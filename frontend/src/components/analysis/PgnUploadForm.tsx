@@ -26,7 +26,7 @@ const PgnUploadForm = ({ onUpload }: PgnUploadFormProps) => {
       <Button
         onClick={handleClick}
         text="PGN 파일 업로드"
-        className="w-full text-lg font-bold p-4 rounded bg-grayDark hover:bg-grayBase"
+        className="w-full text-lg font-bold p-4 bg-pollock850 hover:bg-pollock750"
       />
       <input
         type="file"
