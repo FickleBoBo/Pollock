@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+export type PlayerColor = "BLACK" | "WHITE";
+
 export interface UserInfo {
   nickname: string;
   profileImageUrl: string;
