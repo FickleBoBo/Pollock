@@ -1,21 +1,21 @@
 interface ScoreBarProps {
   scoreCp: number;
-  scoreMate?: number;
+  scoreMate: number;
 }
 
 const ScoreBar = ({ scoreCp, scoreMate }: ScoreBarProps) => {
-  const whitePercent = scoreMate
-    ? scoreMate > 0
-      ? 100
-      : 0
-    : ((Math.max(-400, Math.min(400, scoreCp)) + 400) / 800) * 80 + 10;
+  const whitePercent =
+    scoreMate !== 0
+      ? Number(scoreMate > 0) * 100
+      : ((Math.max(-400, Math.min(400, scoreCp)) + 400) / 800) * 80 + 10;
 
-  const displayText = scoreMate
-    ? `M${Math.abs(scoreMate)}`
-    : `${(Math.abs(scoreCp) / 100).toFixed(1)}`;
+  const displayText =
+    scoreMate !== 0
+      ? `M${Math.abs(scoreMate)}`
+      : `${(Math.abs(scoreCp) / 100).toFixed(1)}`;
 
   return (
-    <div className="w-full h-full overflow-hidden relative">
+    <div className="w-12 h-full overflow-hidden relative">
       {/* 흑 점수 바 */}
       <div
         className="absolute top-0 left-0 w-full bg-black transition-all duration-300"
