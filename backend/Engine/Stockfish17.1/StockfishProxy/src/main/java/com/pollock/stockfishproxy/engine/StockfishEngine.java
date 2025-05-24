@@ -126,10 +126,10 @@ public class StockfishEngine {
                 if (line.startsWith("info")) {
 
                     if (line.contains("score mate")) {
-                        mate = extractMate(line);
+                        mate = extractMate(line, fen);
                         score = null;
                     } else if (line.contains("score cp")) {
-                        score = extractScore(line);
+                        score = extractScore(line, fen);
                         mate = null;
                     }
 
@@ -172,16 +172,16 @@ public class StockfishEngine {
         }
     }
 
-    private Integer extractScore(String line) {
+    private Integer extractScore(String line, String fen) {
         Pattern p = Pattern.compile("score cp (-?\\d+)");
         Matcher m = p.matcher(line);
-        return m.find() ? Integer.parseInt(m.group(1)) : null;
+        return m.find() ? (fenParser(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
     }
 
-    private Integer extractMate(String line) {
+    private Integer extractMate(String line, String fen) {
         Pattern p = Pattern.compile("score mate (-?\\d+)");
         Matcher m = p.matcher(line);
-        return m.find() ? Integer.parseInt(m.group(1)) : null;
+        return m.find() ? (fenParser(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
     }
 
     private Integer extractMultipv(String line) {
@@ -195,5 +195,9 @@ public class StockfishEngine {
         if (index == -1) return List.of();
         String[] tokens = line.substring(index + 4).split(" ");
         return Arrays.asList(tokens);
+    }
+
+    private String fenParser(String fen) {
+        return fen.trim().split(" ")[1];
     }
 }
