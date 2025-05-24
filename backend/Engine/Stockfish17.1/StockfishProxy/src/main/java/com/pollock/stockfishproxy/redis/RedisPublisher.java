@@ -11,8 +11,8 @@ public class RedisPublisher {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public void publish(String channelKey, EngineAnalysisResponseDTO resultDTO) {
-        String channel = "engine:" + channelKey;
-        redisTemplate.convertAndSend(channel, resultDTO);
+    public void publish(String channelKey, EngineAnalysisResponseDTO responseDTO) {
+        String channel = "engine:stockfish17.1:" + channelKey;
+        redisTemplate.convertAndSend(channel, responseDTO);
     }
 }

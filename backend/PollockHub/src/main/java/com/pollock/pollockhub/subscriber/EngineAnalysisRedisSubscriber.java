@@ -20,7 +20,7 @@ public class EngineAnalysisRedisSubscriber implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] pattern) {
         String channel = new String(message.getChannel());
-        String key = channel.split(":")[1];
+        String key = channel.split(":")[2];
 
         try {
             EngineAnalysisResponseDTO responseDTO = objectMapper.readValue(message.getBody(), EngineAnalysisResponseDTO.class);

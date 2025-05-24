@@ -9,7 +9,6 @@ import java.util.List;
 @Getter
 public class EngineAnalysisResponseDTO {
 
-    private Long enginePid;
     private Integer score;
     private Integer mate;
     private Integer currentPv;
