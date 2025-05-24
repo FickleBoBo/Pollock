@@ -20,11 +20,10 @@ public class EngineAnalysisRedisSubscriber implements MessageListener {
     @Override
     public void onMessage(Message message, byte[] pattern) {
         String channel = new String(message.getChannel());
-        String key = channel.split(":")[2];
+        String key = channel.substring(channel.lastIndexOf(":") + 1);
 
         try {
             EngineAnalysisResponseDTO responseDTO = objectMapper.readValue(message.getBody(), EngineAnalysisResponseDTO.class);
-
             messagingTemplate.convertAndSend("/topic/analysis/" + key, responseDTO);
         } catch (IOException e) {
             throw new RuntimeException(e);
