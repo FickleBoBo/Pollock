@@ -29,8 +29,13 @@ public class StockfishEngine {
     private volatile boolean interrupted = false;
 
     private final String stockfishPath;
+
+    // 타임아웃 3초
     private final long TIMEOUT = 3000;
 
+    /**
+     * 엔진 프로세스 시작
+     */
     public boolean start() {
         try {
             process = new ProcessBuilder(stockfishPath).start();
@@ -38,60 +43,46 @@ public class StockfishEngine {
             bw = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
 
             sendCommand("uci");
-            if (!waitFor("uciok")) {
-                return false;
-            }
-
             sendCommand("isready");
-            if (!waitFor("readyok")) {
-                return false;
-            }
 
             enginePid = process.pid();
+            log.info("✅ Stockfish 시작 성공 [pid={}]", enginePid);
 
-            log.info("✅ Stockfish 프로세스 시작 완료 (PID: {})", enginePid);
             return true;
         } catch (IOException e) {
-            log.error("❌ Stockfish 프로세스 시작 실패: {}", e.getMessage(), e);
+            log.error("❌ Stockfish 시작 실패 [path='{}']: {}", stockfishPath, e.getMessage(), e);
             return false;
         }
     }
 
+    /**
+     * 엔진 명령 전송
+     */
     public void sendCommand(String command) {
         try {
             bw.write(command + "\n");
             bw.flush();
         } catch (IOException e) {
-            log.error("❌ 명령 전송 실패: '{}' → {}", command, e.getMessage(), e);
+            log.error("❌ sendCommand 실패 [pid={}, cmd={}]", enginePid, command, e);
         }
     }
 
+    /**
+     * 엔진 분석 종료
+     */
     public void stop() {
-        log.info("PID {} stop 명령 수신", enginePid);
+        log.info("🛑 stop() 호출됨 - 분석 중단 명령 전송 예정 [pid={}, interrupted={}]", enginePid, interrupted);
         sendCommand("stop");
-
         interrupted = true;
+        log.info("✅ stop() 완료 - interrupted 플래그 설정됨 [pid={}, interrupted={}]", enginePid, interrupted);
     }
 
-    public boolean waitFor(String keyword) {
-        long startTime = System.currentTimeMillis();
+    /**
+     * 엔진 프로세스 종료
+     */
+    public void quit() {
+        log.info("🛑 Stockfish 종료 시도 [pid={}]", enginePid);
 
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.contains(keyword)) return true;
-                if (System.currentTimeMillis() - startTime > TIMEOUT) {
-                    log.warn("⏰ '{}' 키워드 대기 중 타임아웃 발생 ({}ms)", keyword, TIMEOUT);
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            log.error("❌ Stockfish 응답 수신 중 오류 발생: {}", e.getMessage(), e);
-        }
-        return false;
-    }
-
-    public boolean quit() {
         try {
             sendCommand("quit");
 
@@ -99,13 +90,13 @@ public class StockfishEngine {
             if (bw != null) bw.close();
             if (process != null) process.destroy();
         } catch (IOException e) {
-            log.error("❌ Stockfish 종료 중 에러 발생: {}", e.getMessage(), e);
-            return false;
+            log.error("❌ Stockfish 종료 중 예외 발생 [pid={}, msg={}]", enginePid, e.getMessage(), e);
         }
-        return true;
     }
 
     public void publishEngineAnalysis(String channelKey, String fen, Integer multipv, Long movetime, RedisPublisher redisPublisher) {
+        log.info("📡 분석 시작 [channelKey={}, fen={}, multipv={}, movetime={}]", channelKey, fen, multipv, movetime);
+
         sendCommand("setoption name MultiPV value  " + multipv);
         sendCommand("position fen " + fen);
         sendCommand("go movetime " + movetime);
@@ -115,28 +106,29 @@ public class StockfishEngine {
         Integer currentPv = null;
         List<String> pvList = null;
 
-        long start = System.currentTimeMillis();
+        long deadline = System.currentTimeMillis() + movetime + TIMEOUT;
 
         try {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("bestmove")) break;
 
-                // 🔁 퍼블리시
+                // 퍼블리시
                 if (line.startsWith("info")) {
 
-                    if (line.contains("score mate")) {
-                        mate = extractMate(line, fen);
-                        score = null;
-                    } else if (line.contains("score cp")) {
+                    if (line.contains("score cp")) {
                         score = extractScore(line, fen);
                         mate = null;
+                    } else if (line.contains("score mate")) {
+                        score = null;
+                        mate = extractMate(line, fen);
                     }
 
                     if (line.contains("multipv")) {
                         currentPv = extractMultipv(line);
                     }
 
+                    // 미완성 응답은 퍼블리싱 X
                     if (currentPv == null) {
                         continue;
                     }
@@ -146,13 +138,11 @@ public class StockfishEngine {
                     }
 
                     EngineAnalysisResponseDTO responseDTO = EngineAnalysisResponseDTO.builder()
-                            .enginePid(enginePid)
                             .score(score)
                             .mate(mate)
                             .currentPv(currentPv)
                             .pvList(pvList)
                             .build();
-
                     redisPublisher.publish(channelKey, responseDTO);
 
                     score = null;
@@ -162,34 +152,46 @@ public class StockfishEngine {
                 }
 
                 // ⏰ 타임아웃
-                if (System.currentTimeMillis() - start > movetime + TIMEOUT) {
-                    log.warn("⏰ 분석 타임아웃: channelKey={}", channelKey);
+                if (System.currentTimeMillis() > deadline) {
+                    log.error("⏰ 분석 타임아웃 발생 [channelKey={}]", channelKey);
                     break;
                 }
             }
         } catch (IOException e) {
-            log.error("❌ Stockfish 로그 읽기 실패", e);
+            log.error("❌ 분석 중 예외 발생 [channelKey={}]: {}", channelKey, e.getMessage(), e);
         }
     }
 
+    /**
+     * 엔진 응답에서 score 추출
+     */
     private Integer extractScore(String line, String fen) {
         Pattern p = Pattern.compile("score cp (-?\\d+)");
         Matcher m = p.matcher(line);
-        return m.find() ? (fenParser(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
+        return m.find() ? (getTurnByFen(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
     }
 
+    /**
+     * 엔진 응답에서 mate 추출
+     */
     private Integer extractMate(String line, String fen) {
         Pattern p = Pattern.compile("score mate (-?\\d+)");
         Matcher m = p.matcher(line);
-        return m.find() ? (fenParser(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
+        return m.find() ? (getTurnByFen(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
     }
 
+    /**
+     * 엔진 응답에서 multipv 추출
+     */
     private Integer extractMultipv(String line) {
         Pattern p = Pattern.compile("multipv (-?\\d+)");
         Matcher m = p.matcher(line);
         return m.find() ? Integer.parseInt(m.group(1)) : null;
     }
 
+    /**
+     * 엔진 응답에서 pv 항목들 추출
+     */
     private List<String> extractPvList(String line) {
         int index = line.indexOf(" pv ");
         if (index == -1) return List.of();
@@ -197,7 +199,10 @@ public class StockfishEngine {
         return Arrays.asList(tokens);
     }
 
-    private String fenParser(String fen) {
+    /**
+     * fen 에서 플레이어 턴 추출
+     */
+    private String getTurnByFen(String fen) {
         return fen.trim().split(" ")[1];
     }
 }
