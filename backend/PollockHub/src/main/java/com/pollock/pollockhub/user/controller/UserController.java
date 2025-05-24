@@ -1,6 +1,5 @@
 package com.pollock.pollockhub.user.controller;
 
-import com.pollock.pollockhub.user.dto.response.UserInfoListResponseDTO;
 import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
 import com.pollock.pollockhub.user.oauth2.annotation.Auth;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
@@ -8,7 +7,6 @@ import com.pollock.pollockhub.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +20,5 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserInfoResponseDTO> getUserInfo(@Auth CustomOAuth2User user) {
         return ResponseEntity.ok(userService.getUserInfo(user));
-    }
-
-    @GetMapping("{gameId}")
-    public ResponseEntity<UserInfoListResponseDTO> getUserInfoByGameId(@PathVariable Long gameId) {
-        return ResponseEntity.ok(userService.getUserInfoByGameId(gameId));
     }
 }
