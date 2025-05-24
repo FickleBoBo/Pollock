@@ -39,7 +39,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserEntity savedUser = userRepository.save(userEntity);
 
             return CustomOAuth2User.builder()
-                    .Id(savedUser.getId())
+                    .id(savedUser.getId())
                     .email(savedUser.getEmail())
                     .nickname(savedUser.getNickname())
                     .profileImageUrl(savedUser.getProfileImageUrl())
@@ -53,7 +53,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
         } else {
             return CustomOAuth2User.builder()
-                    .Id(existUser.get().getId())
+                    .id(existUser.get().getId())
                     .email(existUser.get().getEmail())
                     .nickname(existUser.get().getNickname())
                     .profileImageUrl(existUser.get().getProfileImageUrl())

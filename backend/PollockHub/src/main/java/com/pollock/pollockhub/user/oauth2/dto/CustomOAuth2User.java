@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
-    private final Long Id;
+    private final Long id;
     private final String email;
     private final String nickname;
     private final String profileImageUrl;
@@ -43,6 +43,6 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public String getName() {
-        return Id.toString();
+        return id.toString();
     }
 }
