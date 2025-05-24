@@ -1,8 +1,8 @@
 package com.pollock.pollockhub.game.entity;
 
 public enum GameResult {
-    BLACK_WIN,
     WHITE_WIN,
+    BLACK_WIN,
     DRAW,
     WHITE_TIMEOUT,
     BLACK_TIMEOUT,
