@@ -9,6 +9,6 @@ public class EngineAnalysisRequestDTO {
 
     private String channelKey;
     private String fen;
-    private Integer multiPV;
-    private Long moveTime;
+    private Integer multipv;
+    private Long movetime;
 }

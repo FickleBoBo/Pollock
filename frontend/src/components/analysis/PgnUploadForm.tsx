@@ -2,11 +2,11 @@ import { useRef } from "react";
 
 import Button from "../common/Button";
 
-interface PgnUploadProps {
+interface PgnUploadFormProps {
   onUpload: (file: File) => void;
 }
 
-const PgnUpload = ({ onUpload }: PgnUploadProps) => {
+const PgnUploadForm = ({ onUpload }: PgnUploadFormProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleClick = () => {
@@ -26,7 +26,7 @@ const PgnUpload = ({ onUpload }: PgnUploadProps) => {
       <Button
         onClick={handleClick}
         text="PGN 파일 업로드"
-        className="w-full p-4 rounded bg-grayDark hover:bg-grayBase"
+        className="w-full text-lg font-bold p-4 bg-pollock850 hover:bg-pollock750"
       />
       <input
         type="file"
@@ -39,4 +39,4 @@ const PgnUpload = ({ onUpload }: PgnUploadProps) => {
   );
 };
 
-export default PgnUpload;
+export default PgnUploadForm;

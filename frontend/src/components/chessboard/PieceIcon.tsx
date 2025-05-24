@@ -5,14 +5,18 @@ import P from "../../assets/piece/P.svg?react";
 import Q from "../../assets/piece/Q.svg?react";
 import R from "../../assets/piece/R.svg?react";
 
+import { PlayerColor } from "../../store/userStore";
+
 interface PieceIconProps {
-  color: "white" | "black";
+  color: PlayerColor;
   piece: string;
 }
 
 const PieceIcon = ({ color, piece }: PieceIconProps) => {
   const className = `w-6 h-6 ${
-    color === "white" ? "text-white" : "text-black"
+    color === "WHITE"
+      ? "text-white stroke-black stroke-[0.5]"
+      : "text-black stroke-white stroke-[0.5]"
   }`;
 
   const pieces: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {

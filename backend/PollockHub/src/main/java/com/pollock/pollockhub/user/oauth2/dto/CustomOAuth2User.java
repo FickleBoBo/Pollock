@@ -23,7 +23,10 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
     private final String email;
     private final String nickname;
     private final String profileImageUrl;
-    private final Integer elo;
+    private final Integer bulletElo;
+    private final Integer blitzElo;
+    private final Integer classicalElo;
+    private final Integer puzzleElo;
     private final Integer birthyear;
     private final Gender gender;
     private final Grade grade;

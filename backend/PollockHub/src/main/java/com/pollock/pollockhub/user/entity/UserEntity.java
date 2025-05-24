@@ -24,7 +24,16 @@ public class UserEntity {
     private String profileImageUrl;
 
     @Column(nullable = false)
-    private Integer elo;
+    private Integer bulletElo;
+
+    @Column(nullable = false)
+    private Integer blitzElo;
+
+    @Column(nullable = false)
+    private Integer classicalElo;
+
+    @Column(nullable = false)
+    private Integer puzzleElo;
 
     private Integer birthyear;
 
@@ -41,7 +50,10 @@ public class UserEntity {
         this.email = email;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
-        this.elo = 400;
+        this.bulletElo = 400;
+        this.blitzElo = 400;
+        this.classicalElo = 400;
+        this.puzzleElo = 400;
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
         this.grade = Grade.BASIC;

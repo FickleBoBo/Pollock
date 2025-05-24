@@ -3,14 +3,14 @@ import { FaGithub, FaChessPawn } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="mt-16">
-      <div className="flex justify-center gap-4 py-8 bg-grayDark">
+      <div className="flex justify-center gap-4 py-16">
         <div>
           <a
             href="https://github.com/FickleBoBo/Pollock"
             aria-label="GitHub"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-grayLight"
+            className="hover:text-pollock400"
           >
             <FaGithub size={32} />
           </a>
@@ -21,7 +21,7 @@ const Footer = () => {
             aria-label="Chess.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-grayLight"
+            className="hover:text-pollock400"
           >
             <FaChessPawn size={32} />
           </a>

@@ -4,10 +4,10 @@ import com.pollock.stockfishproxy.dto.response.EngineAnalysisResponseDTO;
 import com.pollock.stockfishproxy.redis.RedisPublisher;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,6 +24,10 @@ public class StockfishEngine {
     @Getter
     private long enginePid;
 
+    @Getter
+    @Setter
+    private volatile boolean interrupted = false;
+
     private final String stockfishPath;
     private final long TIMEOUT = 3000;
 
@@ -35,17 +39,16 @@ public class StockfishEngine {
 
             sendCommand("uci");
             if (!waitFor("uciok")) {
-                log.error("❌ Stockfish 응답 없음: 'uciok' 누락");
                 return false;
             }
 
             sendCommand("isready");
             if (!waitFor("readyok")) {
-                log.error("❌ Stockfish 응답 없음: 'readyok' 누락");
                 return false;
             }
 
             enginePid = process.pid();
+
             log.info("✅ Stockfish 프로세스 시작 완료 (PID: {})", enginePid);
             return true;
         } catch (IOException e) {
@@ -63,8 +66,16 @@ public class StockfishEngine {
         }
     }
 
+    public void stop() {
+        log.info("PID {} stop 명령 수신", enginePid);
+        sendCommand("stop");
+
+        interrupted = true;
+    }
+
     public boolean waitFor(String keyword) {
         long startTime = System.currentTimeMillis();
+
         try {
             String line;
             while ((line = br.readLine()) != null) {
@@ -94,38 +105,31 @@ public class StockfishEngine {
         return true;
     }
 
-    public void publishEngineAnalysis(String channelKey, String fen, Integer multiPV, Long moveTime, RedisPublisher redisPublisher) {
-        sendCommand("setoption name MultiPV value  " + multiPV);
+    public void publishEngineAnalysis(String channelKey, String fen, Integer multipv, Long movetime, RedisPublisher redisPublisher) {
+        sendCommand("setoption name MultiPV value  " + multipv);
         sendCommand("position fen " + fen);
-        sendCommand("go movetime " + moveTime);
+        sendCommand("go movetime " + movetime);
 
         Integer score = null;
         Integer mate = null;
         Integer currentPv = null;
-        List<String> pvList = new ArrayList<>();
+        List<String> pvList = null;
 
         long start = System.currentTimeMillis();
+
         try {
             String line;
             while ((line = br.readLine()) != null) {
-                // 🔁 중단 요청 감지
-                if (Thread.currentThread().isInterrupted()) {
-                    log.warn("🛑 분석 중단 감지됨 → stop 명령 전송: channelKey={}", channelKey);
-                    sendCommand("stop");
-                    break;
-                }
-
                 if (line.startsWith("bestmove")) break;
 
                 // 🔁 퍼블리시
                 if (line.startsWith("info")) {
-                    log.info("📤 Redis Publish to '{}' → {}", channelKey, line);
 
                     if (line.contains("score mate")) {
-                        mate = extractMate(line);
+                        mate = extractMate(line, fen);
                         score = null;
                     } else if (line.contains("score cp")) {
-                        score = extractScore(line);
+                        score = extractScore(line, fen);
                         mate = null;
                     }
 
@@ -133,11 +137,16 @@ public class StockfishEngine {
                         currentPv = extractMultipv(line);
                     }
 
+                    if (currentPv == null) {
+                        continue;
+                    }
+
                     if (line.contains(" pv ")) {
-                        pvList = extractPV(line);
+                        pvList = extractPvList(line);
                     }
 
                     EngineAnalysisResponseDTO responseDTO = EngineAnalysisResponseDTO.builder()
+                            .enginePid(enginePid)
                             .score(score)
                             .mate(mate)
                             .currentPv(currentPv)
@@ -145,10 +154,15 @@ public class StockfishEngine {
                             .build();
 
                     redisPublisher.publish(channelKey, responseDTO);
+
+                    score = null;
+                    mate = null;
+                    currentPv = null;
+                    pvList = null;
                 }
 
                 // ⏰ 타임아웃
-                if (System.currentTimeMillis() - start > moveTime + TIMEOUT) {
+                if (System.currentTimeMillis() - start > movetime + TIMEOUT) {
                     log.warn("⏰ 분석 타임아웃: channelKey={}", channelKey);
                     break;
                 }
@@ -158,16 +172,16 @@ public class StockfishEngine {
         }
     }
 
-    private Integer extractScore(String line) {
+    private Integer extractScore(String line, String fen) {
         Pattern p = Pattern.compile("score cp (-?\\d+)");
         Matcher m = p.matcher(line);
-        return m.find() ? Integer.parseInt(m.group(1)) : null;
+        return m.find() ? (fenParser(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
     }
 
-    private Integer extractMate(String line) {
+    private Integer extractMate(String line, String fen) {
         Pattern p = Pattern.compile("score mate (-?\\d+)");
         Matcher m = p.matcher(line);
-        return m.find() ? Integer.parseInt(m.group(1)) : null;
+        return m.find() ? (fenParser(fen).equals("w") ? Integer.parseInt(m.group(1)) : -Integer.parseInt(m.group(1))) : null;
     }
 
     private Integer extractMultipv(String line) {
@@ -176,10 +190,14 @@ public class StockfishEngine {
         return m.find() ? Integer.parseInt(m.group(1)) : null;
     }
 
-    private List<String> extractPV(String line) {
+    private List<String> extractPvList(String line) {
         int index = line.indexOf(" pv ");
         if (index == -1) return List.of();
         String[] tokens = line.substring(index + 4).split(" ");
         return Arrays.asList(tokens);
+    }
+
+    private String fenParser(String fen) {
+        return fen.trim().split(" ")[1];
     }
 }
