@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "games")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GameEntity {
@@ -26,12 +27,12 @@ public class GameEntity {
     private GameResult result;
 
     @ManyToOne
-    @JoinColumn(name = "black_user_id", nullable = false)
-    private UserEntity blackUser;
-
-    @ManyToOne
     @JoinColumn(name = "white_user_id", nullable = false)
     private UserEntity whiteUser;
+
+    @ManyToOne
+    @JoinColumn(name = "black_user_id", nullable = false)
+    private UserEntity blackUser;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -42,10 +43,10 @@ public class GameEntity {
     }
 
     @Builder
-    public GameEntity(Integer gameType, GameResult result, UserEntity blackUser, UserEntity whiteUser) {
+    public GameEntity(Integer gameType, GameResult result, UserEntity whiteUser, UserEntity blackUser) {
         this.gameType = gameType;
         this.result = result;
-        this.blackUser = blackUser;
         this.whiteUser = whiteUser;
+        this.blackUser = blackUser;
     }
 }
