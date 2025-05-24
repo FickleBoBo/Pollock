@@ -50,10 +50,10 @@ public class UserEntity {
         this.email = email;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
-        this.bulletElo = 400;
-        this.blitzElo = 400;
-        this.classicalElo = 400;
-        this.puzzleElo = 400;
+        this.bulletElo = 600;
+        this.blitzElo = 600;
+        this.classicalElo = 600;
+        this.puzzleElo = 600;
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
         this.grade = Grade.BASIC;
