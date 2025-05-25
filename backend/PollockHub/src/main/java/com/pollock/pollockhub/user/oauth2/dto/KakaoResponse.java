@@ -8,7 +8,6 @@ public class KakaoResponse implements OAuth2Response {
 
     private final Map<String, Object> attributes;
 
-    @SuppressWarnings("unchecked")
     public KakaoResponse(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
