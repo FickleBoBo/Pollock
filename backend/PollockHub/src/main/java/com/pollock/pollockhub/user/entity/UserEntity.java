@@ -6,9 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -16,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
+    private static final String BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final String DEFAULT_PROFILE_IMAGE_URL = "https://avatars.githubusercontent.com/u/95597182?v=4";
     private static final int DEFAULT_ELO = 600;
 
@@ -69,7 +70,7 @@ public class UserEntity {
     public UserEntity(String oauthId, String email, Integer birthyear, Gender gender) {
         this.oauthId = oauthId;
         this.email = email;
-        this.nickname = "pollock-" + UUID.randomUUID();
+        this.nickname = generateBase62Nickname();
         this.profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
         this.bulletElo = DEFAULT_ELO;
         this.blitzElo = DEFAULT_ELO;
@@ -87,5 +88,15 @@ public class UserEntity {
         if (birthyear != null) this.birthyear = birthyear;
         if (gender != null) this.gender = gender;
         if (grade != null) this.grade = grade;
+    }
+
+    private static String generateBase62Nickname() {
+        StringBuilder sb = new StringBuilder();
+        SecureRandom random = new SecureRandom();
+        for (int i = 0; i < 12; i++) {
+            int index = random.nextInt(BASE62.length());
+            sb.append(BASE62.charAt(index));
+        }
+        return sb.toString();
     }
 }
