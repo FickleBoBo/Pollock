@@ -16,7 +16,7 @@ public class StockfishController {
 
     private final StockfishService stockfishService;
 
-    @PostMapping
+    @PostMapping("/publish")
     public ResponseEntity<Void> publishEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
         stockfishService.publishEngineAnalysis(requestDTO);
         return ResponseEntity.accepted().build();
