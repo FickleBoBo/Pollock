@@ -39,44 +39,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             UserEntity userEntity = UserEntity.builder()
                     .oauthId(oAuth2Response.getOauthId())
                     .email(oAuth2Response.getEmail())
-                    .nickname(oAuth2Response.getNickname())
-                    .profileImageUrl(oAuth2Response.getProfileImageUrl())
                     .birthyear(oAuth2Response.getBirthyear())
                     .gender(oAuth2Response.getGender())
                     .build();
             UserEntity savedUser = userRepository.save(userEntity);
 
-            return CustomOAuth2User.builder()
-                    .id(savedUser.getId())
-                    .oauthId(savedUser.getOauthId())
-                    .email(savedUser.getEmail())
-                    .nickname(savedUser.getNickname())
-                    .profileImageUrl(savedUser.getProfileImageUrl())
-                    .bulletElo(savedUser.getBulletElo())
-                    .blitzElo(savedUser.getBlitzElo())
-                    .classicalElo(savedUser.getClassicalElo())
-                    .puzzleElo(savedUser.getPuzzleElo())
-                    .birthyear(savedUser.getBirthyear())
-                    .gender(savedUser.getGender())
-                    .grade(savedUser.getGrade())
-                    .createdAt(savedUser.getCreatedAt())
-                    .build();
+            return CustomOAuth2User.from(savedUser);
         } else {
-            return CustomOAuth2User.builder()
-                    .id(existUser.get().getId())
-                    .oauthId(existUser.get().getOauthId())
-                    .email(existUser.get().getEmail())
-                    .nickname(existUser.get().getNickname())
-                    .profileImageUrl(existUser.get().getProfileImageUrl())
-                    .bulletElo(existUser.get().getBulletElo())
-                    .blitzElo(existUser.get().getBlitzElo())
-                    .classicalElo(existUser.get().getClassicalElo())
-                    .puzzleElo(existUser.get().getPuzzleElo())
-                    .birthyear(existUser.get().getBirthyear())
-                    .gender(existUser.get().getGender())
-                    .grade(existUser.get().getGrade())
-                    .createdAt(existUser.get().getCreatedAt())
-                    .build();
+            return CustomOAuth2User.from(existUser.get());
         }
     }
 }
