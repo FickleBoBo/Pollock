@@ -1,8 +1,6 @@
 package com.pollock.pollockhub.user.service;
 
 import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
-import com.pollock.pollockhub.user.entity.UserEntity;
-import com.pollock.pollockhub.user.exception.UserNotFoundException;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,19 +13,18 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserInfoResponseDTO getUserInfo(CustomOAuth2User user) {
-        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::getInstance);
-
         return UserInfoResponseDTO.builder()
-                .email(userEntity.getEmail())
-                .nickname(userEntity.getNickname())
-                .profileImageUrl(userEntity.getProfileImageUrl())
-                .bulletElo(userEntity.getBulletElo())
-                .blitzElo(userEntity.getBlitzElo())
-                .classicalElo(userEntity.getClassicalElo())
-                .puzzleElo(userEntity.getPuzzleElo())
-                .birthyear(userEntity.getBirthyear())
-                .gender(userEntity.getGender())
-                .grade(userEntity.getGrade())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .profileImageUrl(user.getProfileImageUrl())
+                .bulletElo(user.getBulletElo())
+                .blitzElo(user.getBlitzElo())
+                .classicalElo(user.getClassicalElo())
+                .puzzleElo(user.getPuzzleElo())
+                .birthyear(user.getBirthyear())
+                .gender(user.getGender())
+                .grade(user.getGrade())
+                .createdAt(user.getCreatedAt())
                 .build();
     }
 }
