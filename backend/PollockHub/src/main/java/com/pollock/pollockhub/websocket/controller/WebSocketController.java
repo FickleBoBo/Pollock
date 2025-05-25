@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.websocket;
+package com.pollock.pollockhub.websocket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
