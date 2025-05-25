@@ -2,6 +2,7 @@ package com.pollock.pollockhub.user.oauth2.dto;
 
 import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.Grade;
+import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,23 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
     @Override
     public String getName() {
         return id.toString();
+    }
+
+    public static CustomOAuth2User from(UserEntity userEntity) {
+        return CustomOAuth2User.builder()
+                .id(userEntity.getId())
+                .oauthId(userEntity.getOauthId())
+                .email(userEntity.getEmail())
+                .nickname(userEntity.getNickname())
+                .profileImageUrl(userEntity.getProfileImageUrl())
+                .bulletElo(userEntity.getBulletElo())
+                .blitzElo(userEntity.getBlitzElo())
+                .classicalElo(userEntity.getClassicalElo())
+                .puzzleElo(userEntity.getPuzzleElo())
+                .birthyear(userEntity.getBirthyear())
+                .gender(userEntity.getGender())
+                .grade(userEntity.getGrade())
+                .createdAt(userEntity.getCreatedAt())
+                .build();
     }
 }
