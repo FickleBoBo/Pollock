@@ -2,6 +2,7 @@ package com.pollock.pollockhub.user.oauth2.service;
 
 import com.pollock.pollockhub.user.entity.UserEntity;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
+import com.pollock.pollockhub.user.oauth2.dto.KakaoResponse;
 import com.pollock.pollockhub.user.oauth2.dto.NaverResponse;
 import com.pollock.pollockhub.user.oauth2.dto.OAuth2Response;
 import com.pollock.pollockhub.user.repository.UserRepository;
@@ -24,12 +25,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        OAuth2Response oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        Optional<UserEntity> existUser = userRepository.findByEmail(oAuth2Response.getEmail());
+        OAuth2Response oAuth2Response = switch (registrationId) {
+            case "naver" -> new NaverResponse(oAuth2User.getAttributes());
+            case "kakao" -> new KakaoResponse(oAuth2User.getAttributes());
+            default -> throw new OAuth2AuthenticationException("Unsupported provider: " + registrationId);
+        };
+
+        Optional<UserEntity> existUser = userRepository.findByOauthId(oAuth2Response.getOauthId());
 
         if (existUser.isEmpty()) {
             UserEntity userEntity = UserEntity.builder()
+                    .oauthId(oAuth2Response.getOauthId())
                     .email(oAuth2Response.getEmail())
                     .nickname(oAuth2Response.getNickname())
                     .profileImageUrl(oAuth2Response.getProfileImageUrl())
@@ -40,6 +48,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
             return CustomOAuth2User.builder()
                     .id(savedUser.getId())
+                    .oauthId(savedUser.getOauthId())
                     .email(savedUser.getEmail())
                     .nickname(savedUser.getNickname())
                     .profileImageUrl(savedUser.getProfileImageUrl())
@@ -50,10 +59,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .birthyear(savedUser.getBirthyear())
                     .gender(savedUser.getGender())
                     .grade(savedUser.getGrade())
+                    .createdAt(savedUser.getCreatedAt())
                     .build();
         } else {
             return CustomOAuth2User.builder()
                     .id(existUser.get().getId())
+                    .oauthId(existUser.get().getOauthId())
                     .email(existUser.get().getEmail())
                     .nickname(existUser.get().getNickname())
                     .profileImageUrl(existUser.get().getProfileImageUrl())
@@ -64,6 +75,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .birthyear(existUser.get().getBirthyear())
                     .gender(existUser.get().getGender())
                     .grade(existUser.get().getGrade())
+                    .createdAt(existUser.get().getCreatedAt())
                     .build();
         }
     }
