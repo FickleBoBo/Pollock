@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.subscriber.dto.response;
+package com.pollock.pollockhub.websocket.subscriber.engine_analysis.dto.response;
 
 import lombok.Getter;
 
