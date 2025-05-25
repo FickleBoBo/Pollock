@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_ENGINE_ANALYSIS;
+
 @Component
 @RequiredArgsConstructor
 public class EngineAnalysisRedisSubscriber implements MessageListener {
@@ -24,7 +26,7 @@ public class EngineAnalysisRedisSubscriber implements MessageListener {
 
         try {
             EngineAnalysisResponseDTO responseDTO = objectMapper.readValue(message.getBody(), EngineAnalysisResponseDTO.class);
-            messagingTemplate.convertAndSend("/topic/analysis/" + channelKey, responseDTO);
+            messagingTemplate.convertAndSend(String.format(TOPIC_ENGINE_ANALYSIS, channelKey), responseDTO);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

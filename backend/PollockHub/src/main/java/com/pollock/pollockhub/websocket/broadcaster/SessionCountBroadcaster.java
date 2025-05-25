@@ -9,6 +9,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_SESSION_COUNT;
+
 @Component
 @RequiredArgsConstructor
 public class SessionCountBroadcaster {
@@ -19,7 +21,7 @@ public class SessionCountBroadcaster {
     @Scheduled(fixedRate = 1000)
     public void broadcastSessionCount() {
         long count = countSessionKeys();
-        messagingTemplate.convertAndSend("/topic/sessions", count);
+        messagingTemplate.convertAndSend(TOPIC_SESSION_COUNT, count);
     }
 
     private long countSessionKeys() {

@@ -9,6 +9,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
+import static com.pollock.pollockhub.websocket.constant.WebSocketPath.SUBSCRIBE_ENGINE_ANALYSIS_PATTERN;
+
 @Configuration
 @RequiredArgsConstructor
 public class EngineAnalysisRedisSubscriberConfig {
@@ -21,7 +23,7 @@ public class EngineAnalysisRedisSubscriberConfig {
 
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(subscriber, new PatternTopic("engine:*"));
+        container.addMessageListener(subscriber, new PatternTopic(SUBSCRIBE_ENGINE_ANALYSIS_PATTERN));
         return container;
     }
 }

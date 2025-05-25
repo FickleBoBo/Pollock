@@ -6,6 +6,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_PING;
+
 @Controller
 @RequiredArgsConstructor
 public class WebSocketController {
@@ -14,6 +16,6 @@ public class WebSocketController {
 
     @MessageMapping("/heartbeat/{channelKey}")
     public void heartbeat(@DestinationVariable String channelKey) {
-        messagingTemplate.convertAndSend("/topic/ping/" + channelKey, "pong");
+        messagingTemplate.convertAndSend(String.format(TOPIC_PING, channelKey), "pong");
     }
 }
