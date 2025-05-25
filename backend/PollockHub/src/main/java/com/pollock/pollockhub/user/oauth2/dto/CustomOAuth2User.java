@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
     private final Long id;
+    private final String oauthId;
     private final String email;
     private final String nickname;
     private final String profileImageUrl;
@@ -30,6 +32,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
     private final Integer birthyear;
     private final Gender gender;
     private final Grade grade;
+    private final LocalDateTime createdAt;
 
     @Override
     public Map<String, Object> getAttributes() {
