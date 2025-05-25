@@ -4,6 +4,8 @@ import com.pollock.pollockhub.user.entity.Gender;
 
 public interface OAuth2Response {
 
+    String getOauthId();
+
     String getEmail();
 
     String getNickname();
