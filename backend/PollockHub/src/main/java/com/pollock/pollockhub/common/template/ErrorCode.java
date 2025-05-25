@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.common.exception;
+package com.pollock.pollockhub.common.template;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,8 +1,8 @@
 package com.pollock.pollockhub.common.handler;
 
-import com.pollock.pollockhub.common.exception.ErrorCode;
-import com.pollock.pollockhub.common.exception.ErrorResponseDTO;
-import com.pollock.pollockhub.common.exception.ServiceException;
+import com.pollock.pollockhub.common.template.ErrorCode;
+import com.pollock.pollockhub.common.template.ErrorResponseDTO;
+import com.pollock.pollockhub.common.template.ServiceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

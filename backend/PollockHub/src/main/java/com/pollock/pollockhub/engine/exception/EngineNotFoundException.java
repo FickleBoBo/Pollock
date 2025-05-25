@@ -1,7 +1,7 @@
 package com.pollock.pollockhub.engine.exception;
 
-import com.pollock.pollockhub.common.exception.ErrorCode;
-import com.pollock.pollockhub.common.exception.ServiceException;
+import com.pollock.pollockhub.common.template.ErrorCode;
+import com.pollock.pollockhub.common.template.ServiceException;
 
 public class EngineNotFoundException extends ServiceException {
 
