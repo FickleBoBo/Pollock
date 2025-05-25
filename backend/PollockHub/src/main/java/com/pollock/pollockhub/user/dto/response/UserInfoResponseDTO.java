@@ -5,6 +5,8 @@ import com.pollock.pollockhub.user.entity.Grade;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 public class UserInfoResponseDTO {
@@ -19,4 +21,5 @@ public class UserInfoResponseDTO {
     private Integer birthyear;
     private Gender gender;
     private Grade grade;
+    private LocalDateTime createdAt;
 }
