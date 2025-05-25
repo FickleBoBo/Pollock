@@ -2,6 +2,7 @@ package com.pollock.pollockhub.user.oauth2.dto;
 
 import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.Grade;
+import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
-    private final Long Id;
+    private final Long id;
+    private final String oauthId;
     private final String email;
     private final String nickname;
     private final String profileImageUrl;
@@ -30,6 +33,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
     private final Integer birthyear;
     private final Gender gender;
     private final Grade grade;
+    private final LocalDateTime createdAt;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -43,6 +47,24 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public String getName() {
-        return Id.toString();
+        return id.toString();
+    }
+
+    public static CustomOAuth2User from(UserEntity userEntity) {
+        return CustomOAuth2User.builder()
+                .id(userEntity.getId())
+                .oauthId(userEntity.getOauthId())
+                .email(userEntity.getEmail())
+                .nickname(userEntity.getNickname())
+                .profileImageUrl(userEntity.getProfileImageUrl())
+                .bulletElo(userEntity.getBulletElo())
+                .blitzElo(userEntity.getBlitzElo())
+                .classicalElo(userEntity.getClassicalElo())
+                .puzzleElo(userEntity.getPuzzleElo())
+                .birthyear(userEntity.getBirthyear())
+                .gender(userEntity.getGender())
+                .grade(userEntity.getGrade())
+                .createdAt(userEntity.getCreatedAt())
+                .build();
     }
 }

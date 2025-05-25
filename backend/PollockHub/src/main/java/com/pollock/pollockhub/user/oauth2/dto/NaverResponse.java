@@ -14,35 +14,29 @@ public class NaverResponse implements OAuth2Response {
     }
 
     @Override
+    public String getOauthId() {
+        return "naver-" + attributes.get("id").toString();
+    }
+
+    @Override
     public String getEmail() {
-        return attributes.get("email").toString();
-    }
-
-    @Override
-    public String getNickname() {
-        return attributes.get("nickname").toString();
-    }
-
-    @Override
-    public String getProfileImageUrl() {
-        return attributes.get("profile_image").toString();
+        Object email = attributes.get("email");
+        return email != null ? email.toString() : null;
     }
 
     @Override
     public Integer getBirthyear() {
-        return Integer.parseInt(attributes.get("birthyear").toString());
+        Object birthyear = attributes.get("birthyear");
+        return birthyear != null ? Integer.parseInt(birthyear.toString()) : null;
     }
 
     @Override
     public Gender getGender() {
-        String gender = attributes.get("gender").toString();
-
-        if (gender.equals("M")) {
-            return Gender.MALE;
-        } else if (gender.equals("F")) {
-            return Gender.FEMALE;
-        } else {
-            return Gender.OTHER;
+        Object gender = attributes.get("gender");
+        if (gender instanceof String) {
+            if (gender.toString().equals("M")) return Gender.MALE;
+            if (gender.toString().equals("F")) return Gender.FEMALE;
         }
+        return Gender.OTHER;
     }
 }

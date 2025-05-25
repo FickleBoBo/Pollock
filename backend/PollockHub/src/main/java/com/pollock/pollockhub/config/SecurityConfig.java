@@ -73,9 +73,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/api/pollock/user/**").authenticated()
-                .requestMatchers("/api/pollock/**").permitAll()
-                .anyRequest()
-                .authenticated());
+                .anyRequest().permitAll());
 
         return http.build();
     }

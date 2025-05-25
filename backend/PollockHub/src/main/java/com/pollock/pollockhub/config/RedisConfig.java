@@ -14,12 +14,29 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-    @Bean
     @Primary
+    @Bean
     public RedisConnectionFactory userSessionRedisConnectionFactory(
             @Value("${spring.data.redis.host}") String host,
             @Value("${spring.data.redis.port}") int port) {
         return new LettuceConnectionFactory(host, port);
+    }
+
+    @Bean(name = "gameEventRedisConnectionFactory")
+    public RedisConnectionFactory gameEventRedisConnectionFactory(
+            @Value("${custom.game-event.redis.host}") String host,
+            @Value("${custom.game-event.redis.port}") int port) {
+        return new LettuceConnectionFactory(host, port);
+    }
+
+    @Bean(name = "gameEventRedisTemplate")
+    public RedisTemplate<String, Object> gameEventRedisTemplate(
+            @Qualifier("gameEventRedisConnectionFactory") RedisConnectionFactory factory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(factory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return redisTemplate;
     }
 
     @Bean(name = "engineAnalysisRedisConnectionFactory")
