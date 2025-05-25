@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +16,7 @@ import java.time.ZoneId;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
+    private static final String DEFAULT_PROFILE_IMAGE_URL = "https://avatars.githubusercontent.com/u/95597182?v=4";
     private static final int DEFAULT_ELO = 600;
 
     @Id
@@ -27,7 +29,7 @@ public class UserEntity {
     @Column
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nickname;
 
     @Column(nullable = false)
@@ -64,11 +66,11 @@ public class UserEntity {
     }
 
     @Builder
-    public UserEntity(String oauthId, String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
+    public UserEntity(String oauthId, String email, Integer birthyear, Gender gender) {
         this.oauthId = oauthId;
         this.email = email;
-        this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
+        this.nickname = "pollock-" + UUID.randomUUID();
+        this.profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
         this.bulletElo = DEFAULT_ELO;
         this.blitzElo = DEFAULT_ELO;
         this.classicalElo = DEFAULT_ELO;
@@ -76,5 +78,14 @@ public class UserEntity {
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
         this.grade = Grade.BASIC;
+    }
+
+    public void update(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender, Grade grade) {
+        if (email != null) this.email = email;
+        if (nickname != null) this.nickname = nickname;
+        if (profileImageUrl != null) this.profileImageUrl = profileImageUrl;
+        if (birthyear != null) this.birthyear = birthyear;
+        if (gender != null) this.gender = gender;
+        if (grade != null) this.grade = grade;
     }
 }
