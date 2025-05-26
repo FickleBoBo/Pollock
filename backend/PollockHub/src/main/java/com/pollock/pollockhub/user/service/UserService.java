@@ -60,4 +60,8 @@ public class UserService {
 
         return getUserInfo(updatedUser);
     }
+
+    public Boolean checkNicknameDuplicate(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
 }
