@@ -91,13 +91,47 @@ public class UserEntity {
         this.gender = gender == null ? Gender.OTHER : gender;
     }
 
-    public void update(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender, Role role, Title title) {
-        if (email != null) this.email = email;
-        if (nickname != null) this.nickname = nickname;
-        if (profileImageUrl != null) this.profileImageUrl = profileImageUrl;
-        if (birthyear != null) this.birthyear = birthyear;
-        if (gender != null) this.gender = gender;
-        if (role != null) this.role = role;
-        if (title != null) this.title = title;
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public void updateBulletElo(Integer bulletElo) {
+        this.bulletElo = bulletElo;
+    }
+
+    public void updateBlitzElo(Integer blitzElo) {
+        this.blitzElo = blitzElo;
+    }
+
+    public void updateClassicalElo(Integer classicalElo) {
+        this.classicalElo = classicalElo;
+    }
+
+    public void updatePuzzleElo(Integer puzzleElo) {
+        this.puzzleElo = puzzleElo;
+    }
+
+    public void updateBirthyear(Integer birthyear) {
+        this.birthyear = birthyear;
+    }
+
+    public void changeGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void changeRole(Role role) {
+        this.role = role;
+    }
+
+    public void changeTitle(Title title) {
+        this.title = title;
     }
 }
