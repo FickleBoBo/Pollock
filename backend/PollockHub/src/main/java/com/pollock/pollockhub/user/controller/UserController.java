@@ -28,4 +28,9 @@ public class UserController {
                                                                  HttpSession session) {
         return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO, session));
     }
+
+    @GetMapping("/nickname/check")
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@RequestParam String nickname) {
+        return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
+    }
 }
