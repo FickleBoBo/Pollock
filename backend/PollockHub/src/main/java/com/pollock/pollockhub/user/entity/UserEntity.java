@@ -13,7 +13,7 @@ import java.util.List;
 
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
 import static com.pollock.pollockhub.user.entity.Title.NONE;
-import static com.pollock.pollockhub.user.util.NicknameGenerator.randomNicknameGenerator;
+import static com.pollock.pollockhub.user.util.NicknameGenerator.generateRandomNickname;
 
 @Entity
 @Table(name = "user")
@@ -35,7 +35,7 @@ public class UserEntity {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String nickname = randomNicknameGenerator();
+    private String nickname = generateRandomNickname();
 
     @Column(nullable = false)
     private String profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
@@ -76,11 +76,9 @@ public class UserEntity {
     }
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column
     private List<FollowEntity> following = new ArrayList<>();
 
     @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column
     private List<FollowEntity> followers = new ArrayList<>();
 
     @Builder
