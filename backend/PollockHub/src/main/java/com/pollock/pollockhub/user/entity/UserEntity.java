@@ -91,16 +91,12 @@ public class UserEntity {
         this.gender = gender == null ? Gender.OTHER : gender;
     }
 
-    public void updateEmail(String email) {
+    public void updateProfile(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
         this.email = email;
-    }
-
-    public void updateNickname(String nickname) {
         this.nickname = nickname;
-    }
-
-    public void updateProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
+        this.profileImageUrl = profileImageUrl == null ? DEFAULT_PROFILE_IMAGE_URL : profileImageUrl;
+        this.birthyear = birthyear;
+        this.gender = gender;
     }
 
     public void updateBulletElo(Integer bulletElo) {
@@ -117,14 +113,6 @@ public class UserEntity {
 
     public void updatePuzzleElo(Integer puzzleElo) {
         this.puzzleElo = puzzleElo;
-    }
-
-    public void updateBirthyear(Integer birthyear) {
-        this.birthyear = birthyear;
-    }
-
-    public void changeGender(Gender gender) {
-        this.gender = gender;
     }
 
     public void changeRole(Role role) {
