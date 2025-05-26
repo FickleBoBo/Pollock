@@ -82,6 +82,12 @@ public class UserService {
         return userRepository.existsByNickname(nickname);
     }
 
+    public List<UserSimpleInfoResponseDTO> searchUsers(String keyword) {
+        return userRepository.findByNicknameContainingOrderByNicknameAsc(keyword).stream()
+                .map(UserSimpleInfoResponseDTO::from)
+                .toList();
+    }
+
     public void follow(CustomOAuth2User user, String followeeNickname) {
         UserEntity follower = getUserEntity(user.getId());
         UserEntity followee = getUserEntity(followeeNickname);
