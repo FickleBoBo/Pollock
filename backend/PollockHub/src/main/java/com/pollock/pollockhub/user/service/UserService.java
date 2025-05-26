@@ -3,6 +3,8 @@ package com.pollock.pollockhub.user.service;
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
 import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
 import com.pollock.pollockhub.user.entity.UserEntity;
+import com.pollock.pollockhub.user.exception.DuplicateNicknameException;
+import com.pollock.pollockhub.user.exception.InvalidNicknameException;
 import com.pollock.pollockhub.user.exception.UserNotFoundException;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.repository.UserRepository;
@@ -42,6 +44,14 @@ public class UserService {
     public UserInfoResponseDTO updateUserProfile(CustomOAuth2User user,
                                                  UpdateUserProfileRequestDTO requestDTO,
                                                  HttpSession session) {
+        String newNickname = requestDTO.getNickname();
+        if (newNickname.isBlank()) {
+            throw InvalidNicknameException.getInstance();
+        }
+        if (!newNickname.equals(user.getNickname()) && checkNicknameDuplicate(newNickname)) {
+            throw DuplicateNicknameException.getInstance();
+        }
+
         UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::getInstance);
 
         userEntity.updateProfile(
