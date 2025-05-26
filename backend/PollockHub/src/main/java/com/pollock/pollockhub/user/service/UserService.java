@@ -4,6 +4,7 @@ import com.pollock.pollockhub.user.dto.request.UpdateUserInfoRequestDTO;
 import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import com.pollock.pollockhub.user.exception.DuplicateNicknameException;
+import com.pollock.pollockhub.user.exception.InvalidNicknameException;
 import com.pollock.pollockhub.user.exception.UserNotFoundException;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.repository.UserRepository;
@@ -31,7 +32,7 @@ public class UserService {
                 .puzzleElo(user.getPuzzleElo())
                 .birthyear(user.getBirthyear())
                 .gender(user.getGender())
-                .grade(user.getGrade())
+                .role(user.getRole())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
@@ -40,7 +41,12 @@ public class UserService {
     public UserInfoResponseDTO updateUserInfo(CustomOAuth2User user,
                                               UpdateUserInfoRequestDTO requestDTO,
                                               HttpSession session) {
-        if (userRepository.existsByNickname(requestDTO.getNickname())) {
+        String newNickname = requestDTO.getNickname();
+        if (newNickname.isBlank()) {
+            throw InvalidNicknameException.getInstance();
+        }
+
+        if (!newNickname.equals(user.getNickname()) && userRepository.existsByNickname(newNickname)) {
             throw DuplicateNicknameException.getInstance();
         }
 
@@ -52,7 +58,8 @@ public class UserService {
                 requestDTO.getProfileImageUrl(),
                 requestDTO.getBirthyear(),
                 requestDTO.getGender(),
-                requestDTO.getGrade()
+                requestDTO.getRole(),
+                requestDTO.getTitle()
         );
 
         CustomOAuth2User updatedUser = CustomOAuth2User.from(userEntity);
