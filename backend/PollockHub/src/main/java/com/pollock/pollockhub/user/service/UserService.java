@@ -113,29 +113,24 @@ public class UserService {
 
         if (followRepository.existsByFollowerAndFollowee(follower, followee)) return;
 
-        FollowEntity followEntity = FollowEntity.builder()
+        followRepository.save(FollowEntity.builder()
                 .follower(follower)
                 .followee(followee)
-                .build();
-        followRepository.save(followEntity);
+                .build());
     }
 
     /**
      * 팔로이에 대한 언팔로우
      */
     public void unfollow(CustomOAuth2User user, String followeeNickname) {
-        UserEntity follower = getUserEntity(user.getId());
-        UserEntity followee = getUserEntity(followeeNickname);
-
-        followRepository.deleteByFollowerAndFollowee(follower, followee);
+        followRepository.deleteByFollowerAndFollowee(getUserEntity(user.getId()), getUserEntity(followeeNickname));
     }
 
     /**
      * 팔로잉한 유저들 반환
      */
     public List<UserSimpleInfoResponseDTO> getFollowing(CustomOAuth2User user) {
-        UserEntity userEntity = getUserEntity(user.getId());
-        return followRepository.findAllByFollower(userEntity).stream()
+        return followRepository.findAllByFollower(getUserEntity(user.getId())).stream()
                 .map(FollowEntity::getFollowee)
                 .map(UserSimpleInfoResponseDTO::from)
                 .toList();
@@ -145,8 +140,7 @@ public class UserService {
      * 나를 팔로우한 유저들 반환
      */
     public List<UserSimpleInfoResponseDTO> getFollowers(CustomOAuth2User user) {
-        UserEntity userEntity = getUserEntity(user.getId());
-        return followRepository.findAllByFollowee(userEntity).stream()
+        return followRepository.findAllByFollowee(getUserEntity(user.getId())).stream()
                 .map(FollowEntity::getFollower)
                 .map(UserSimpleInfoResponseDTO::from)
                 .toList();
