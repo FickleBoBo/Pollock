@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/userStore";
+
+import { v4 as uuidv4 } from "uuid";
 
 import { FaClock, FaRobot, FaUserFriends } from "react-icons/fa";
 
@@ -19,6 +21,8 @@ import MatchHistory from "../../components/home/MatchHistory";
 import NewsCarousel from "../../components/home/NewsCarousel";
 
 const HomePage = () => {
+  const channelKeyRef = useRef(uuidv4());
+
   const userInfo = useUserStore((state) => state.userInfo);
   const setUserInfo = useUserStore((state) => state.setUserInfo);
 
@@ -93,7 +97,7 @@ const HomePage = () => {
 
               {/* 현재 트래픽 정보 */}
               <div className="bg-pollock750">
-                <TrafficInfo />
+                <TrafficInfo channelKey={channelKeyRef.current} />
               </div>
             </div>
 
