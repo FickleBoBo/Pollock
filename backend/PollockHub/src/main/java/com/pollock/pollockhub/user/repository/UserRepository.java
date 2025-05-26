@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByNickname(String nickname);
 
-    List<UserEntity> findByNicknameContainingOrderByNicknameAsc(String keyword);
-
     boolean existsByNickname(String nickname);
+
+    List<UserEntity> findByNicknameContainingOrderByNicknameAsc(String keyword);
 }
