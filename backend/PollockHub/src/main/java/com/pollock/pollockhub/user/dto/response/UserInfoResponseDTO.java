@@ -24,4 +24,6 @@ public class UserInfoResponseDTO {
     private Role role;
     private Title title;
     private LocalDateTime createdAt;
+    private Integer followingCount;
+    private Integer followersCount;
 }
