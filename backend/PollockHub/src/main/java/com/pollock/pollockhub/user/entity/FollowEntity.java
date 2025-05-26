@@ -2,6 +2,7 @@ package com.pollock.pollockhub.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,5 +32,11 @@ public class FollowEntity {
     @PrePersist
     protected void onCreate() {
         this.followedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+    }
+
+    @Builder
+    public FollowEntity(UserEntity follower, UserEntity followee) {
+        this.follower = follower;
+        this.followee = followee;
     }
 }
