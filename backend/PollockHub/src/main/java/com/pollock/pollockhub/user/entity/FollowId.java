@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * 팔로우 테이블 복합키
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
