@@ -1,7 +1,7 @@
 package com.pollock.pollockhub.user.oauth2.dto;
 
 import com.pollock.pollockhub.user.entity.Gender;
-import com.pollock.pollockhub.user.entity.Grade;
+import com.pollock.pollockhub.user.entity.Role;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
     private final Integer puzzleElo;
     private final Integer birthyear;
     private final Gender gender;
-    private final Grade grade;
+    private final Role role;
     private final LocalDateTime createdAt;
 
     @Override
@@ -42,7 +42,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(grade.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
                 .puzzleElo(userEntity.getPuzzleElo())
                 .birthyear(userEntity.getBirthyear())
                 .gender(userEntity.getGender())
-                .grade(userEntity.getGrade())
+                .role(userEntity.getRole())
                 .createdAt(userEntity.getCreatedAt())
                 .build();
     }

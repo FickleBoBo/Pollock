@@ -56,7 +56,7 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Grade grade;
+    private Role role;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -78,16 +78,16 @@ public class UserEntity {
         this.puzzleElo = DEFAULT_ELO;
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
-        this.grade = Grade.BASIC;
+        this.role = Role.BASIC;
     }
 
-    public void update(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender, Grade grade) {
+    public void update(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender, Role role) {
         if (email != null) this.email = email;
         if (nickname != null) this.nickname = nickname;
         if (profileImageUrl != null) this.profileImageUrl = profileImageUrl;
         if (birthyear != null) this.birthyear = birthyear;
         if (gender != null) this.gender = gender;
-        if (grade != null) this.grade = grade;
+        if (role != null) this.role = role;
     }
 
     private static String generateBase62Nickname() {

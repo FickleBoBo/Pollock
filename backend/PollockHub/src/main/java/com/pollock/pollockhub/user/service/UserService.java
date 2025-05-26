@@ -31,7 +31,7 @@ public class UserService {
                 .puzzleElo(user.getPuzzleElo())
                 .birthyear(user.getBirthyear())
                 .gender(user.getGender())
-                .grade(user.getGrade())
+                .role(user.getRole())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
@@ -52,7 +52,7 @@ public class UserService {
                 requestDTO.getProfileImageUrl(),
                 requestDTO.getBirthyear(),
                 requestDTO.getGender(),
-                requestDTO.getGrade()
+                requestDTO.getRole()
         );
 
         CustomOAuth2User updatedUser = CustomOAuth2User.from(userEntity);
