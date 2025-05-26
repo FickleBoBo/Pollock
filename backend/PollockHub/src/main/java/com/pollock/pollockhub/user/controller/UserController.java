@@ -37,6 +37,11 @@ public class UserController {
         return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<UserSimpleInfoResponseDTO>> searchUsers(@RequestParam String keyword) {
+        return ResponseEntity.ok(userService.searchUsers(keyword));
+    }
+
     @PostMapping("/follow/{followeeNickname}")
     public ResponseEntity<Void> follow(@Auth CustomOAuth2User user,
                                        @PathVariable String followeeNickname) {
