@@ -1,6 +1,6 @@
 package com.pollock.pollockhub.user.controller;
 
-import com.pollock.pollockhub.user.dto.request.UpdateUserInfoRequestDTO;
+import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
 import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
 import com.pollock.pollockhub.user.oauth2.annotation.Auth;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
@@ -22,10 +22,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfo(user));
     }
 
-    @PatchMapping("/me")
-    public ResponseEntity<UserInfoResponseDTO> updateUserInfo(@Auth CustomOAuth2User user,
-                                                              @RequestBody UpdateUserInfoRequestDTO requestDTO,
-                                                              HttpSession session) {
-        return ResponseEntity.ok(userService.updateUserInfo(user, requestDTO, session));
+    @PutMapping("/profile")
+    public ResponseEntity<UserInfoResponseDTO> updateUserProfile(@Auth CustomOAuth2User user,
+                                                                 @RequestBody UpdateUserProfileRequestDTO requestDTO,
+                                                                 HttpSession session) {
+        return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO, session));
     }
 }
