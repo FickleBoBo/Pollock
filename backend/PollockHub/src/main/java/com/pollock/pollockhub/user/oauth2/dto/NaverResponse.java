@@ -33,7 +33,7 @@ public class NaverResponse implements OAuth2Response {
     @Override
     public Gender getGender() {
         Object gender = attributes.get("gender");
-        if (gender instanceof String) {
+        if (gender != null) {
             if (gender.toString().equals("M")) return Gender.MALE;
             if (gender.toString().equals("F")) return Gender.FEMALE;
         }
