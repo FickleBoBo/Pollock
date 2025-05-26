@@ -8,6 +8,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/**
+ * 개인정보를 포함한 유저 정보 DTO
+ */
 @Builder
 @Getter
 public class UserInfoResponseDTO {

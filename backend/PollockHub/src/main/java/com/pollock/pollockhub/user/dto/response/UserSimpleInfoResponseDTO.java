@@ -6,6 +6,9 @@ import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * 개인정보를 제외한 유저 정보 DTO
+ */
 @Builder
 @Getter
 public class UserSimpleInfoResponseDTO {
@@ -21,6 +24,9 @@ public class UserSimpleInfoResponseDTO {
     private Integer followingCount;
     private Integer followersCount;
 
+    /**
+     * UserEntity -> UserSimpleInfoResponseDTO 정적 팩터리 메서드
+     */
     public static UserSimpleInfoResponseDTO from(UserEntity userEntity) {
         return UserSimpleInfoResponseDTO.builder()
                 .nickname(userEntity.getNickname())
