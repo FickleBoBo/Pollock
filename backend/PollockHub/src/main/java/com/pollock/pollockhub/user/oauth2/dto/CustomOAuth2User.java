@@ -36,6 +36,8 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
     private final Role role;
     private final Title title;
     private final LocalDateTime createdAt;
+    private final Integer followingCount;
+    private final Integer followersCount;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -68,6 +70,8 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
                 .role(userEntity.getRole())
                 .title(userEntity.getTitle())
                 .createdAt(userEntity.getCreatedAt())
+                .followingCount(userEntity.getFollowing().size())
+                .followersCount(userEntity.getFollowers().size())
                 .build();
     }
 }

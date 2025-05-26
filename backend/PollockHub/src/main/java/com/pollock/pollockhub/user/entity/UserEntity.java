@@ -6,20 +6,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
 import static com.pollock.pollockhub.user.entity.Title.NONE;
+import static com.pollock.pollockhub.user.util.NicknameGenerator.randomNicknameGenerator;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
-    private static final String BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final String DEFAULT_PROFILE_IMAGE_URL = "https://avatars.githubusercontent.com/u/95597182?v=4";
     private static final int DEFAULT_ELO = 600;
 
@@ -34,23 +35,24 @@ public class UserEntity {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String nickname;
+    private String nickname = randomNicknameGenerator();
 
     @Column(nullable = false)
-    private String profileImageUrl;
+    private String profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
 
     @Column(nullable = false)
-    private Integer bulletElo;
+    private Integer bulletElo = DEFAULT_ELO;
 
     @Column(nullable = false)
-    private Integer blitzElo;
+    private Integer blitzElo = DEFAULT_ELO;
 
     @Column(nullable = false)
-    private Integer classicalElo;
+    private Integer classicalElo = DEFAULT_ELO;
 
     @Column(nullable = false)
-    private Integer puzzleElo;
+    private Integer puzzleElo = DEFAULT_ELO;
 
+    @Column
     private Integer birthyear;
 
     @Enumerated(EnumType.STRING)
@@ -59,11 +61,11 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private Role role = BASIC;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Title title;
+    private Title title = NONE;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -73,39 +75,51 @@ public class UserEntity {
         this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column
+    private List<FollowEntity> following = new ArrayList<>();
+
+    @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column
+    private List<FollowEntity> followers = new ArrayList<>();
+
     @Builder
     public UserEntity(String oauthId, String email, Integer birthyear, Gender gender) {
         this.oauthId = oauthId;
         this.email = email;
-        this.nickname = generateBase62Nickname();
-        this.profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
-        this.bulletElo = DEFAULT_ELO;
-        this.blitzElo = DEFAULT_ELO;
-        this.classicalElo = DEFAULT_ELO;
-        this.puzzleElo = DEFAULT_ELO;
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
-        this.role = BASIC;
-        this.title = NONE;
     }
 
-    public void update(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender, Role role, Title title) {
-        if (email != null) this.email = email;
-        if (nickname != null) this.nickname = nickname;
-        if (profileImageUrl != null) this.profileImageUrl = profileImageUrl;
-        if (birthyear != null) this.birthyear = birthyear;
-        if (gender != null) this.gender = gender;
-        if (role != null) this.role = role;
-        if (title != null) this.title = title;
+    public void updateProfile(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
+        this.email = email;
+        this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl == null ? DEFAULT_PROFILE_IMAGE_URL : profileImageUrl;
+        this.birthyear = birthyear;
+        this.gender = gender;
     }
 
-    private static String generateBase62Nickname() {
-        StringBuilder sb = new StringBuilder();
-        SecureRandom random = new SecureRandom();
-        for (int i = 0; i < 12; i++) {
-            int index = random.nextInt(BASE62.length());
-            sb.append(BASE62.charAt(index));
-        }
-        return sb.toString();
+    public void updateBulletElo(Integer bulletElo) {
+        this.bulletElo = bulletElo;
+    }
+
+    public void updateBlitzElo(Integer blitzElo) {
+        this.blitzElo = blitzElo;
+    }
+
+    public void updateClassicalElo(Integer classicalElo) {
+        this.classicalElo = classicalElo;
+    }
+
+    public void updatePuzzleElo(Integer puzzleElo) {
+        this.puzzleElo = puzzleElo;
+    }
+
+    public void changeRole(Role role) {
+        this.role = role;
+    }
+
+    public void changeTitle(Title title) {
+        this.title = title;
     }
 }
