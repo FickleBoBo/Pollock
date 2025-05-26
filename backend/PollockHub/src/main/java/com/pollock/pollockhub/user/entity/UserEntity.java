@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
 import static com.pollock.pollockhub.user.entity.Title.NONE;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
@@ -51,6 +53,7 @@ public class UserEntity {
     @Column(nullable = false)
     private Integer puzzleElo;
 
+    @Column
     private Integer birthyear;
 
     @Enumerated(EnumType.STRING)
@@ -73,6 +76,12 @@ public class UserEntity {
         this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FollowEntity> following;
+
+    @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FollowEntity> followers;
+
     @Builder
     public UserEntity(String oauthId, String email, Integer birthyear, Gender gender) {
         this.oauthId = oauthId;
@@ -87,6 +96,8 @@ public class UserEntity {
         this.gender = gender == null ? Gender.OTHER : gender;
         this.role = BASIC;
         this.title = NONE;
+        this.following = new ArrayList<>();
+        this.followers = new ArrayList<>();
     }
 
     public void update(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender, Role role, Title title) {
