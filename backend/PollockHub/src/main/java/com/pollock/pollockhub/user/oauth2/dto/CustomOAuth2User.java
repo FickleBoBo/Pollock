@@ -54,6 +54,9 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
         return id.toString();
     }
 
+    /**
+     * UserEntity -> CustomOAuth2User 정적 팩터리 메서드
+     */
     public static CustomOAuth2User from(UserEntity userEntity) {
         return CustomOAuth2User.builder()
                 .id(userEntity.getId())
