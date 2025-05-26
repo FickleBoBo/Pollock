@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/pollock/user")
+@RequestMapping("/api/pollock/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -25,16 +25,16 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserInfo(user));
     }
 
-    @PutMapping("/profile")
+    @PutMapping("/me")
     public ResponseEntity<UserInfoResponseDTO> updateUserProfile(@Auth CustomOAuth2User user,
                                                                  @RequestBody UpdateUserProfileRequestDTO requestDTO,
                                                                  HttpSession session) {
         return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO, session));
     }
 
-    @GetMapping("/nickname/check")
-    public ResponseEntity<Boolean> checkNicknameDuplicate(@RequestParam String nickname) {
-        return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> isNicknameExists(@RequestParam String nickname) {
+        return ResponseEntity.ok(userService.isNicknameExists(nickname));
     }
 
     @GetMapping("/search")
