@@ -2,6 +2,7 @@ package com.pollock.pollockhub.user.oauth2.dto;
 
 import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.Role;
+import com.pollock.pollockhub.user.entity.Title;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
     private final Integer birthyear;
     private final Gender gender;
     private final Role role;
+    private final Title title;
     private final LocalDateTime createdAt;
 
     @Override
@@ -64,6 +66,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
                 .birthyear(userEntity.getBirthyear())
                 .gender(userEntity.getGender())
                 .role(userEntity.getRole())
+                .title(userEntity.getTitle())
                 .createdAt(userEntity.getCreatedAt())
                 .build();
     }
