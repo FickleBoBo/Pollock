@@ -53,16 +53,16 @@ public class SecurityConfig {
         // OAuth2
         http.oauth2Login((oauth2) -> oauth2
                 .authorizationEndpoint(authorization -> authorization
-                        .baseUri("/api/pollock/user/oauth2/authorization"))
+                        .baseUri("/api/pollock/users/oauth2/authorization"))
                 .redirectionEndpoint(redirection -> redirection
-                        .baseUri("/api/pollock/user/login/oauth2/code/*"))
+                        .baseUri("/api/pollock/users/login/oauth2/code/*"))
                 .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService)))
                 .successHandler((request, response, authentication) -> response.sendRedirect(frontendUri)));
 
         // 로그아웃
         http.logout(logout -> logout
-                .logoutUrl("/api/pollock/user/logout")
+                .logoutUrl("/api/pollock/users/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("SESSION")
                 .logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK)));
@@ -72,7 +72,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED)));
 
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/api/pollock/user/**").authenticated()
+                .requestMatchers("/api/pollock/users/**").authenticated()
                 .anyRequest().permitAll());
 
         return http.build();
