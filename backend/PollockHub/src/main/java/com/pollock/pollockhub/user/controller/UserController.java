@@ -8,10 +8,11 @@ import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/pollock/users")
@@ -38,8 +39,9 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<UserSimpleInfoResponseDTO>> searchUsers(@RequestParam String keyword) {
-        return ResponseEntity.ok(userService.searchUsers(keyword));
+    public ResponseEntity<Page<UserSimpleInfoResponseDTO>> searchUsers(@RequestParam String keyword,
+                                                                       @PageableDefault(sort = "nickname") Pageable pageable) {
+        return ResponseEntity.ok(userService.searchUsers(keyword, pageable));
     }
 
     @PostMapping("/follow/{followeeNickname}")
@@ -57,12 +59,14 @@ public class UserController {
     }
 
     @GetMapping("/following")
-    public ResponseEntity<List<UserSimpleInfoResponseDTO>> getFollowing(@Auth CustomOAuth2User user) {
-        return ResponseEntity.ok(userService.getFollowing(user));
+    public ResponseEntity<Page<UserSimpleInfoResponseDTO>> getFollowing(@Auth CustomOAuth2User user,
+                                                                        @PageableDefault(sort = "nickname") Pageable pageable) {
+        return ResponseEntity.ok(userService.getFollowing(user, pageable));
     }
 
     @GetMapping("/followers")
-    public ResponseEntity<List<UserSimpleInfoResponseDTO>> getFollowers(@Auth CustomOAuth2User user) {
-        return ResponseEntity.ok(userService.getFollowers(user));
+    public ResponseEntity<Page<UserSimpleInfoResponseDTO>> getFollowers(@Auth CustomOAuth2User user,
+                                                                        @PageableDefault(sort = "nickname") Pageable pageable) {
+        return ResponseEntity.ok(userService.getFollowers(user, pageable));
     }
 }
