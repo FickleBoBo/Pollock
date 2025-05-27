@@ -14,12 +14,12 @@ import com.pollock.pollockhub.user.repository.FollowRepository;
 import com.pollock.pollockhub.user.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,9 +58,11 @@ public class UserService {
                                                  UpdateUserProfileRequestDTO requestDTO,
                                                  HttpSession session) {
         String newNickname = requestDTO.getNickname();
+
         if (newNickname.isBlank()) {
             throw InvalidNicknameException.getInstance();
         }
+
         if (!newNickname.equals(user.getNickname()) && isNicknameExists(newNickname)) {
             throw DuplicateNicknameException.getInstance();
         }
@@ -94,10 +96,9 @@ public class UserService {
     /**
      * 키워드를 포함하는 닉네임의 유저들 반환
      */
-    public List<UserSimpleInfoResponseDTO> searchUsers(String keyword) {
-        return userRepository.findByNicknameContainingOrderByNicknameAsc(keyword).stream()
-                .map(UserSimpleInfoResponseDTO::from)
-                .toList();
+    public Page<UserSimpleInfoResponseDTO> searchUsers(String keyword, Pageable pageable) {
+        return userRepository.findByNicknameStartingWith(keyword, pageable)
+                .map(UserSimpleInfoResponseDTO::from);
     }
 
     /**
@@ -129,21 +130,19 @@ public class UserService {
     /**
      * 팔로잉한 유저들 반환
      */
-    public List<UserSimpleInfoResponseDTO> getFollowing(CustomOAuth2User user) {
-        return followRepository.findAllByFollower(getUserEntity(user.getId())).stream()
+    public Page<UserSimpleInfoResponseDTO> getFollowing(CustomOAuth2User user, Pageable pageable) {
+        return followRepository.findAllByFollower(getUserEntity(user.getId()), pageable)
                 .map(FollowEntity::getFollowee)
-                .map(UserSimpleInfoResponseDTO::from)
-                .toList();
+                .map(UserSimpleInfoResponseDTO::from);
     }
 
     /**
      * 나를 팔로우한 유저들 반환
      */
-    public List<UserSimpleInfoResponseDTO> getFollowers(CustomOAuth2User user) {
-        return followRepository.findAllByFollowee(getUserEntity(user.getId())).stream()
+    public Page<UserSimpleInfoResponseDTO> getFollowers(CustomOAuth2User user, Pageable pageable) {
+        return followRepository.findAllByFollowee(getUserEntity(user.getId()), pageable)
                 .map(FollowEntity::getFollower)
-                .map(UserSimpleInfoResponseDTO::from)
-                .toList();
+                .map(UserSimpleInfoResponseDTO::from);
     }
 
     /**
