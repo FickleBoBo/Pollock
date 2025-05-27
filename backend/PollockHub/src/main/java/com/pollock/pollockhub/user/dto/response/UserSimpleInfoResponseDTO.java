@@ -21,13 +21,10 @@ public class UserSimpleInfoResponseDTO {
     private Integer puzzleElo;
     private Role role;
     private Title title;
-    private Integer followingCount;
-    private Integer followersCount;
+    private Long followingCount;
+    private Long followersCount;
 
-    /**
-     * UserEntity -> UserSimpleInfoResponseDTO 정적 팩터리 메서드
-     */
-    public static UserSimpleInfoResponseDTO from(UserEntity userEntity) {
+    public static UserSimpleInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
         return UserSimpleInfoResponseDTO.builder()
                 .nickname(userEntity.getNickname())
                 .profileImageUrl(userEntity.getProfileImageUrl())
@@ -37,8 +34,8 @@ public class UserSimpleInfoResponseDTO {
                 .puzzleElo(userEntity.getPuzzleElo())
                 .role(userEntity.getRole())
                 .title(userEntity.getTitle())
-                .followingCount(userEntity.getFollowing().size())
-                .followersCount(userEntity.getFollowers().size())
+                .followingCount(followingCount)
+                .followersCount(followersCount)
                 .build();
     }
 }
