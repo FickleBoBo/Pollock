@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByNickname(String nickname);
 
-    boolean existsByNickname(String nickname);
-
     Page<UserEntity> findByNicknameStartingWith(String keyword, Pageable pageable);
+
+    boolean existsByNickname(String nickname);
 }
