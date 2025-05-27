@@ -6,7 +6,6 @@ import com.pollock.pollockhub.user.dto.response.UserSimpleInfoResponseDTO;
 import com.pollock.pollockhub.user.oauth2.annotation.Auth;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +27,8 @@ public class UserController {
 
     @PutMapping("/me")
     public ResponseEntity<UserInfoResponseDTO> updateUserProfile(@Auth CustomOAuth2User user,
-                                                                 @RequestBody UpdateUserProfileRequestDTO requestDTO,
-                                                                 HttpSession session) {
-        return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO, session));
+                                                                 @RequestBody UpdateUserProfileRequestDTO requestDTO) {
+        return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO));
     }
 
     @GetMapping("/exists")
