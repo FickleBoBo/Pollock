@@ -1,15 +1,22 @@
 import { create } from "zustand";
 
-export type PlayerColor = "BLACK" | "WHITE";
+import { Gender, Role, Title } from "../types/user";
 
 export interface UserInfo {
+  email: string;
   nickname: string;
   profileImageUrl: string;
   bulletElo: number;
   blitzElo: number;
   classicalElo: number;
   puzzleElo: number;
-  grade: string;
+  birthyear: string | null;
+  gender: Gender;
+  role: Role;
+  title: Title;
+  createdAt: string;
+  followingCount: number;
+  followersCount: number;
 }
 
 interface UserStore {
