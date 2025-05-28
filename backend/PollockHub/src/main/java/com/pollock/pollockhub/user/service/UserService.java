@@ -150,7 +150,7 @@ public class UserService {
     }
 
     private void validateNickname(String nickname) {
-        if (nickname == null || nickname.isBlank() || (nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH)) {
+        if (nickname == null || nickname.isBlank() || nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH) {
             throw InvalidNicknameException.getInstance();
         }
 
