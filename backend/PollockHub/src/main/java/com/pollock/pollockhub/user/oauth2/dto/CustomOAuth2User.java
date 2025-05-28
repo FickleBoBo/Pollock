@@ -5,6 +5,7 @@ import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Builder
 @Getter
 @RequiredArgsConstructor
+@ToString
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
     private final Long id;
