@@ -65,3 +65,6 @@ custom:
     redis:
       host: ${ENGINE_ANALYSIS_REDIS_HOST}
       port: ${ENGINE_ANALYSIS_REDIS_PORT}
+
+  user:
+    default-profile-image-url: ${DEFAULT_PROFILE_IMAGE_URL}
