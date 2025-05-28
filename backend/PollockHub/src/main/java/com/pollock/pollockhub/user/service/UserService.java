@@ -127,6 +127,7 @@ public class UserService {
                     UserEntity followee = follow.getFollowee();
                     long followingCount = followRepository.countByFollower(followee);
                     long followersCount = followRepository.countByFollowee(followee);
+
                     return UserSimpleInfoResponseDTO.from(followee, followingCount, followersCount);
                 });
     }
@@ -137,6 +138,7 @@ public class UserService {
                     UserEntity follower = follow.getFollower();
                     long followingCount = followRepository.countByFollower(follower);
                     long followersCount = followRepository.countByFollowee(follower);
+
                     return UserSimpleInfoResponseDTO.from(follower, followingCount, followersCount);
                 });
     }
