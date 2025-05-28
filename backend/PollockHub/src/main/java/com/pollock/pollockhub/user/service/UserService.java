@@ -43,7 +43,8 @@ public class UserService {
                                                  UpdateUserProfileRequestDTO requestDTO) {
         String newNickname = requestDTO.getNickname();
 
-        if (newNickname.isBlank()) {
+        if (newNickname == null || newNickname.isBlank() ||
+                (newNickname.length() < MIN_NICKNAME_LENGTH || newNickname.length() > MAX_NICKNAME_LENGTH)) {
             throw InvalidNicknameException.getInstance();
         }
 
