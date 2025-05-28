@@ -108,7 +108,9 @@ public class UserService {
             throw SelfFollowNotAllowedException.getInstance();
         }
 
-        if (followRepository.existsByFollowerAndFollowee(follower, followee)) return;
+        if (followRepository.existsByFollowerAndFollowee(follower, followee)) {
+            throw AlreadyFollowingException.getInstance();
+        }
 
         followRepository.save(FollowEntity.builder()
                 .follower(follower)
