@@ -161,12 +161,12 @@ public class UserService {
         }
     }
 
-    private void validateNickname(String nickname, String currentNickname) {
-        if (nickname == null || nickname.isBlank() || (nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH)) {
+    private void validateNickname(String newNickname, String currentNickname) {
+        if (newNickname == null || newNickname.isBlank() || newNickname.length() < MIN_NICKNAME_LENGTH || newNickname.length() > MAX_NICKNAME_LENGTH) {
             throw InvalidNicknameException.getInstance();
         }
 
-        if (!nickname.equals(currentNickname) && isNicknameExists(nickname)) {
+        if (!newNickname.equals(currentNickname) && isNicknameExists(newNickname)) {
             throw DuplicateNicknameException.getInstance();
         }
     }
