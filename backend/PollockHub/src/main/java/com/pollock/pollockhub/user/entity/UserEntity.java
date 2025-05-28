@@ -11,6 +11,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pollock.pollockhub.constant.Constant.DEFAULT_ELO;
+import static com.pollock.pollockhub.constant.Constant.DEFAULT_PROFILE_IMAGE_URL;
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
 import static com.pollock.pollockhub.user.entity.Title.NONE;
 import static com.pollock.pollockhub.user.util.NicknameGenerator.generateRandomNickname;
@@ -20,9 +22,6 @@ import static com.pollock.pollockhub.user.util.NicknameGenerator.generateRandomN
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
-
-    private static final String DEFAULT_PROFILE_IMAGE_URL = "https://avatars.githubusercontent.com/u/95597182?v=4";
-    private static final int DEFAULT_ELO = 600;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
