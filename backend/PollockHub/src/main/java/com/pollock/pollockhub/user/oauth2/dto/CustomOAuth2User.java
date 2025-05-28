@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.pollock.pollockhub.user.entity.Role.GUEST;
+
 @Builder
 @Getter
 @RequiredArgsConstructor
@@ -37,7 +39,19 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public String getName() {
-        return id.toString();
+        return id != null ? id.toString() : "unregistered";
+    }
+
+    public boolean isRegistered() {
+        return role != GUEST;
+    }
+
+    public static CustomOAuth2User preSignup() {
+        return CustomOAuth2User.builder()
+                .id(null)
+                .nickname(null)
+                .role(GUEST)
+                .build();
     }
 
     public static CustomOAuth2User from(UserEntity userEntity) {
