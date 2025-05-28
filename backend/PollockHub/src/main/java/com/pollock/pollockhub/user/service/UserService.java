@@ -66,8 +66,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserInfoResponseDTO updateUserProfile(CustomOAuth2User user,
-                                                 UpdateUserProfileRequestDTO requestDTO) {
+    public UserInfoResponseDTO updateUserProfile(CustomOAuth2User user, UpdateUserProfileRequestDTO requestDTO) {
         validateNickname(requestDTO.getNickname(), user.getNickname());
 
         UserEntity userEntity = getUserEntity(user.getId());
