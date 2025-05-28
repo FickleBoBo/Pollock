@@ -2,11 +2,13 @@ package com.pollock.pollockhub.common.template;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 import static org.springframework.http.HttpStatus.*;
 
 @Getter
+@ToString
 @AllArgsConstructor
 public enum ErrorCode {
     UnAuthenticatedException(UNAUTHORIZED, 401, "로그인하지 않은 사용자입니다."),
