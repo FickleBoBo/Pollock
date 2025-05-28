@@ -5,12 +5,14 @@ import com.pollock.pollockhub.user.entity.Title;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * 개인정보를 제외한 유저 정보 DTO
  */
 @Builder
 @Getter
+@ToString
 public class UserSimpleInfoResponseDTO {
 
     private String nickname;

@@ -6,6 +6,7 @@ import com.pollock.pollockhub.user.entity.Title;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  */
 @Builder
 @Getter
+@ToString
 public class UserInfoResponseDTO {
 
     private String email;
