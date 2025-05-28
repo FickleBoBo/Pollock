@@ -33,6 +33,11 @@ public class UserService {
 
     @Transactional
     public void signup(UserSignupRequestDTO requestDTO, HttpSession session) {
+        if (requestDTO.getNickname() == null || requestDTO.getNickname().isBlank() ||
+                (requestDTO.getNickname().length() < MIN_NICKNAME_LENGTH || requestDTO.getNickname().length() > MAX_NICKNAME_LENGTH)) {
+            throw InvalidNicknameException.getInstance();
+        }
+
         if (isNicknameExists(requestDTO.getNickname())) {
             throw DuplicateNicknameException.getInstance();
         }
