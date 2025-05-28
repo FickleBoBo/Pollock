@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.pollock.pollockhub.constant.Constant.DEFAULT_ELO;
-import static com.pollock.pollockhub.constant.Constant.DEFAULT_PROFILE_IMAGE_URL;
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
 import static com.pollock.pollockhub.user.entity.Title.NONE;
 
@@ -36,7 +35,7 @@ public class UserEntity {
     private String nickname;
 
     @Column(nullable = false)
-    private String profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
+    private String profileImageUrl;
 
     @Column(nullable = false)
     private Integer bulletElo = DEFAULT_ELO;
@@ -80,18 +79,19 @@ public class UserEntity {
     private List<FollowEntity> followers = new ArrayList<>();
 
     @Builder
-    public UserEntity(String oauthId, String email, String nickname, Integer birthyear, Gender gender) {
+    public UserEntity(String oauthId, String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
         this.oauthId = oauthId;
         this.email = email;
         this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
         this.birthyear = birthyear;
-        this.gender = gender == null ? Gender.OTHER : gender;
+        this.gender = gender;
     }
 
     public void updateProfile(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
         this.email = email;
         this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl == null ? DEFAULT_PROFILE_IMAGE_URL : profileImageUrl;
+        this.profileImageUrl = profileImageUrl;
         this.birthyear = birthyear;
         this.gender = gender;
     }
