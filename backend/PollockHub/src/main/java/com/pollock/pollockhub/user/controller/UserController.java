@@ -38,14 +38,14 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO));
     }
 
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> isNicknameExists(@RequestParam String nickname) {
-        return ResponseEntity.ok(userService.isNicknameExists(nickname));
-    }
-
     @GetMapping("/search")
     public ResponseEntity<Page<UserSimpleInfoResponseDTO>> searchUsers(@RequestParam String keyword, @PageableDefault(sort = "nickname") Pageable pageable) {
         return ResponseEntity.ok(userService.searchUsers(keyword, pageable));
+    }
+
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> isNicknameExists(@RequestParam String nickname) {
+        return ResponseEntity.ok(userService.isNicknameExists(nickname));
     }
 
     @PostMapping("/follow/{followeeNickname}")

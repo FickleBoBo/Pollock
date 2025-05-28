@@ -85,10 +85,6 @@ public class UserService {
         );
     }
 
-    public boolean isNicknameExists(String nickname) {
-        return userRepository.existsByNickname(nickname);
-    }
-
     public Page<UserSimpleInfoResponseDTO> searchUsers(String keyword, Pageable pageable) {
         return userRepository.findByNicknameStartingWith(keyword, pageable)
                 .map(user -> UserSimpleInfoResponseDTO.from(
@@ -96,6 +92,10 @@ public class UserService {
                         followRepository.countByFollower(user),
                         followRepository.countByFollowee(user)
                 ));
+    }
+
+    public boolean isNicknameExists(String nickname) {
+        return userRepository.existsByNickname(nickname);
     }
 
     @Transactional
