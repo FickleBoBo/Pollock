@@ -35,7 +35,7 @@ public class UserEntity {
     private String email;
 
     @Column(nullable = false, unique = true)
-    private String nickname = generateRandomNickname();
+    private String nickname;
 
     @Column(nullable = false)
     private String profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
