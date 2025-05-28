@@ -33,14 +33,7 @@ public class UserService {
 
     @Transactional
     public void signup(UserSignupRequestDTO requestDTO, HttpSession session) {
-        if (requestDTO.getNickname() == null || requestDTO.getNickname().isBlank() ||
-                (requestDTO.getNickname().length() < MIN_NICKNAME_LENGTH || requestDTO.getNickname().length() > MAX_NICKNAME_LENGTH)) {
-            throw InvalidNicknameException.getInstance();
-        }
-
-        if (isNicknameExists(requestDTO.getNickname())) {
-            throw DuplicateNicknameException.getInstance();
-        }
+        validateNickname(requestDTO.getNickname());
 
         UserEntity savedUser = userRepository.save(UserEntity.builder()
                 .oauthId(session.getAttribute("oauthId").toString())
@@ -73,16 +66,7 @@ public class UserService {
     @Transactional
     public UserInfoResponseDTO updateUserProfile(CustomOAuth2User user,
                                                  UpdateUserProfileRequestDTO requestDTO) {
-        String newNickname = requestDTO.getNickname();
-
-        if (newNickname == null || newNickname.isBlank() ||
-                (newNickname.length() < MIN_NICKNAME_LENGTH || newNickname.length() > MAX_NICKNAME_LENGTH)) {
-            throw InvalidNicknameException.getInstance();
-        }
-
-        if (!newNickname.equals(user.getNickname()) && isNicknameExists(newNickname)) {
-            throw DuplicateNicknameException.getInstance();
-        }
+        validateNickname(requestDTO.getNickname(), user.getNickname());
 
         UserEntity userEntity = getUserEntity(user.getId());
 
@@ -161,5 +145,25 @@ public class UserService {
 
     private UserEntity getUserEntity(String nickname) {
         return userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::getInstance);
+    }
+
+    private void validateNickname(String nickname) {
+        if (nickname == null || nickname.isBlank() || (nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH)) {
+            throw InvalidNicknameException.getInstance();
+        }
+
+        if (isNicknameExists(nickname)) {
+            throw DuplicateNicknameException.getInstance();
+        }
+    }
+
+    private void validateNickname(String nickname, String currentNickname) {
+        if (nickname == null || nickname.isBlank() || (nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH)) {
+            throw InvalidNicknameException.getInstance();
+        }
+
+        if (!nickname.equals(currentNickname) && isNicknameExists(nickname)) {
+            throw DuplicateNicknameException.getInstance();
+        }
     }
 }
