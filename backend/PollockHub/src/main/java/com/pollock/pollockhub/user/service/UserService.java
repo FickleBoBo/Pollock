@@ -69,7 +69,7 @@ public class UserService {
         );
     }
 
-    public Boolean isNicknameExists(String nickname) {
+    public boolean isNicknameExists(String nickname) {
         return userRepository.existsByNickname(nickname);
     }
 
