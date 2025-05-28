@@ -56,11 +56,8 @@ public class UserService {
     }
 
     public UserInfoResponseDTO getUserInfo(CustomOAuth2User user) {
-        if (!user.isRegistered()) {
-            throw UnregisteredUserException.getInstance();
-        }
-
         UserEntity userEntity = getUserEntity(user.getId());
+
         return UserInfoResponseDTO.from(
                 userEntity,
                 followRepository.countByFollower(userEntity),
