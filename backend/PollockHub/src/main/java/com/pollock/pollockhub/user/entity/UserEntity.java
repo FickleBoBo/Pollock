@@ -15,7 +15,6 @@ import static com.pollock.pollockhub.constant.Constant.DEFAULT_ELO;
 import static com.pollock.pollockhub.constant.Constant.DEFAULT_PROFILE_IMAGE_URL;
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
 import static com.pollock.pollockhub.user.entity.Title.NONE;
-import static com.pollock.pollockhub.user.util.NicknameGenerator.generateRandomNickname;
 
 @Entity
 @Table(name = "user")
