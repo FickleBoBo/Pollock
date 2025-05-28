@@ -1,9 +1,9 @@
 package com.pollock.pollockhub.config;
 
+import com.pollock.pollockhub.user.oauth2.handler.CustomLoginSuccessHandler;
 import com.pollock.pollockhub.user.oauth2.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,10 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Value("${custom.frontend-uri}")
-    private String frontendUri;
-
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -58,7 +56,7 @@ public class SecurityConfig {
                         .baseUri("/api/pollock/users/login/oauth2/code/*"))
                 .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService)))
-                .successHandler((request, response, authentication) -> response.sendRedirect(frontendUri)));
+                .successHandler(customLoginSuccessHandler));
 
         // 로그아웃
         http.logout(logout -> logout
