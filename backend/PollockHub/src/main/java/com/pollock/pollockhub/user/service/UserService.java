@@ -30,6 +30,10 @@ public class UserService {
     private final FollowRepository followRepository;
 
     public UserInfoResponseDTO getUserInfo(CustomOAuth2User user) {
+        if (!user.isRegistered()) {
+            throw UnregisteredUserException.getInstance();
+        }
+
         UserEntity userEntity = getUserEntity(user.getId());
         return UserInfoResponseDTO.from(
                 userEntity,
