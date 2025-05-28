@@ -1,20 +1,22 @@
 package com.pollock.pollockhub.user.service;
 
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
+import com.pollock.pollockhub.user.dto.request.UserSignupRequestDTO;
 import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
 import com.pollock.pollockhub.user.dto.response.UserSimpleInfoResponseDTO;
 import com.pollock.pollockhub.user.entity.FollowEntity;
+import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.UserEntity;
-import com.pollock.pollockhub.user.exception.DuplicateNicknameException;
-import com.pollock.pollockhub.user.exception.InvalidNicknameException;
-import com.pollock.pollockhub.user.exception.SelfFollowNotAllowedException;
-import com.pollock.pollockhub.user.exception.UserNotFoundException;
+import com.pollock.pollockhub.user.exception.*;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.repository.FollowRepository;
 import com.pollock.pollockhub.user.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,27 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+
+    @Transactional
+    public void signup(UserSignupRequestDTO requestDTO, HttpSession session) {
+        if (isNicknameExists(requestDTO.getNickname())) {
+            throw DuplicateNicknameException.getInstance();
+        }
+
+        UserEntity savedUser = userRepository.save(UserEntity.builder()
+                .oauthId(session.getAttribute("oauthId").toString())
+                .email(session.getAttribute("email") == null ? null : session.getAttribute("email").toString())
+                .nickname(requestDTO.getNickname())
+                .birthyear(session.getAttribute("birthyear") == null ? null : (Integer) session.getAttribute("birthyear"))
+                .gender((Gender) session.getAttribute("gender"))
+                .build());
+
+        CustomOAuth2User customOAuth2User = CustomOAuth2User.from(savedUser);
+
+        UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+    }
 
     public UserInfoResponseDTO getUserInfo(CustomOAuth2User user) {
         if (!user.isRegistered()) {
