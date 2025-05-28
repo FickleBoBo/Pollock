@@ -1,11 +1,13 @@
 package com.pollock.pollockhub.user.controller;
 
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
+import com.pollock.pollockhub.user.dto.request.UserSignupRequestDTO;
 import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
 import com.pollock.pollockhub.user.dto.response.UserSimpleInfoResponseDTO;
 import com.pollock.pollockhub.user.oauth2.annotation.Auth;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<Void> signup(@RequestBody UserSignupRequestDTO requestDTO,
+                                       HttpSession session) {
+        userService.signup(requestDTO, session);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/me")
     public ResponseEntity<UserInfoResponseDTO> getUserInfo(@Auth CustomOAuth2User user) {
