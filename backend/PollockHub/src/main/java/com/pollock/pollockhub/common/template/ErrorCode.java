@@ -27,6 +27,7 @@ public enum ErrorCode {
     InvalidNicknameException(BAD_REQUEST, 400, "유효하지 않은 양식의 닉네임입니다."),
     DuplicateNicknameException(CONFLICT, 409, "중복된 닉네임입니다."),
     SelfFollowNotAllowedException(BAD_REQUEST, 400, "자기 자신을 팔로우 할 수 없습니다."),
+    AlreadyFollowingException(BAD_REQUEST, 400, "이미 팔로우한 유저입니다."),
 
     // Game Domain
     GameNotFoundException(NOT_FOUND, 404, "해당 게임을 찾을 수 없습니다."),
