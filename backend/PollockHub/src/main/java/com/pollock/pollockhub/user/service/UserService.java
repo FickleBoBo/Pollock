@@ -18,8 +18,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.pollock.pollockhub.constant.Constant.MAX_NICKNAME_LENGTH;
+import static com.pollock.pollockhub.constant.Constant.MIN_NICKNAME_LENGTH;
+
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
@@ -77,6 +81,7 @@ public class UserService {
                 ));
     }
 
+    @Transactional
     public void follow(CustomOAuth2User user, String followeeNickname) {
         UserEntity follower = getUserEntity(user.getId());
         UserEntity followee = getUserEntity(followeeNickname);
