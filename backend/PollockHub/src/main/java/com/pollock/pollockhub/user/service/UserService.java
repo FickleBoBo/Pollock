@@ -118,7 +118,10 @@ public class UserService {
     }
 
     public void unfollow(CustomOAuth2User user, String followeeNickname) {
-        followRepository.deleteByFollowerAndFollowee(getUserEntity(user.getId()), getUserEntity(followeeNickname));
+        UserEntity follower = getUserEntity(user.getId());
+        UserEntity followee = getUserEntity(followeeNickname);
+
+        followRepository.deleteByFollowerAndFollowee(follower, followee);
     }
 
     public Page<UserSimpleInfoResponseDTO> getFollowing(CustomOAuth2User user, Pageable pageable) {
