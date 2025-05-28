@@ -113,7 +113,8 @@ public class UserService {
         followRepository.save(FollowEntity.builder()
                 .follower(follower)
                 .followee(followee)
-                .build());
+                .build()
+        );
     }
 
     public void unfollow(CustomOAuth2User user, String followeeNickname) {
