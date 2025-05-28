@@ -80,9 +80,10 @@ public class UserEntity {
     private List<FollowEntity> followers = new ArrayList<>();
 
     @Builder
-    public UserEntity(String oauthId, String email, Integer birthyear, Gender gender) {
+    public UserEntity(String oauthId, String email, String nickname, Integer birthyear, Gender gender) {
         this.oauthId = oauthId;
         this.email = email;
+        this.nickname = nickname;
         this.birthyear = birthyear;
         this.gender = gender == null ? Gender.OTHER : gender;
     }
