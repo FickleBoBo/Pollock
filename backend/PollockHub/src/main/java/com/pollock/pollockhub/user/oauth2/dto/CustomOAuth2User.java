@@ -19,8 +19,8 @@ import static com.pollock.pollockhub.user.entity.Role.GUEST;
 
 @Builder
 @Getter
-@RequiredArgsConstructor
 @ToString
+@RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
     private final Long id;
