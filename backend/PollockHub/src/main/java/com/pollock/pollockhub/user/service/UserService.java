@@ -28,6 +28,9 @@ import static com.pollock.pollockhub.constant.Constant.MIN_NICKNAME_LENGTH;
 @Transactional(readOnly = true)
 public class UserService {
 
+    @Value("${custom.user.default-profile-image-url}")
+    private String defaultProfileImageUrl;
+
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
 
@@ -39,6 +42,7 @@ public class UserService {
                 .oauthId(session.getAttribute("oauthId").toString())
                 .email(session.getAttribute("email") == null ? null : session.getAttribute("email").toString())
                 .nickname(requestDTO.getNickname())
+                .profileImageUrl(defaultProfileImageUrl)
                 .birthyear(session.getAttribute("birthyear") == null ? null : (Integer) session.getAttribute("birthyear"))
                 .gender((Gender) session.getAttribute("gender"))
                 .build());
