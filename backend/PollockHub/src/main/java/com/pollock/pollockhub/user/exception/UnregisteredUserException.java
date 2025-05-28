@@ -8,7 +8,7 @@ public class UnregisteredUserException extends ServiceException {
     private static final UnregisteredUserException INSTANCE = new UnregisteredUserException();
 
     private UnregisteredUserException() {
-        super(ErrorCode.UserNotFoundException);
+        super(ErrorCode.UnregisteredUserException);
     }
 
     public static UnregisteredUserException getInstance() {
