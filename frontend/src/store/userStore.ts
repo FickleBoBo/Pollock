@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { Gender, Role, Title } from "../types/user";
+import { Gender, Role, Title } from "@/types/user";
 
 export interface UserInfo {
   email: string;
