@@ -1,6 +1,6 @@
 export type Gender = "MALE" | "FEMALE" | "OTHER";
 
-export type Role = "BASIC" | "PREMIUM" | "ADMIN";
+export type Role = "GUEST" | "BASIC" | "PREMIUM" | "ADMIN";
 
 export type Title = "GM" | "IM" | "FM" | "CM" | "NONE";
 
