@@ -15,6 +15,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/api/pollock/users")
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Void> signup(@RequestBody UserSignupRequestDTO requestDTO, HttpSession session) {
         userService.signup(requestDTO, session);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.created(URI.create("/api/pollock/users/me")).build();
     }
 
     @GetMapping
