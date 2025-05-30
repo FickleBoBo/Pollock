@@ -60,16 +60,18 @@ public class UserController {
         return ResponseEntity.ok(userService.updateMyProfile(user, requestDTO));
     }
 
-    @PostMapping("/follow/{followeeNickname}")
-    public ResponseEntity<Void> follow(@Auth CustomOAuth2User user, @PathVariable String followeeNickname) {
-        userService.follow(user, followeeNickname);
-        return ResponseEntity.ok().build();
+    @PostMapping("/{nickname}/follow")
+    public ResponseEntity<Void> follow(@Auth CustomOAuth2User user,
+                                       @PathVariable String nickname) {
+        userService.follow(user, nickname);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/follow/{followeeNickname}")
-    public ResponseEntity<Void> unfollow(@Auth CustomOAuth2User user, @PathVariable String followeeNickname) {
-        userService.unfollow(user, followeeNickname);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{nickname}/follow")
+    public ResponseEntity<Void> unfollow(@Auth CustomOAuth2User user,
+                                         @PathVariable String nickname) {
+        userService.unfollow(user, nickname);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/me/following")
