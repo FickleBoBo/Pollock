@@ -25,7 +25,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<Void> signup(@RequestBody UserSignupRequestDTO requestDTO, HttpSession session) {
+    public ResponseEntity<Void> signup(@RequestBody UserSignupRequestDTO requestDTO,
+                                       HttpSession session) {
         userService.signup(requestDTO, session);
         return ResponseEntity.created(URI.create("/api/pollock/users/me")).build();
     }
@@ -41,7 +42,8 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<UserPrivateInfoResponseDTO> updateMyProfile(@Auth CustomOAuth2User user, @RequestBody UpdateUserProfileRequestDTO requestDTO) {
+    public ResponseEntity<UserPrivateInfoResponseDTO> updateMyProfile(@Auth CustomOAuth2User user,
+                                                                      @RequestBody UpdateUserProfileRequestDTO requestDTO) {
         return ResponseEntity.ok(userService.updateMyProfile(user, requestDTO));
     }
 
