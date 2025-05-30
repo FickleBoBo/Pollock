@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import OAuthLoginButton from "./OAuthLoginButton";
+import OAuthLoginButton from "@/components/common/OAuthLoginButton";
 
 interface LoginModalProps {
   onClose: () => void;
