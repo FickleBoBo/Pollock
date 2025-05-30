@@ -55,6 +55,15 @@ public class UserService {
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
     }
 
+    public Page<UserPublicInfoResponseDTO> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(user -> UserPublicInfoResponseDTO.from(
+                        user,
+                        followRepository.countByFollower(user),
+                        followRepository.countByFollowee(user)
+                ));
+    }
+
     public UserPrivateInfoResponseDTO getUserInfo(CustomOAuth2User user) {
         UserEntity userEntity = getUserEntity(user.getId());
 

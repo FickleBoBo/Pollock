@@ -28,6 +28,11 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getAllUsers(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(userService.getAllUsers(pageable));
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserPrivateInfoResponseDTO> getUserInfo(@Auth CustomOAuth2User user) {
         return ResponseEntity.ok(userService.getUserInfo(user));
