@@ -62,6 +62,20 @@ public class UserService {
                 .map(UserPublicInfoResponseDTO::from);
     }
 
+    public UserPublicInfoResponseDTO getUser(String nickname) {
+        UserEntity userEntity = getUserEntity(nickname);
+
+        return UserPublicInfoResponseDTO.from(
+                userEntity,
+                followRepository.countByFollower(userEntity),
+                followRepository.countByFollowee(userEntity)
+        );
+    }
+
+    public boolean checkNicknameExists(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
     public UserPrivateInfoResponseDTO getMyInfo(CustomOAuth2User user) {
         UserEntity userEntity = getUserEntity(user.getId());
 
