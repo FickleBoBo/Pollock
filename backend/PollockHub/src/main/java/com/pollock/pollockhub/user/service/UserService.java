@@ -179,14 +179,4 @@ public class UserService {
             throw DuplicateNicknameException.getInstance();
         }
     }
-
-    private void validateNickname(String newNickname, String currentNickname) {
-        if (newNickname == null || newNickname.isBlank() || newNickname.length() < MIN_NICKNAME_LENGTH || newNickname.length() > MAX_NICKNAME_LENGTH) {
-            throw InvalidNicknameException.getInstance();
-        }
-
-        if (!newNickname.equals(currentNickname) && isNicknameExists(newNickname)) {
-            throw DuplicateNicknameException.getInstance();
-        }
-    }
 }
