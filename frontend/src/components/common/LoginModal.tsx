@@ -39,7 +39,6 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
         <div className="flex flex-col gap-8">
           <OAuthLoginButton provider="naver" />
           <OAuthLoginButton provider="kakao" />
-          <OAuthLoginButton provider="google" />
         </div>
       </div>
     </div>

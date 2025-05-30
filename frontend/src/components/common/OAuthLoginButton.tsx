@@ -1,5 +1,5 @@
 interface OAuthLoginButtonProps {
-  provider: "naver" | "kakao" | "google";
+  provider: "naver" | "kakao";
 }
 
 const OAuthLoginButton = ({ provider }: OAuthLoginButtonProps) => {
@@ -15,12 +15,6 @@ const OAuthLoginButton = ({ provider }: OAuthLoginButtonProps) => {
       href: "http://localhost:8080/api/pollock/users/oauth2/authorization/kakao",
       className: "bg-[#FEE500] hover:bg-[#ECD900] text-black",
       label: "Kakao 로그인",
-    },
-    google: {
-      // href="http://www.pollock.kr/api/pollock/users/oauth2/authorization/google"
-      href: "http://localhost:8080/api/pollock/users/oauth2/authorization/google",
-      className: "bg-white hover:bg-[#E2E2E2] text-black",
-      label: "Google 로그인",
     },
   };
 
