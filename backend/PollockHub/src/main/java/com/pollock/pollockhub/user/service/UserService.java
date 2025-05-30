@@ -96,19 +96,6 @@ public class UserService {
         );
     }
 
-    public Page<UserPublicInfoResponseDTO> searchUsers(String keyword, Pageable pageable) {
-        return userRepository.findByNicknameStartingWith(keyword, pageable)
-                .map(user -> UserPublicInfoResponseDTO.from(
-                        user,
-                        followRepository.countByFollower(user),
-                        followRepository.countByFollowee(user)
-                ));
-    }
-
-    public boolean isNicknameExists(String nickname) {
-        return userRepository.existsByNickname(nickname);
-    }
-
     @Transactional
     public void follow(CustomOAuth2User user,
                        String nickname) {
