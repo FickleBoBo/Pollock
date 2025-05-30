@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @ToString
-public class UserInfoResponseDTO {
+public class UserPrivateInfoResponseDTO {
 
     private String email;
     private String nickname;
@@ -33,8 +33,8 @@ public class UserInfoResponseDTO {
     private Long followingCount;
     private Long followersCount;
 
-    public static UserInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
-        return UserInfoResponseDTO.builder()
+    public static UserPrivateInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
+        return UserPrivateInfoResponseDTO.builder()
                 .email(userEntity.getEmail())
                 .nickname(userEntity.getNickname())
                 .profileImageUrl(userEntity.getProfileImageUrl())

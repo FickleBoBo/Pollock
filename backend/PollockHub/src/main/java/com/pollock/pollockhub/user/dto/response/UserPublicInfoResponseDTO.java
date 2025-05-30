@@ -13,7 +13,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-public class UserSimpleInfoResponseDTO {
+public class UserPublicInfoResponseDTO {
 
     private String nickname;
     private String profileImageUrl;
@@ -26,8 +26,8 @@ public class UserSimpleInfoResponseDTO {
     private Long followingCount;
     private Long followersCount;
 
-    public static UserSimpleInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
-        return UserSimpleInfoResponseDTO.builder()
+    public static UserPublicInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
+        return UserPublicInfoResponseDTO.builder()
                 .nickname(userEntity.getNickname())
                 .profileImageUrl(userEntity.getProfileImageUrl())
                 .bulletElo(userEntity.getBulletElo())

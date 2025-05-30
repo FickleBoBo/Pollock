@@ -2,8 +2,8 @@ package com.pollock.pollockhub.user.controller;
 
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
 import com.pollock.pollockhub.user.dto.request.UserSignupRequestDTO;
-import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
-import com.pollock.pollockhub.user.dto.response.UserSimpleInfoResponseDTO;
+import com.pollock.pollockhub.user.dto.response.UserPrivateInfoResponseDTO;
+import com.pollock.pollockhub.user.dto.response.UserPublicInfoResponseDTO;
 import com.pollock.pollockhub.user.oauth2.annotation.Auth;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.service.UserService;
@@ -29,17 +29,17 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserInfoResponseDTO> getUserInfo(@Auth CustomOAuth2User user) {
+    public ResponseEntity<UserPrivateInfoResponseDTO> getUserInfo(@Auth CustomOAuth2User user) {
         return ResponseEntity.ok(userService.getUserInfo(user));
     }
 
     @PutMapping("/me")
-    public ResponseEntity<UserInfoResponseDTO> updateUserProfile(@Auth CustomOAuth2User user, @RequestBody UpdateUserProfileRequestDTO requestDTO) {
+    public ResponseEntity<UserPrivateInfoResponseDTO> updateUserProfile(@Auth CustomOAuth2User user, @RequestBody UpdateUserProfileRequestDTO requestDTO) {
         return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<UserSimpleInfoResponseDTO>> searchUsers(@RequestParam String keyword, @PageableDefault(sort = "nickname") Pageable pageable) {
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> searchUsers(@RequestParam String keyword, @PageableDefault(sort = "nickname") Pageable pageable) {
         return ResponseEntity.ok(userService.searchUsers(keyword, pageable));
     }
 
@@ -61,12 +61,12 @@ public class UserController {
     }
 
     @GetMapping("/following")
-    public ResponseEntity<Page<UserSimpleInfoResponseDTO>> getFollowing(@Auth CustomOAuth2User user, @PageableDefault(sort = "nickname") Pageable pageable) {
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getFollowing(@Auth CustomOAuth2User user, @PageableDefault(sort = "nickname") Pageable pageable) {
         return ResponseEntity.ok(userService.getFollowing(user, pageable));
     }
 
     @GetMapping("/followers")
-    public ResponseEntity<Page<UserSimpleInfoResponseDTO>> getFollowers(@Auth CustomOAuth2User user, @PageableDefault(sort = "nickname") Pageable pageable) {
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getFollowers(@Auth CustomOAuth2User user, @PageableDefault(sort = "nickname") Pageable pageable) {
         return ResponseEntity.ok(userService.getFollowers(user, pageable));
     }
 }

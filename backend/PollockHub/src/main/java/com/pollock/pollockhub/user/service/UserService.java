@@ -2,8 +2,8 @@ package com.pollock.pollockhub.user.service;
 
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
 import com.pollock.pollockhub.user.dto.request.UserSignupRequestDTO;
-import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
-import com.pollock.pollockhub.user.dto.response.UserSimpleInfoResponseDTO;
+import com.pollock.pollockhub.user.dto.response.UserPrivateInfoResponseDTO;
+import com.pollock.pollockhub.user.dto.response.UserPublicInfoResponseDTO;
 import com.pollock.pollockhub.user.entity.FollowEntity;
 import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.UserEntity;
@@ -55,10 +55,10 @@ public class UserService {
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
     }
 
-    public UserInfoResponseDTO getUserInfo(CustomOAuth2User user) {
+    public UserPrivateInfoResponseDTO getUserInfo(CustomOAuth2User user) {
         UserEntity userEntity = getUserEntity(user.getId());
 
-        return UserInfoResponseDTO.from(
+        return UserPrivateInfoResponseDTO.from(
                 userEntity,
                 followRepository.countByFollower(userEntity),
                 followRepository.countByFollowee(userEntity)
@@ -66,7 +66,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserInfoResponseDTO updateUserProfile(CustomOAuth2User user, UpdateUserProfileRequestDTO requestDTO) {
+    public UserPrivateInfoResponseDTO updateUserProfile(CustomOAuth2User user, UpdateUserProfileRequestDTO requestDTO) {
         validateNickname(requestDTO.getNickname(), user.getNickname());
 
         UserEntity userEntity = getUserEntity(user.getId());
@@ -79,16 +79,16 @@ public class UserService {
                 requestDTO.getGender()
         );
 
-        return UserInfoResponseDTO.from(
+        return UserPrivateInfoResponseDTO.from(
                 userEntity,
                 followRepository.countByFollower(userEntity),
                 followRepository.countByFollowee(userEntity)
         );
     }
 
-    public Page<UserSimpleInfoResponseDTO> searchUsers(String keyword, Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> searchUsers(String keyword, Pageable pageable) {
         return userRepository.findByNicknameStartingWith(keyword, pageable)
-                .map(user -> UserSimpleInfoResponseDTO.from(
+                .map(user -> UserPublicInfoResponseDTO.from(
                         user,
                         followRepository.countByFollower(user),
                         followRepository.countByFollowee(user)
@@ -126,25 +126,25 @@ public class UserService {
         followRepository.deleteByFollowerAndFollowee(follower, followee);
     }
 
-    public Page<UserSimpleInfoResponseDTO> getFollowing(CustomOAuth2User user, Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getFollowing(CustomOAuth2User user, Pageable pageable) {
         return followRepository.findAllByFollower(getUserEntity(user.getId()), pageable)
                 .map(follow -> {
                     UserEntity followee = follow.getFollowee();
                     long followingCount = followRepository.countByFollower(followee);
                     long followersCount = followRepository.countByFollowee(followee);
 
-                    return UserSimpleInfoResponseDTO.from(followee, followingCount, followersCount);
+                    return UserPublicInfoResponseDTO.from(followee, followingCount, followersCount);
                 });
     }
 
-    public Page<UserSimpleInfoResponseDTO> getFollowers(CustomOAuth2User user, Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getFollowers(CustomOAuth2User user, Pageable pageable) {
         return followRepository.findAllByFollowee(getUserEntity(user.getId()), pageable)
                 .map(follow -> {
                     UserEntity follower = follow.getFollower();
                     long followingCount = followRepository.countByFollower(follower);
                     long followersCount = followRepository.countByFollowee(follower);
 
-                    return UserSimpleInfoResponseDTO.from(follower, followingCount, followersCount);
+                    return UserPublicInfoResponseDTO.from(follower, followingCount, followersCount);
                 });
     }
 
