@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/pollock/engine")
+@RequestMapping("/api/pollock/public/engine")
 @RequiredArgsConstructor
-public class EngineController {
+public class EnginePublicController {
 
     private final EngineServiceRouter engineServiceRouter;
 
