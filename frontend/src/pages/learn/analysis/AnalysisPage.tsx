@@ -1,12 +1,11 @@
 import { useState, useRef } from "react";
-import { useParams } from "react-router-dom";
 
 import { Chess } from "chess.js";
 import { v4 as uuidv4 } from "uuid";
 
 import { MdSettings } from "react-icons/md";
 
-import { PIECE_ORDER, PIECE_VALUES } from "../../../constant/Piece";
+import { PIECE_ORDER, PIECE_VALUES } from "../../../constant/piece";
 
 import api from "../../../common/api";
 
@@ -14,11 +13,8 @@ import Button from "../../../components/common/Button";
 import ChessBoard from "../../../components/chessboard/ChessBoard";
 import EngineSettingModal from "../../../components/analysis/EngineSettingModal";
 import EngineAnalysis from "../../../components/analysis/EngineAnalysis";
-import PgnUploadForm from "../../../components/analysis/PgnUploadForm";
 
 const AnalysisPage = () => {
-  const { gameId } = useParams();
-
   const channelKeyRef = useRef(uuidv4());
 
   const [game, setGame] = useState(new Chess());
@@ -116,11 +112,6 @@ const AnalysisPage = () => {
               setScoreCp={setScoreCp}
               setScoreMate={setScoreMate}
             />
-          </div>
-
-          {/* pgn 업로드 폼 */}
-          <div>
-            <PgnUploadForm onUpload={handlePgnUpload} />
           </div>
 
           {/* 엔진 옵션 선택 모달 */}
