@@ -157,6 +157,18 @@ public class UserService {
                 });
     }
 
+    public Page<UserPublicInfoResponseDTO> getUserFollowing(String nickname,
+                                                            Pageable pageable) {
+        return followRepository.findAllByFollower(getUserEntity(nickname), pageable)
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollowee()));
+    }
+
+    public Page<UserPublicInfoResponseDTO> getUserFollowers(String nickname,
+                                                            Pageable pageable) {
+        return followRepository.findAllByFollowee(getUserEntity(nickname), pageable)
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollower()));
+    }
+
     private UserEntity getUserEntity(Long id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::getInstance);
     }
