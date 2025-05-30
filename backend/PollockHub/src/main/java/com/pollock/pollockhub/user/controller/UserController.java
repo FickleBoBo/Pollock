@@ -32,8 +32,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getAllUsers(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(userService.getAllUsers(pageable));
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getUsers(@RequestParam(defaultValue = "") String keyword,
+                                                                    @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(userService.getUsers(keyword, pageable));
     }
 
     @GetMapping("/{nickname}")
