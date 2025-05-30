@@ -36,13 +36,13 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserPrivateInfoResponseDTO> getUserInfo(@Auth CustomOAuth2User user) {
-        return ResponseEntity.ok(userService.getUserInfo(user));
+    public ResponseEntity<UserPrivateInfoResponseDTO> getMyInfo(@Auth CustomOAuth2User user) {
+        return ResponseEntity.ok(userService.getMyInfo(user));
     }
 
     @PutMapping("/me")
-    public ResponseEntity<UserPrivateInfoResponseDTO> updateUserProfile(@Auth CustomOAuth2User user, @RequestBody UpdateUserProfileRequestDTO requestDTO) {
-        return ResponseEntity.ok(userService.updateUserProfile(user, requestDTO));
+    public ResponseEntity<UserPrivateInfoResponseDTO> updateMyProfile(@Auth CustomOAuth2User user, @RequestBody UpdateUserProfileRequestDTO requestDTO) {
+        return ResponseEntity.ok(userService.updateMyProfile(user, requestDTO));
     }
 
     @GetMapping("/search")

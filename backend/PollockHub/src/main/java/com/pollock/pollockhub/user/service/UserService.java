@@ -64,7 +64,7 @@ public class UserService {
                 ));
     }
 
-    public UserPrivateInfoResponseDTO getUserInfo(CustomOAuth2User user) {
+    public UserPrivateInfoResponseDTO getMyInfo(CustomOAuth2User user) {
         UserEntity userEntity = getUserEntity(user.getId());
 
         return UserPrivateInfoResponseDTO.from(
@@ -75,7 +75,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserPrivateInfoResponseDTO updateUserProfile(CustomOAuth2User user, UpdateUserProfileRequestDTO requestDTO) {
+    public UserPrivateInfoResponseDTO updateMyProfile(CustomOAuth2User user, UpdateUserProfileRequestDTO requestDTO) {
         validateNickname(requestDTO.getNickname(), user.getNickname());
 
         UserEntity userEntity = getUserEntity(user.getId());
