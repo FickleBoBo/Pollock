@@ -109,9 +109,10 @@ public class UserService {
     }
 
     @Transactional
-    public void follow(CustomOAuth2User user, String followeeNickname) {
+    public void follow(CustomOAuth2User user,
+                       String nickname) {
         UserEntity follower = getUserEntity(user.getId());
-        UserEntity followee = getUserEntity(followeeNickname);
+        UserEntity followee = getUserEntity(nickname);
 
         if (follower.getId().equals(followee.getId())) {
             throw SelfFollowNotAllowedException.getInstance();
@@ -128,9 +129,10 @@ public class UserService {
         );
     }
 
-    public void unfollow(CustomOAuth2User user, String followeeNickname) {
+    public void unfollow(CustomOAuth2User user,
+                         String nickname) {
         UserEntity follower = getUserEntity(user.getId());
-        UserEntity followee = getUserEntity(followeeNickname);
+        UserEntity followee = getUserEntity(nickname);
 
         followRepository.deleteByFollowerAndFollowee(follower, followee);
     }
