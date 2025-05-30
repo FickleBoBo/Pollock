@@ -1,24 +1,21 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../store/userStore";
 
 import { v4 as uuidv4 } from "uuid";
 
 import { FaClock, FaRobot, FaUserFriends } from "react-icons/fa";
 
-import { UserInfo } from "../../store/userStore";
-import { gameModes } from "../../constant/GameModes";
+import { UserInfo } from "@/store/userStore";
+import { useUserStore } from "@/store/userStore";
 
-import api from "../../common/api";
+import { gameModes } from "@/constant/gameModes";
 
-import Button from "../../components/common/Button";
-import Footer from "../../components/common/Footer";
-import UserInfoSection from "../../components/home/UserInfoSection";
-import PuzzleCard from "../../components/home/PuzzleCard";
-import StoreItemCarousel from "../../components/home/StoreItemCarousel";
-import TrafficInfo from "../../components/home/TrafficInfo";
-import MatchHistory from "../../components/home/MatchHistory";
-import NewsCarousel from "../../components/home/NewsCarousel";
+import api from "@/common/api";
+
+import Button from "@/components/common/Button";
+import Footer from "@/components/common/Footer";
+import UserInfoSection from "@/components/home/UserInfoSection";
+import TrafficInfo from "@/components/home/TrafficInfo";
 
 const HomePage = () => {
   const channelKeyRef = useRef(uuidv4());
@@ -32,10 +29,10 @@ const HomePage = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const { data } = await api.get<UserInfo>("/api/pollock/user/me");
+        const { data } = await api.get<UserInfo>("/api/pollock/users/me");
         setUserInfo(data);
       } catch (error) {
-        console.error("유저 정보 조회 실패:", error);
+        console.error("fetchUserInfo", error);
       }
     };
 
@@ -117,18 +114,6 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-
-          {/* 경기 내역 */}
-          {userInfo && (
-            <div>
-              <MatchHistory />
-            </div>
-          )}
-
-          {/* 뉴스 캐러셀 */}
-          <div>
-            <NewsCarousel />
-          </div>
         </div>
 
         {/* 우측 영역 */}
@@ -139,16 +124,6 @@ const HomePage = () => {
               <UserInfoSection userInfo={userInfo} />
             </div>
           )}
-
-          {/* 데일리 퍼즐 */}
-          <div>
-            <PuzzleCard />
-          </div>
-
-          {/* 상점 캐러셀 */}
-          <div>
-            <StoreItemCarousel />
-          </div>
         </div>
       </div>
 

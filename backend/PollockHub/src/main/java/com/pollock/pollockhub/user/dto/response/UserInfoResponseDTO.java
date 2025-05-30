@@ -3,8 +3,10 @@ package com.pollock.pollockhub.user.dto.response;
 import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.Role;
 import com.pollock.pollockhub.user.entity.Title;
+import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
  */
 @Builder
 @Getter
+@ToString
 public class UserInfoResponseDTO {
 
     private String email;
@@ -27,6 +30,25 @@ public class UserInfoResponseDTO {
     private Role role;
     private Title title;
     private LocalDateTime createdAt;
-    private Integer followingCount;
-    private Integer followersCount;
+    private Long followingCount;
+    private Long followersCount;
+
+    public static UserInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
+        return UserInfoResponseDTO.builder()
+                .email(userEntity.getEmail())
+                .nickname(userEntity.getNickname())
+                .profileImageUrl(userEntity.getProfileImageUrl())
+                .bulletElo(userEntity.getBulletElo())
+                .blitzElo(userEntity.getBlitzElo())
+                .classicalElo(userEntity.getClassicalElo())
+                .puzzleElo(userEntity.getPuzzleElo())
+                .birthyear(userEntity.getBirthyear())
+                .gender(userEntity.getGender())
+                .role(userEntity.getRole())
+                .title(userEntity.getTitle())
+                .createdAt(userEntity.getCreatedAt())
+                .followingCount(followingCount)
+                .followersCount(followersCount)
+                .build();
+    }
 }

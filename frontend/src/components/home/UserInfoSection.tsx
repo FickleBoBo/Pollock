@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import { HiChevronUp, HiChevronDown } from "react-icons/hi";
 
-import { UserInfo } from "../../store/userStore";
+import { UserInfo } from "@/store/userStore";
 
-import Button from "../common/Button";
+import Button from "@/components/common/Button";
 
 interface UserInfoSectionProps {
   userInfo: UserInfo;
@@ -23,7 +23,7 @@ const UserInfoSection = ({ userInfo }: UserInfoSectionProps) => {
     <div className="flex flex-col gap-2 font-bold">
       <div>
         <Button
-          onClick={() => navigate("/profile")}
+          onClick={() => navigate(`/profile/${userInfo.nickname}`)}
           className="w-full flex items-center gap-4 p-4"
         >
           <div className="w-10 h-10">
@@ -33,8 +33,12 @@ const UserInfoSection = ({ userInfo }: UserInfoSectionProps) => {
               className="w-full h-full rounded-xl object-cover"
             />
           </div>
-          <div>{userInfo.nickname}</div>
-          <div>{userInfo.grade}</div>
+          <div>
+            {userInfo.title !== "NONE"
+              ? `[${userInfo.title}] ${userInfo.nickname}`
+              : userInfo.nickname}
+          </div>
+          <div>{userInfo.role}</div>
         </Button>
       </div>
       <div className="flex flex-col">

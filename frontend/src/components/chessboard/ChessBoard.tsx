@@ -1,8 +1,8 @@
 import { Chess } from "chess.js";
 import { Chessboard } from "react-chessboard";
 
-import ScoreBar from "./ScoreBar";
-import PieceIcon from "./PieceIcon";
+import ScoreBar from "@/components/chessboard/ScoreBar";
+import PieceIcon from "@/components/chessboard/PieceIcon";
 
 interface ChessBoardProps {
   game: Chess;

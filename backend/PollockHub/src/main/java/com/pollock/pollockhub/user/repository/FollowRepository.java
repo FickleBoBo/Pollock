@@ -9,11 +9,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FollowRepository extends JpaRepository<FollowEntity, FollowId> {
 
+    Page<FollowEntity> findAllByFollower(UserEntity follower, Pageable pageable);
+
+    Page<FollowEntity> findAllByFollowee(UserEntity followee, Pageable pageable);
+
     boolean existsByFollowerAndFollowee(UserEntity follower, UserEntity followee);
 
     void deleteByFollowerAndFollowee(UserEntity follower, UserEntity followee);
 
-    Page<FollowEntity> findAllByFollower(UserEntity follower, Pageable pageable);
+    long countByFollower(UserEntity follower);
 
-    Page<FollowEntity> findAllByFollowee(UserEntity followee, Pageable pageable);
+    long countByFollowee(UserEntity followee);
 }

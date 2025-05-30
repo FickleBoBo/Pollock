@@ -1,23 +1,22 @@
 interface ButtonProps {
   className?: string;
   text?: string;
+  disabled?: boolean;
   children?: React.ReactNode;
   onClick: () => void;
 }
 
-const Button = ({ className, text, children, onClick }: ButtonProps) => {
+const Button = ({
+  className,
+  text,
+  disabled,
+  children,
+  onClick,
+}: ButtonProps) => {
   return (
-    <div>
-      {children ? (
-        <button onClick={onClick} className={className}>
-          {children}
-        </button>
-      ) : (
-        <button onClick={onClick} className={className}>
-          {text}
-        </button>
-      )}
-    </div>
+    <button onClick={onClick} className={className} disabled={disabled}>
+      {children || text}
+    </button>
   );
 };
 

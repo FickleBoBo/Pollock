@@ -1,9 +1,11 @@
 package com.pollock.pollockhub.common.template;
 
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 @Getter
+@ToString
 public class ErrorResponseDTO {
 
     private final HttpStatus httpStatus;

@@ -1,43 +1,31 @@
 package com.pollock.pollockhub.user.oauth2.dto;
 
-import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.Role;
-import com.pollock.pollockhub.user.entity.Title;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.pollock.pollockhub.user.entity.Role.GUEST;
+
 @Builder
 @Getter
+@ToString
 @RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User, Serializable {
 
     private final Long id;
-    private final String oauthId;
-    private final String email;
     private final String nickname;
-    private final String profileImageUrl;
-    private final Integer bulletElo;
-    private final Integer blitzElo;
-    private final Integer classicalElo;
-    private final Integer puzzleElo;
-    private final Integer birthyear;
-    private final Gender gender;
     private final Role role;
-    private final Title title;
-    private final LocalDateTime createdAt;
-    private final Integer followingCount;
-    private final Integer followersCount;
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -51,30 +39,26 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public String getName() {
-        return id.toString();
+        return id != null ? id.toString() : "unregistered";
     }
 
-    /**
-     * UserEntity -> CustomOAuth2User 정적 팩터리 메서드
-     */
+    public boolean isRegistered() {
+        return role != GUEST;
+    }
+
+    public static CustomOAuth2User preSignup() {
+        return CustomOAuth2User.builder()
+                .id(null)
+                .nickname(null)
+                .role(GUEST)
+                .build();
+    }
+
     public static CustomOAuth2User from(UserEntity userEntity) {
         return CustomOAuth2User.builder()
                 .id(userEntity.getId())
-                .oauthId(userEntity.getOauthId())
-                .email(userEntity.getEmail())
                 .nickname(userEntity.getNickname())
-                .profileImageUrl(userEntity.getProfileImageUrl())
-                .bulletElo(userEntity.getBulletElo())
-                .blitzElo(userEntity.getBlitzElo())
-                .classicalElo(userEntity.getClassicalElo())
-                .puzzleElo(userEntity.getPuzzleElo())
-                .birthyear(userEntity.getBirthyear())
-                .gender(userEntity.getGender())
                 .role(userEntity.getRole())
-                .title(userEntity.getTitle())
-                .createdAt(userEntity.getCreatedAt())
-                .followingCount(userEntity.getFollowing().size())
-                .followersCount(userEntity.getFollowers().size())
                 .build();
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -17,6 +19,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleException(Exception e) {
-        return ResponseEntity.status(ErrorCode.InternalServerErrorException.getHttpStatus()).body(new ErrorResponseDTO(ErrorCode.InternalServerErrorException));
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ErrorResponseDTO(ErrorCode.InternalServerErrorException));
     }
 }

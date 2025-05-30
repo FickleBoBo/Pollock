@@ -5,9 +5,9 @@ import SockJS from "sockjs-client";
 
 import { HiChevronUp, HiChevronDown } from "react-icons/hi";
 
-import api from "../../common/api";
+import api from "@/common/api";
 
-import Button from "../common/Button";
+import Button from "@/components/common/Button";
 
 interface EngineAnalysisResponseDTO {
   score: number | null;

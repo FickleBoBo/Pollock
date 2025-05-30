@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../store/userStore";
 
 import {
   FaBookOpen,
@@ -16,10 +15,12 @@ import {
 import { BsThreeDots } from "react-icons/bs";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 
-import api from "../../common/api";
+import api from "@/common/api";
 
-import Button from "./Button";
-import LoginModal from "./LoginModal";
+import { useUserStore } from "@/store/userStore";
+
+import Button from "@/components/common/Button";
+import LoginModal from "@/components/common/LoginModal";
 
 const menu = [
   {
@@ -43,7 +44,9 @@ const menu = [
   {
     label: "소셜",
     icon: <FaUsers size={24} />,
-    sub: [{ label: "친구", icon: <FaUserFriends />, path: "/social/friends" }],
+    sub: [
+      { label: "유저 찾기", icon: <FaUserFriends />, path: "/social/search" },
+    ],
   },
   {
     label: "더보기",
@@ -66,7 +69,7 @@ const SideMenu = () => {
   // 로그아웃 핸들러
   const handleLogout = async () => {
     try {
-      await api.post("/api/pollock/user/logout");
+      await api.post("/api/pollock/users/logout");
       clearUserInfo();
       window.location.href = "/";
     } catch (error) {
@@ -75,7 +78,7 @@ const SideMenu = () => {
   };
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-48 bg-pollock850">
+    <aside className="fixed top-0 left-0 h-screen w-48 bg-pollock850 z-10">
       <div className="h-full flex flex-col justify-between">
         <div>
           {/* 로고 */}

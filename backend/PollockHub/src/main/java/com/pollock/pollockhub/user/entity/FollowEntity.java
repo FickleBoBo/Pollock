@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 @Entity
-@Table(name = "follow")
+@Table(name = "follow",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"follower_id", "followee_id"}))
 @IdClass(FollowId.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
