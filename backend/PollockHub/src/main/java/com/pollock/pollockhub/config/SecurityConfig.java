@@ -78,8 +78,10 @@ public class SecurityConfig {
         );
 
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/api/pollock/users/**").authenticated()
-                .anyRequest().permitAll());
+                .requestMatchers("/api/pollock/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/pollock/public/**").permitAll()
+                .anyRequest().authenticated()
+        );
 
         return http.build();
     }
