@@ -36,6 +36,18 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers(pageable));
     }
 
+    @GetMapping("/{nickname}")
+    public ResponseEntity<UserPublicInfoResponseDTO> getUser(@PathVariable String nickname) {
+        return ResponseEntity.ok(userService.getUser(nickname));
+    }
+
+    @RequestMapping(value = "/{nickname}", method = RequestMethod.HEAD)
+    public ResponseEntity<Void> checkNicknameExists(@PathVariable String nickname) {
+        return userService.checkNicknameExists(nickname)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserPrivateInfoResponseDTO> getMyInfo(@Auth CustomOAuth2User user) {
         return ResponseEntity.ok(userService.getMyInfo(user));
