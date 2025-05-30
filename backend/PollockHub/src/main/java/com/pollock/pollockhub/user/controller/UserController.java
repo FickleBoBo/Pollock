@@ -72,13 +72,27 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/following")
-    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getFollowing(@Auth CustomOAuth2User user, @PageableDefault(sort = "nickname") Pageable pageable) {
-        return ResponseEntity.ok(userService.getFollowing(user, pageable));
+    @GetMapping("/me/following")
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getMyFollowing(@Auth CustomOAuth2User user,
+                                                                          @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(userService.getMyFollowing(user, pageable));
     }
 
-    @GetMapping("/followers")
-    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getFollowers(@Auth CustomOAuth2User user, @PageableDefault(sort = "nickname") Pageable pageable) {
-        return ResponseEntity.ok(userService.getFollowers(user, pageable));
+    @GetMapping("/me/followers")
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getMyFollowers(@Auth CustomOAuth2User user,
+                                                                          @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(userService.getMyFollowers(user, pageable));
+    }
+
+    @GetMapping("/{nickname}/following")
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getUserFollowing(@PathVariable String nickname,
+                                                                            @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(userService.getUserFollowing(nickname, pageable));
+    }
+
+    @GetMapping("/{nickname}/followers")
+    public ResponseEntity<Page<UserPublicInfoResponseDTO>> getUserFollowers(@PathVariable String nickname,
+                                                                            @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(userService.getUserFollowers(nickname, pageable));
     }
 }
