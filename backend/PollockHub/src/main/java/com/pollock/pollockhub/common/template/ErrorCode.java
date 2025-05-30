@@ -23,7 +23,6 @@ public enum ErrorCode {
 
     // User Domain
     UserNotFoundException(NOT_FOUND, 404, "해당 유저를 찾을 수 없습니다."),
-    UnregisteredUserException(FORBIDDEN, 403, "아직 회원가입을 하지 않은 유저입니다."),
     InvalidNicknameException(BAD_REQUEST, 400, "유효하지 않은 양식의 닉네임입니다."),
     DuplicateNicknameException(CONFLICT, 409, "중복된 닉네임입니다."),
     SelfFollowNotAllowedException(BAD_REQUEST, 400, "자기 자신을 팔로우 할 수 없습니다."),
