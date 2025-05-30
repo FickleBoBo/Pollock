@@ -56,13 +56,10 @@ public class UserService {
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
     }
 
-    public Page<UserPublicInfoResponseDTO> getAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .map(user -> UserPublicInfoResponseDTO.from(
-                        user,
-                        followRepository.countByFollower(user),
-                        followRepository.countByFollowee(user)
-                ));
+    public Page<UserPublicInfoResponseDTO> getUsers(String keyword,
+                                                    Pageable pageable) {
+        return userRepository.findByNicknameStartingWithIgnoreCase(keyword, pageable)
+                .map(UserPublicInfoResponseDTO::from);
     }
 
     public UserPrivateInfoResponseDTO getMyInfo(CustomOAuth2User user) {
