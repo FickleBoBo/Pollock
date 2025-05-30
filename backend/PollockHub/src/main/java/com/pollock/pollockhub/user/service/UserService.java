@@ -135,26 +135,16 @@ public class UserService {
         followRepository.deleteByFollowerAndFollowee(follower, followee);
     }
 
-    public Page<UserPublicInfoResponseDTO> getFollowing(CustomOAuth2User user, Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getMyFollowing(CustomOAuth2User user,
+                                                          Pageable pageable) {
         return followRepository.findAllByFollower(getUserEntity(user.getId()), pageable)
-                .map(follow -> {
-                    UserEntity followee = follow.getFollowee();
-                    long followingCount = followRepository.countByFollower(followee);
-                    long followersCount = followRepository.countByFollowee(followee);
-
-                    return UserPublicInfoResponseDTO.from(followee, followingCount, followersCount);
-                });
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollowee()));
     }
 
-    public Page<UserPublicInfoResponseDTO> getFollowers(CustomOAuth2User user, Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getMyFollowers(CustomOAuth2User user,
+                                                          Pageable pageable) {
         return followRepository.findAllByFollowee(getUserEntity(user.getId()), pageable)
-                .map(follow -> {
-                    UserEntity follower = follow.getFollower();
-                    long followingCount = followRepository.countByFollower(follower);
-                    long followersCount = followRepository.countByFollowee(follower);
-
-                    return UserPublicInfoResponseDTO.from(follower, followingCount, followersCount);
-                });
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollower()));
     }
 
     public Page<UserPublicInfoResponseDTO> getUserFollowing(String nickname,
