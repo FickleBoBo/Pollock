@@ -24,7 +24,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Navigate to="/home" replace />} />
           <Route path="home" element={<HomePage />} />
-          <Route path="profile" element={<ProfilePage />} />
+          <Route path="profile/:nickname" element={<ProfilePage />} />
 
           <Route path="play" element={<PlayPage />} />
           <Route path="play/computer" element={<ComputerPage />} />
