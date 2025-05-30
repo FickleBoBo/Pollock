@@ -4,9 +4,9 @@ import {
   engineTypeOption,
   multipvOption,
   movetimeOption,
-} from "../../constant/Engine";
+} from "@/constant/engine";
 
-import Button from "../common/Button";
+import Button from "@/components/common/Button";
 
 interface EngineSettingModalProps {
   engineType: string;
