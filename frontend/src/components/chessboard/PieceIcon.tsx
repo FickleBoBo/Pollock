@@ -1,14 +1,12 @@
-import B from "../../assets/piece/B.svg?react";
-import K from "../../assets/piece/K.svg?react";
-import N from "../../assets/piece/N.svg?react";
-import P from "../../assets/piece/P.svg?react";
-import Q from "../../assets/piece/Q.svg?react";
-import R from "../../assets/piece/R.svg?react";
-
-import { PlayerColor } from "../../store/userStore";
+import B from "@/assets/piece/B.svg?react";
+import K from "@/assets/piece/K.svg?react";
+import N from "@/assets/piece/N.svg?react";
+import P from "@/assets/piece/P.svg?react";
+import Q from "@/assets/piece/Q.svg?react";
+import R from "@/assets/piece/R.svg?react";
 
 interface PieceIconProps {
-  color: PlayerColor;
+  color: string;
   piece: string;
 }
 

@@ -1,18 +1,17 @@
 import { useState, useRef } from "react";
 
 import { Chess } from "chess.js";
+
 import { v4 as uuidv4 } from "uuid";
 
 import { MdSettings } from "react-icons/md";
 
-import { PIECE_ORDER, PIECE_VALUES } from "../../../constant/piece";
+import { PIECE_ORDER, PIECE_VALUES } from "@/constant/piece";
 
-import api from "../../../common/api";
-
-import Button from "../../../components/common/Button";
-import ChessBoard from "../../../components/chessboard/ChessBoard";
-import EngineSettingModal from "../../../components/analysis/EngineSettingModal";
-import EngineAnalysis from "../../../components/analysis/EngineAnalysis";
+import Button from "@/components/common/Button";
+import ChessBoard from "@/components/chessboard/ChessBoard";
+import EngineSettingModal from "@/components/analysis/EngineSettingModal";
+import EngineAnalysis from "@/components/analysis/EngineAnalysis";
 
 const AnalysisPage = () => {
   const channelKeyRef = useRef(uuidv4());
@@ -48,24 +47,6 @@ const AnalysisPage = () => {
     } else {
       setCapturedByBlack((prev) => sortPieces([...prev, piece]));
       setCapturedScore((prev) => prev + score);
-    }
-  };
-
-  const handlePgnUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      await api.post("/api/pollock/engine/analysis/pgn", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      alert("업로드 성공!");
-    } catch (error) {
-      console.error("업로드 실패:", error);
-      alert("업로드 실패");
     }
   };
 
