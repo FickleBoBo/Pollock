@@ -9,5 +9,5 @@ public interface EngineService {
 
     EngineType getEngineType();
 
-    void getEngineAnalysis(EngineAnalysisRequestDTO requestDTO);
+    void publishEngineAnalysis(EngineAnalysisRequestDTO requestDTO);
 }

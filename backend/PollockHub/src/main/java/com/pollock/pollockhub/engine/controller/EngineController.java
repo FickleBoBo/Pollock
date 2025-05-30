@@ -18,9 +18,9 @@ public class EngineController {
     private final EngineServiceRouter engineServiceRouter;
 
     @PostMapping("/analysis")
-    public ResponseEntity<Void> getEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
+    public ResponseEntity<Void> publishEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
         EngineService engineService = engineServiceRouter.resolve(requestDTO.getEngineType());
-        engineService.getEngineAnalysis(requestDTO);
+        engineService.publishEngineAnalysis(requestDTO);
         return ResponseEntity.accepted().build();
     }
 }
