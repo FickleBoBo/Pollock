@@ -23,7 +23,7 @@ public class GameCountBroadcaster {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @Scheduled(fixedRate = 300)
+    @Scheduled(fixedRate = 1000)
     public void broadcastGameCount() {
         long count = countGameKeys();
         messagingTemplate.convertAndSend(TOPIC_GAME_COUNT, count);

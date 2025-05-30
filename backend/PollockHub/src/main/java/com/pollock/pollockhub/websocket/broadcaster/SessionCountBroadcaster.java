@@ -18,7 +18,7 @@ public class SessionCountBroadcaster {
     private final StringRedisTemplate userSessionRedisTemplate;
     private final SimpMessagingTemplate messagingTemplate;
 
-    @Scheduled(fixedRate = 300)
+    @Scheduled(fixedRate = 1000)
     public void broadcastSessionCount() {
         long count = countSessionKeys();
         messagingTemplate.convertAndSend(TOPIC_SESSION_COUNT, count);
