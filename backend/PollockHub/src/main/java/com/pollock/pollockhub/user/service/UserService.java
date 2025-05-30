@@ -36,8 +36,9 @@ public class UserService {
     private final FollowRepository followRepository;
 
     @Transactional
-    public void signup(UserSignupRequestDTO requestDTO, HttpSession session) {
-        validateNickname(requestDTO.getNickname());
+    public void signup(UserSignupRequestDTO requestDTO,
+                       HttpSession session) {
+        assertValidNickname(requestDTO.getNickname());
 
         UserEntity savedUser = userRepository.save(UserEntity.builder()
                 .oauthId(session.getAttribute("oauthId").toString())
@@ -169,12 +170,12 @@ public class UserService {
         return userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::getInstance);
     }
 
-    private void validateNickname(String nickname) {
+    private void assertValidNickname(String nickname) {
         if (nickname == null || nickname.isBlank() || nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH) {
             throw InvalidNicknameException.getInstance();
         }
 
-        if (isNicknameExists(nickname)) {
+        if (checkNicknameExists(nickname)) {
             throw DuplicateNicknameException.getInstance();
         }
     }
