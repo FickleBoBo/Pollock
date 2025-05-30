@@ -9,7 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_GAME_COUNT;
+import static com.pollock.pollockhub.constant.ChannelConstant.TOPIC_GAME_COUNT;
 
 @Component
 public class GameCountBroadcaster {

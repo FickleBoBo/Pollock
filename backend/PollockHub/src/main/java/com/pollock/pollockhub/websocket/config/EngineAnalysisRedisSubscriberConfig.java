@@ -9,7 +9,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
-import static com.pollock.pollockhub.websocket.constant.WebSocketPath.SUBSCRIBE_ENGINE_ANALYSIS_PATTERN;
+import static com.pollock.pollockhub.constant.ChannelConstant.SUBSCRIBE_ENGINE_ANALYSIS_PATTERN;
 
 @Configuration
 @RequiredArgsConstructor

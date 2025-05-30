@@ -1,6 +1,6 @@
-package com.pollock.pollockhub.websocket.constant;
+package com.pollock.pollockhub.constant;
 
-public class WebSocketPath {
+public class ChannelConstant {
     public static final String TOPIC_SESSION_COUNT = "/topic/sessions";
     public static final String TOPIC_GAME_COUNT = "/topic/games";
 

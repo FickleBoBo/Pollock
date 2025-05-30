@@ -9,7 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_SESSION_COUNT;
+import static com.pollock.pollockhub.constant.ChannelConstant.TOPIC_SESSION_COUNT;
 
 @Component
 @RequiredArgsConstructor

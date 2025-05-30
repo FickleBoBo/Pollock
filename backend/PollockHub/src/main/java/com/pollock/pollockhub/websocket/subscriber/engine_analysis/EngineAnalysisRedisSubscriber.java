@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_ENGINE_ANALYSIS;
+import static com.pollock.pollockhub.constant.ChannelConstant.TOPIC_ENGINE_ANALYSIS;
 
 @Component
 @RequiredArgsConstructor
