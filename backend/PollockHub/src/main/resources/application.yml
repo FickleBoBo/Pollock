@@ -61,6 +61,11 @@ custom:
       host: ${GAME_EVENT_REDIS_HOST}
       port: ${GAME_EVENT_REDIS_PORT}
 
+  match-event:
+    redis:
+      host: ${MATCH_EVENT_REDIS_HOST}
+      port: ${MATCH_EVENT_REDIS_PORT}
+
   engine-analysis:
     redis:
       host: ${ENGINE_ANALYSIS_REDIS_HOST}

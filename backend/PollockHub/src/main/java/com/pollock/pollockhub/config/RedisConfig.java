@@ -39,6 +39,23 @@ public class RedisConfig {
         return redisTemplate;
     }
 
+    @Bean(name = "matchEventRedisConnectionFactory")
+    public RedisConnectionFactory matchEventRedisConnectionFactory(
+            @Value("${custom.match-event.redis.host}") String host,
+            @Value("${custom.match-event.redis.port}") int port) {
+        return new LettuceConnectionFactory(host, port);
+    }
+
+    @Bean(name = "matchEventRedisTemplate")
+    public RedisTemplate<String, Object> matchEventRedisTemplate(
+            @Qualifier("matchEventRedisConnectionFactory") RedisConnectionFactory factory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(factory);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return redisTemplate;
+    }
+
     @Bean(name = "engineAnalysisRedisConnectionFactory")
     public RedisConnectionFactory engineAnalysisRedisConnectionFactory(
             @Value("${custom.engine-analysis.redis.host}") String host,
