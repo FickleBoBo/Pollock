@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 /**
  * 개인정보를 제외한 유저 정보 DTO
  */
@@ -16,14 +18,16 @@ import lombok.ToString;
 @ToString
 public class UserPublicInfoResponseDTO {
 
-    private String nickname;
     private String profileImageUrl;
-    private Integer bulletElo;
-    private Integer blitzElo;
-    private Integer classicalElo;
-    private Integer puzzleElo;
+    private String nickname;
     private Role role;
     private Title title;
+    private int bulletElo;
+    private int blitzElo;
+    private int rapidElo;
+    private int classicalElo;
+    private int puzzleElo;
+    private LocalDateTime createdAt;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long followingCount;
@@ -33,27 +37,31 @@ public class UserPublicInfoResponseDTO {
 
     public static UserPublicInfoResponseDTO from(UserEntity userEntity) {
         return UserPublicInfoResponseDTO.builder()
-                .nickname(userEntity.getNickname())
                 .profileImageUrl(userEntity.getProfileImageUrl())
-                .bulletElo(userEntity.getBulletElo())
-                .blitzElo(userEntity.getBlitzElo())
-                .classicalElo(userEntity.getClassicalElo())
-                .puzzleElo(userEntity.getPuzzleElo())
+                .nickname(userEntity.getNickname())
                 .role(userEntity.getRole())
                 .title(userEntity.getTitle())
+                .bulletElo(userEntity.getBulletElo())
+                .blitzElo(userEntity.getBlitzElo())
+                .rapidElo(userEntity.getRapidElo())
+                .classicalElo(userEntity.getClassicalElo())
+                .puzzleElo(userEntity.getPuzzleElo())
+                .createdAt(userEntity.getCreatedAt())
                 .build();
     }
 
     public static UserPublicInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
         return UserPublicInfoResponseDTO.builder()
-                .nickname(userEntity.getNickname())
                 .profileImageUrl(userEntity.getProfileImageUrl())
-                .bulletElo(userEntity.getBulletElo())
-                .blitzElo(userEntity.getBlitzElo())
-                .classicalElo(userEntity.getClassicalElo())
-                .puzzleElo(userEntity.getPuzzleElo())
+                .nickname(userEntity.getNickname())
                 .role(userEntity.getRole())
                 .title(userEntity.getTitle())
+                .bulletElo(userEntity.getBulletElo())
+                .blitzElo(userEntity.getBlitzElo())
+                .rapidElo(userEntity.getRapidElo())
+                .classicalElo(userEntity.getClassicalElo())
+                .puzzleElo(userEntity.getPuzzleElo())
+                .createdAt(userEntity.getCreatedAt())
                 .followingCount(followingCount)
                 .followersCount(followersCount)
                 .build();
