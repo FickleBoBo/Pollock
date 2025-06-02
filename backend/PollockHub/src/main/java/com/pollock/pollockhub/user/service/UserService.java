@@ -68,13 +68,7 @@ public class UserService {
     }
 
     public UserPublicInfoResponseDTO getUser(String nickname) {
-        UserEntity userEntity = getUserEntity(nickname);
-
-        return UserPublicInfoResponseDTO.from(
-                userEntity,
-                followRepository.countByFollower(userEntity),
-                followRepository.countByFollowee(userEntity)
-        );
+        return UserPublicInfoResponseDTO.from(getUserEntity(nickname));
     }
 
     public boolean checkNicknameExists(String nickname) {
@@ -82,13 +76,7 @@ public class UserService {
     }
 
     public UserPrivateInfoResponseDTO getMyInfo(CustomOAuth2User user) {
-        UserEntity userEntity = getUserEntity(user.getId());
-
-        return UserPrivateInfoResponseDTO.from(
-                userEntity,
-                followRepository.countByFollower(userEntity),
-                followRepository.countByFollowee(userEntity)
-        );
+        return UserPrivateInfoResponseDTO.from(getUserEntity(user.getId()));
     }
 
     @Transactional
@@ -108,11 +96,7 @@ public class UserService {
                 requestDTO.getNickname()
         );
 
-        return UserPrivateInfoResponseDTO.from(
-                userEntity,
-                followRepository.countByFollower(userEntity),
-                followRepository.countByFollowee(userEntity)
-        );
+        return UserPrivateInfoResponseDTO.from(userEntity);
     }
 
     @Transactional
