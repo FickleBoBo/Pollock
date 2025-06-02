@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.pollock.pollockhub.constant.Constant.DEFAULT_ELO;
@@ -52,26 +51,26 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role role = BASIC;
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "title", nullable = false)
-    private Title title = NONE;
+    private Title title;
 
     @Column(name = "bullet_elo", nullable = false)
-    private int bulletElo = DEFAULT_ELO;
+    private int bulletElo;
 
     @Column(name = "blitz_elo", nullable = false)
-    private int blitzElo = DEFAULT_ELO;
+    private int blitzElo;
 
     @Column(name = "rapid_elo", nullable = false)
-    private int rapidElo = DEFAULT_ELO;
+    private int rapidElo;
 
     @Column(name = "classical_elo", nullable = false)
-    private int classicalElo = DEFAULT_ELO;
+    private int classicalElo;
 
     @Column(name = "puzzle_elo", nullable = false)
-    private int puzzleElo = DEFAULT_ELO;
+    private int puzzleElo;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -114,6 +113,15 @@ public class UserEntity {
         this.gender = gender;
         this.profileImageUrl = profileImageUrl;
         this.nickname = nickname;
+        this.role = BASIC;
+        this.title = NONE;
+        this.bulletElo = DEFAULT_ELO;
+        this.blitzElo = DEFAULT_ELO;
+        this.rapidElo = DEFAULT_ELO;
+        this.classicalElo = DEFAULT_ELO;
+        this.puzzleElo = DEFAULT_ELO;
+        this.followingCount = 0L;
+        this.followerCount = 0L;
     }
 
     public void updateProfile(
