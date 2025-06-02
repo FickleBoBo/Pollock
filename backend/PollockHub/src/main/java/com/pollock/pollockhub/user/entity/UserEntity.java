@@ -108,19 +108,23 @@ public class UserEntity {
         this.nickname = nickname;
     }
 
-    public void updateBulletElo(Integer bulletElo) {
+    public void updateBulletElo(int bulletElo) {
         this.bulletElo = bulletElo;
     }
 
-    public void updateBlitzElo(Integer blitzElo) {
+    public void updateBlitzElo(int blitzElo) {
         this.blitzElo = blitzElo;
     }
 
-    public void updateClassicalElo(Integer classicalElo) {
+    public void updateRapidElo(int rapidElo) {
+        this.rapidElo = rapidElo;
+    }
+
+    public void updateClassicalElo(int classicalElo) {
         this.classicalElo = classicalElo;
     }
 
-    public void updatePuzzleElo(Integer puzzleElo) {
+    public void updatePuzzleElo(int puzzleElo) {
         this.puzzleElo = puzzleElo;
     }
 
