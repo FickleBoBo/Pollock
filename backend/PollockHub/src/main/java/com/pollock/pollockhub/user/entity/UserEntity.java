@@ -161,4 +161,20 @@ public class UserEntity {
     public void changeTitle(Title title) {
         this.title = title;
     }
+
+    public void increaseFollowingCount() {
+        this.followingCount++;
+    }
+
+    public void decreaseFollowingCount() {
+        this.followingCount--;
+    }
+
+    public void increaseFollowerCount() {
+        this.followerCount++;
+    }
+
+    public void decreaseFollowerCount() {
+        this.followerCount--;
+    }
 }
