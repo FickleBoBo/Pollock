@@ -9,8 +9,10 @@ import lombok.ToString;
 public class UpdateUserProfileRequestDTO {
 
     private String email;
-    private String nickname;
-    private String profileImageUrl;
     private Integer birthyear;
+    private Integer birthmonth;
+    private Integer birthday;
     private Gender gender;
+    private String profileImageUrl;
+    private String nickname;
 }
