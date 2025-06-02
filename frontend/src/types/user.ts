@@ -5,14 +5,16 @@ export type Role = "GUEST" | "BASIC" | "PREMIUM" | "ADMIN";
 export type Title = "GM" | "IM" | "FM" | "CM" | "NONE";
 
 export interface UserSimpleInfo {
-  nickname: string;
   profileImageUrl: string;
-  bulletElo: number;
-  blitzElo: number;
-  classicalElo: number;
-  puzzleElo: number;
+  nickname: string;
   role: Role;
   title: Title;
-  followingCount: number;
-  followersCount: number;
+  bulletElo: number;
+  blitzElo: number;
+  rapidElo: number;
+  classicalElo: number;
+  puzzleElo: number;
+  createdAt: string;
+  followingCount: number | null;
+  followersCount: number | null;
 }
