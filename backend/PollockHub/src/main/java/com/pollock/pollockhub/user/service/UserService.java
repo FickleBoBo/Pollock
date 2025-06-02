@@ -131,6 +131,7 @@ public class UserService {
         );
     }
 
+    @Transactional
     public void unfollow(CustomOAuth2User user,
                          String nickname) {
         UserEntity follower = getUserEntity(user.getId());
