@@ -50,6 +50,21 @@ public class UserEntity {
     @Column(nullable = false)
     private Title title = NONE;
 
+    @Column(nullable = false)
+    private int bulletElo = DEFAULT_ELO;
+
+    @Column(nullable = false)
+    private int blitzElo = DEFAULT_ELO;
+
+    @Column(nullable = false)
+    private int rapidElo = DEFAULT_ELO;
+
+    @Column(nullable = false)
+    private int classicalElo = DEFAULT_ELO;
+
+    @Column(nullable = false)
+    private int puzzleElo = DEFAULT_ELO;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
