@@ -28,52 +28,52 @@ public class UserEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "oauth2_provider", nullable = false)
     private OAuth2Provider oAuth2Provider;
 
-    @Column(nullable = false)
+    @Column(name = "oauth2_provider_id", nullable = false)
     private String oAuth2ProviderId;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column
+    @Column(name = "birthdate")
     private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Column(nullable = false)
+    @Column(name = "profile_image_url", nullable = false)
     private String profileImageUrl;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "role", nullable = false)
     private Role role = BASIC;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     private Title title = NONE;
 
-    @Column(nullable = false)
+    @Column(name = "bullet_elo", nullable = false)
     private int bulletElo = DEFAULT_ELO;
 
-    @Column(nullable = false)
+    @Column(name = "blitz_elo", nullable = false)
     private int blitzElo = DEFAULT_ELO;
 
-    @Column(nullable = false)
+    @Column(name = "rapid_elo", nullable = false)
     private int rapidElo = DEFAULT_ELO;
 
-    @Column(nullable = false)
+    @Column(name = "classical_elo", nullable = false)
     private int classicalElo = DEFAULT_ELO;
 
-    @Column(nullable = false)
+    @Column(name = "puzzle_elo", nullable = false)
     private int puzzleElo = DEFAULT_ELO;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
