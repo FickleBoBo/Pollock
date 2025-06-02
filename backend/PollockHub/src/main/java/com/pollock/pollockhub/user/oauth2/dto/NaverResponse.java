@@ -1,8 +1,12 @@
 package com.pollock.pollockhub.user.oauth2.dto;
 
 import com.pollock.pollockhub.user.entity.Gender;
+import com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider;
 
 import java.util.Map;
+
+import static com.pollock.pollockhub.user.entity.Gender.*;
+import static com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider.NAVER;
 
 public class NaverResponse implements OAuth2Response {
 
@@ -14,8 +18,13 @@ public class NaverResponse implements OAuth2Response {
     }
 
     @Override
-    public String getOauthId() {
-        return "naver-" + attributes.get("id").toString();
+    public OAuth2Provider getOAuth2Provider() {
+        return NAVER;
+    }
+
+    @Override
+    public String getOAuth2ProviderId() {
+        return attributes.get("id").toString();
     }
 
     @Override
@@ -27,16 +36,46 @@ public class NaverResponse implements OAuth2Response {
     @Override
     public Integer getBirthyear() {
         Object birthyear = attributes.get("birthyear");
-        return birthyear != null ? Integer.parseInt(birthyear.toString()) : null;
+        Object birthday = attributes.get("birthday");
+
+        if (birthyear == null || birthday == null) {
+            return null;
+        }
+
+        return Integer.parseInt(birthyear.toString());
+    }
+
+    @Override
+    public Integer getBirthmonth() {
+        Object birthyear = attributes.get("birthyear");
+        Object birthday = attributes.get("birthday");
+
+        if (birthyear == null || birthday == null) {
+            return null;
+        }
+
+        return Integer.parseInt(birthday.toString().split("-")[0]);
+    }
+
+    @Override
+    public Integer getBirthday() {
+        Object birthyear = attributes.get("birthyear");
+        Object birthday = attributes.get("birthday");
+
+        if (birthyear == null || birthday == null) {
+            return null;
+        }
+
+        return Integer.parseInt(birthday.toString().split("-")[1]);
     }
 
     @Override
     public Gender getGender() {
         Object gender = attributes.get("gender");
         if (gender != null) {
-            if (gender.toString().equals("M")) return Gender.MALE;
-            if (gender.toString().equals("F")) return Gender.FEMALE;
+            if (gender.toString().equals("M")) return MALE;
+            if (gender.toString().equals("F")) return FEMALE;
         }
-        return Gender.OTHER;
+        return OTHER;
     }
 }
