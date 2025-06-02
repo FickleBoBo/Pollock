@@ -180,4 +180,15 @@ public class UserService {
             throw DuplicateNicknameException.getInstance();
         }
     }
+
+    public int getEloByGameType(CustomOAuth2User user, GameType gameType) {
+        UserEntity userEntity = getUserEntity(user.getId());
+
+        return switch (gameType) {
+            case BULLET_1_0, BULLET_1_1, BULLET_2_1 -> userEntity.getBulletElo();
+            case BLITZ_3_0, BLITZ_3_2, BLITZ_5_0 -> userEntity.getBlitzElo();
+            case RAPID_10_0, RAPID_10_5, RAPID_15_10 -> userEntity.getRapidElo();
+            case CLASSICAL_30_0, CLASSICAL_30_20, CLASSICAL_90_30 -> userEntity.getClassicalElo();
+        };
+    }
 }
