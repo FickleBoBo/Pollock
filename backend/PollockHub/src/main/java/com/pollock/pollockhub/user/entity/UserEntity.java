@@ -86,21 +86,26 @@ public class UserEntity {
     private List<FollowEntity> followers = new ArrayList<>();
 
     @Builder
-    public UserEntity(String oauthId, String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
-        this.oauthId = oauthId;
+    public UserEntity(OAuth2Provider oAuth2Provider, String oAuth2ProviderId, String email, Integer birthyear, Integer birthmonth, Integer birthday, Gender gender, String profileImageUrl, String nickname) {
+        this.oAuth2Provider = oAuth2Provider;
+        this.oAuth2ProviderId = oAuth2ProviderId;
         this.email = email;
-        this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
-        this.birthyear = birthyear;
+        this.birthdate = (birthyear != null && birthmonth != null && birthday != null)
+                ? LocalDate.of(birthyear, birthmonth, birthday)
+                : null;
         this.gender = gender;
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
     }
 
-    public void updateProfile(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
+    public void updateProfile(String email, Integer birthyear, Integer birthmonth, Integer birthday, Gender gender, String profileImageUrl, String nickname) {
         this.email = email;
-        this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
-        this.birthyear = birthyear;
+        this.birthdate = (birthyear != null && birthmonth != null && birthday != null)
+                ? LocalDate.of(birthyear, birthmonth, birthday)
+                : null;
         this.gender = gender;
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
     }
 
     public void updateBulletElo(Integer bulletElo) {
