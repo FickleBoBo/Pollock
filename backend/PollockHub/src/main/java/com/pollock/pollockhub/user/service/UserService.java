@@ -119,6 +119,9 @@ public class UserService {
                         .followee(followee)
                         .build()
         );
+
+        follower.increaseFollowingCount();
+        followee.increaseFollowersCount();
     }
 
     @Transactional
@@ -128,6 +131,9 @@ public class UserService {
         UserEntity followee = getUserEntity(nickname);
 
         followRepository.deleteByFollowerAndFollowee(follower, followee);
+
+        follower.decreaseFollowingCount();
+        followee.decreaseFollowersCount();
     }
 
     public Page<UserPublicInfoResponseDTO> getMyFollowing(CustomOAuth2User user,
