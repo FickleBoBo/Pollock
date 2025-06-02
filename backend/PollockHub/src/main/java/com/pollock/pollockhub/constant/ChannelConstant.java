@@ -5,14 +5,19 @@ public class ChannelConstant {
     private ChannelConstant() {
     }
 
-    // WebSocket Topics
+    // WebSocket Topic
     public static final String TOPIC_PING = "/topic/ping/%s";
 
-    public static final String TOPIC_SESSION_COUNT = "/topic/session-count";
-    public static final String TOPIC_GAME_COUNT = "/topic/game-count";
+    public static final String TOPIC_SESSION_COUNT = "/topic/session/count";
+    public static final String TOPIC_GAME_COUNT = "/topic/game/count";
 
-    public static final String TOPIC_ENGINE_ANALYSIS = "/topic/analysis/%s";
+    public static final String TOPIC_MATCH = "/topic/match/%s";
 
-    // Redis Pub/Sub Channels
+    public static final String TOPIC_ENGINE_ANALYSIS = "/topic/engine/analysis/%s";
+
+    // Redis Key
+    public static final String MATCH_QUEUE_KEY = "match_queue:%s:%d";
+
+    // Redis Pub/Sub Pattern
     public static final String SUBSCRIBE_ENGINE_ANALYSIS_PATTERN = "engine:*";
 }
