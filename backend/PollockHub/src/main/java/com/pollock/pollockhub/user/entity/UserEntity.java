@@ -88,7 +88,17 @@ public class UserEntity {
     private List<FollowEntity> followers = new ArrayList<>();
 
     @Builder
-    public UserEntity(OAuth2Provider oAuth2Provider, String oAuth2ProviderId, String email, Integer birthyear, Integer birthmonth, Integer birthday, Gender gender, String profileImageUrl, String nickname) {
+    public UserEntity(
+            OAuth2Provider oAuth2Provider,
+            String oAuth2ProviderId,
+            String email,
+            Integer birthyear,
+            Integer birthmonth,
+            Integer birthday,
+            Gender gender,
+            String profileImageUrl,
+            String nickname
+    ) {
         this.oAuth2Provider = oAuth2Provider;
         this.oAuth2ProviderId = oAuth2ProviderId;
         this.email = email;
@@ -100,7 +110,15 @@ public class UserEntity {
         this.nickname = nickname;
     }
 
-    public void updateProfile(String email, Integer birthyear, Integer birthmonth, Integer birthday, Gender gender, String profileImageUrl, String nickname) {
+    public void updateProfile(
+            String email,
+            Integer birthyear,
+            Integer birthmonth,
+            Integer birthday,
+            Gender gender,
+            String profileImageUrl,
+            String nickname
+    ) {
         this.email = email;
         this.birthdate = (birthyear != null && birthmonth != null && birthday != null)
                 ? LocalDate.of(birthyear, birthmonth, birthday)
