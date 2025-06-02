@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -20,7 +19,9 @@ import java.time.LocalDateTime;
 public class UserPrivateInfoResponseDTO {
 
     private String email;
-    private LocalDate birthdate;
+    private Integer birthyear;
+    private Integer birthmonth;
+    private Integer birthday;
     private Gender gender;
     private String profileImageUrl;
     private String nickname;
@@ -38,7 +39,9 @@ public class UserPrivateInfoResponseDTO {
     public static UserPrivateInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
         return UserPrivateInfoResponseDTO.builder()
                 .email(userEntity.getEmail())
-                .birthdate(userEntity.getBirthdate())
+                .birthyear(userEntity.getBirthdate() != null ? userEntity.getBirthdate().getYear() : null)
+                .birthmonth(userEntity.getBirthdate() != null ? userEntity.getBirthdate().getMonthValue() : null)
+                .birthday(userEntity.getBirthdate() != null ? userEntity.getBirthdate().getDayOfMonth() : null)
                 .gender(userEntity.getGender())
                 .profileImageUrl(userEntity.getProfileImageUrl())
                 .nickname(userEntity.getNickname())
