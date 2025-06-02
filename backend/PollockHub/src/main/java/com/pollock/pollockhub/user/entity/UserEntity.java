@@ -89,8 +89,8 @@ public class UserEntity {
     @Column(name = "following_count", nullable = false)
     private long followingCount;
 
-    @Column(name = "follower_count", nullable = false)
-    private long followerCount;
+    @Column(name = "followers_count", nullable = false)
+    private long followersCount;
 
     @Builder
     public UserEntity(
@@ -121,7 +121,7 @@ public class UserEntity {
         this.classicalElo = DEFAULT_ELO;
         this.puzzleElo = DEFAULT_ELO;
         this.followingCount = 0L;
-        this.followerCount = 0L;
+        this.followersCount = 0L;
     }
 
     public void updateProfile(
@@ -178,11 +178,11 @@ public class UserEntity {
         this.followingCount--;
     }
 
-    public void increaseFollowerCount() {
-        this.followerCount++;
+    public void increaseFollowersCount() {
+        this.followersCount++;
     }
 
-    public void decreaseFollowerCount() {
-        this.followerCount--;
+    public void decreaseFollowersCount() {
+        this.followersCount--;
     }
 }
