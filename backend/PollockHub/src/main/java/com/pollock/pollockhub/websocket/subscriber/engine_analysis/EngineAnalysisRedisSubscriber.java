@@ -2,7 +2,6 @@ package com.pollock.pollockhub.websocket.subscriber.engine_analysis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pollock.pollockhub.common.exception.InternalServerErrorException;
-import com.pollock.pollockhub.websocket.subscriber.engine_analysis.dto.response.EngineAnalysisResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
