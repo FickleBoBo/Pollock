@@ -1,11 +1,13 @@
 package com.pollock.pollockhub.user.entity;
 
+import com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
