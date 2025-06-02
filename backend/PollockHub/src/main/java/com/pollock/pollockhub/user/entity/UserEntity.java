@@ -81,11 +81,17 @@ public class UserEntity {
         this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
-    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FollowEntity> following = new ArrayList<>();
+    @OneToMany(mappedBy = "follower")
+    private List<FollowEntity> following;
 
-    @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FollowEntity> followers = new ArrayList<>();
+    @OneToMany(mappedBy = "followee")
+    private List<FollowEntity> followers;
+
+    @Column(name = "following_count", nullable = false)
+    private long followingCount;
+
+    @Column(name = "follower_count", nullable = false)
+    private long followerCount;
 
     @Builder
     public UserEntity(
