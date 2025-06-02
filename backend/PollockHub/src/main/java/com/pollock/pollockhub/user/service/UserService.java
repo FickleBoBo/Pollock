@@ -1,5 +1,6 @@
 package com.pollock.pollockhub.user.service;
 
+import com.pollock.pollockhub.game.enums.GameType;
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
 import com.pollock.pollockhub.user.dto.request.UserSignupRequestDTO;
 import com.pollock.pollockhub.user.dto.response.UserPrivateInfoResponseDTO;
@@ -9,6 +10,7 @@ import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import com.pollock.pollockhub.user.exception.*;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
+import com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider;
 import com.pollock.pollockhub.user.repository.FollowRepository;
 import com.pollock.pollockhub.user.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -41,12 +43,15 @@ public class UserService {
         assertValidNickname(requestDTO.getNickname());
 
         UserEntity savedUser = userRepository.save(UserEntity.builder()
-                .oauthId(session.getAttribute("oauthId").toString())
+                .oAuth2Provider(OAuth2Provider.valueOf(session.getAttribute("oAuth2Provider").toString()))
+                .oAuth2ProviderId(session.getAttribute("oAuth2ProviderId").toString())
                 .email(session.getAttribute("email") == null ? null : session.getAttribute("email").toString())
-                .nickname(requestDTO.getNickname())
+                .birthyear(session.getAttribute("birthyear") == null ? null : Integer.parseInt(session.getAttribute("birthyear").toString()))
+                .birthmonth(session.getAttribute("birthmonth") == null ? null : Integer.parseInt(session.getAttribute("birthmonth").toString()))
+                .birthday(session.getAttribute("birthday") == null ? null : Integer.parseInt(session.getAttribute("birthday").toString()))
+                .gender(Gender.valueOf(session.getAttribute("gender").toString()))
                 .profileImageUrl(defaultProfileImageUrl)
-                .birthyear(session.getAttribute("birthyear") == null ? null : (Integer) session.getAttribute("birthyear"))
-                .gender((Gender) session.getAttribute("gender"))
+                .nickname(requestDTO.getNickname())
                 .build());
 
         CustomOAuth2User customOAuth2User = CustomOAuth2User.from(savedUser);
