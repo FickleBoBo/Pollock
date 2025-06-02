@@ -25,26 +25,12 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String oauthId;
-
-    @Column
-    private String email;
-
-    @Column(nullable = false, unique = true)
-    private String nickname;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OAuth2Provider oAuth2Provider;
 
     @Column(nullable = false)
-    private String profileImageUrl;
-
-    @Column(nullable = false)
-    private Integer bulletElo = DEFAULT_ELO;
-
-    @Column(nullable = false)
-    private Integer blitzElo = DEFAULT_ELO;
-
-    @Column(nullable = false)
-    private Integer classicalElo = DEFAULT_ELO;
+    private String oAuth2ProviderId;
 
     @Column(nullable = false)
     private Integer puzzleElo = DEFAULT_ELO;
