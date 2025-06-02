@@ -95,10 +95,12 @@ public class UserService {
 
         userEntity.updateProfile(
                 requestDTO.getEmail(),
-                requestDTO.getNickname(),
-                requestDTO.getProfileImageUrl(),
                 requestDTO.getBirthyear(),
-                requestDTO.getGender()
+                requestDTO.getBirthmonth(),
+                requestDTO.getBirthday(),
+                requestDTO.getGender(),
+                requestDTO.getProfileImageUrl(),
+                requestDTO.getNickname()
         );
 
         return UserPrivateInfoResponseDTO.from(
