@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -19,33 +20,35 @@ import java.time.LocalDateTime;
 public class UserPrivateInfoResponseDTO {
 
     private String email;
-    private String nickname;
-    private String profileImageUrl;
-    private Integer bulletElo;
-    private Integer blitzElo;
-    private Integer classicalElo;
-    private Integer puzzleElo;
-    private Integer birthyear;
+    private LocalDate birthdate;
     private Gender gender;
+    private String profileImageUrl;
+    private String nickname;
     private Role role;
     private Title title;
+    private int bulletElo;
+    private int blitzElo;
+    private int rapidElo;
+    private int classicalElo;
+    private int puzzleElo;
     private LocalDateTime createdAt;
-    private Long followingCount;
-    private Long followersCount;
+    private long followingCount;
+    private long followersCount;
 
     public static UserPrivateInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
         return UserPrivateInfoResponseDTO.builder()
                 .email(userEntity.getEmail())
-                .nickname(userEntity.getNickname())
-                .profileImageUrl(userEntity.getProfileImageUrl())
-                .bulletElo(userEntity.getBulletElo())
-                .blitzElo(userEntity.getBlitzElo())
-                .classicalElo(userEntity.getClassicalElo())
-                .puzzleElo(userEntity.getPuzzleElo())
-                .birthyear(userEntity.getBirthyear())
+                .birthdate(userEntity.getBirthdate())
                 .gender(userEntity.getGender())
+                .profileImageUrl(userEntity.getProfileImageUrl())
+                .nickname(userEntity.getNickname())
                 .role(userEntity.getRole())
                 .title(userEntity.getTitle())
+                .bulletElo(userEntity.getBulletElo())
+                .blitzElo(userEntity.getBlitzElo())
+                .rapidElo(userEntity.getRapidElo())
+                .classicalElo(userEntity.getClassicalElo())
+                .puzzleElo(userEntity.getPuzzleElo())
                 .createdAt(userEntity.getCreatedAt())
                 .followingCount(followingCount)
                 .followersCount(followersCount)
