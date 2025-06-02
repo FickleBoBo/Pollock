@@ -12,8 +12,16 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    @Query("SELECT u FROM UserEntity u WHERE u.oAuth2Provider = :oAuth2Provider AND u.oAuth2ProviderId = :oAuth2ProviderId")
-    Optional<UserEntity> findByOAuth2ProviderAndOAuth2ProviderId(@Param("oAuth2Provider") OAuth2Provider oAuth2Provider, @Param("oAuth2ProviderId") String oAuth2ProviderId);
+    @Query("""
+                SELECT u FROM UserEntity u
+                WHERE u.oAuth2Provider = :oauth2_provider
+                AND u.oAuth2ProviderId = :oauth2_provider_id
+            """)
+    Optional<UserEntity> findByOAuth2ProviderAndOAuth2ProviderId(
+            @Param("oauth2_provider") OAuth2Provider oAuth2Provider,
+            @Param("oauth2_provider_id") String oAuth2ProviderId
+    );
+
 
     Optional<UserEntity> findByNickname(String nickname);
 
