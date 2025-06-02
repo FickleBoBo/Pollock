@@ -32,8 +32,8 @@ public class UserEntity {
     @Column(nullable = false)
     private String oAuth2ProviderId;
 
-    @Column(nullable = false)
-    private Integer puzzleElo = DEFAULT_ELO;
+    @Column
+    private String email;
 
     @Column
     private LocalDate birthdate;
@@ -41,6 +41,12 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
+
+    @Column(nullable = false)
+    private String profileImageUrl;
+
+    @Column(nullable = false, unique = true)
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
