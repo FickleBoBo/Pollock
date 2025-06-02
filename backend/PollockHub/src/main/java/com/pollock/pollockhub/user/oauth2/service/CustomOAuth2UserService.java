@@ -37,7 +37,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             default -> throw new OAuth2AuthenticationException("Unsupported provider: " + registrationId);
         };
 
-        Optional<UserEntity> existUser = userRepository.findByOauthId(oAuth2Response.getOauthId());
+        Optional<UserEntity> existUser = userRepository.findByOAuth2ProviderAndOAuth2ProviderId(oAuth2Response.getOAuth2Provider(), oAuth2Response.getOAuth2ProviderId());
 
         if (existUser.isEmpty()) {
             session.setAttribute("oauthId", oAuth2Response.getOauthId());
