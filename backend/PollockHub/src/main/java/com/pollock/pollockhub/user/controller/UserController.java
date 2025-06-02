@@ -38,7 +38,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{nickname}/follow")
+    @PostMapping("/{nickname}/unfollow")
     public ResponseEntity<Void> unfollow(@Auth CustomOAuth2User user,
                                          @PathVariable String nickname) {
         userService.unfollow(user, nickname);
