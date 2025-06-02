@@ -113,10 +113,11 @@ public class UserService {
             throw AlreadyFollowingException.getInstance();
         }
 
-        followRepository.save(FollowEntity.builder()
-                .follower(follower)
-                .followee(followee)
-                .build()
+        followRepository.save(
+                FollowEntity.builder()
+                        .follower(follower)
+                        .followee(followee)
+                        .build()
         );
     }
 
