@@ -36,7 +36,7 @@ public class UserPrivateInfoResponseDTO {
     private long followingCount;
     private long followersCount;
 
-    public static UserPrivateInfoResponseDTO from(UserEntity userEntity, long followingCount, long followersCount) {
+    public static UserPrivateInfoResponseDTO from(UserEntity userEntity) {
         return UserPrivateInfoResponseDTO.builder()
                 .email(userEntity.getEmail())
                 .birthyear(userEntity.getBirthdate() != null ? userEntity.getBirthdate().getYear() : null)
@@ -53,8 +53,8 @@ public class UserPrivateInfoResponseDTO {
                 .classicalElo(userEntity.getClassicalElo())
                 .puzzleElo(userEntity.getPuzzleElo())
                 .createdAt(userEntity.getCreatedAt())
-                .followingCount(followingCount)
-                .followersCount(followersCount)
+                .followingCount(userEntity.getFollowingCount())
+                .followersCount(userEntity.getFollowersCount())
                 .build();
     }
 }
