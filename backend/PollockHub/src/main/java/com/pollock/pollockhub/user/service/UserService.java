@@ -178,7 +178,7 @@ public class UserService {
         }
 
         if (checkNicknameExists(nickname)) {
-            throw DuplicateNicknameException.getInstance();
+            throw DuplicatedNicknameException.getInstance();
         }
     }
 
