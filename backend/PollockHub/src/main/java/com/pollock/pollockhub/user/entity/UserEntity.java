@@ -36,7 +36,7 @@ public class UserEntity {
     private Integer puzzleElo = DEFAULT_ELO;
 
     @Column
-    private Integer birthyear;
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
