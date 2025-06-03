@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.game.enums;
+package com.pollock.pollockhub.game.entity;
 
 public enum GameType {
     BULLET_1_0, BULLET_1_1, BULLET_2_1,

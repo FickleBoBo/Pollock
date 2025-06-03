@@ -1,6 +1,6 @@
 package com.pollock.pollockhub.game.service;
 
-import com.pollock.pollockhub.game.enums.GameType;
+import com.pollock.pollockhub.game.entity.GameType;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
 import com.pollock.pollockhub.user.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;

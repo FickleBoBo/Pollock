@@ -1,6 +1,6 @@
 package com.pollock.pollockhub.game.controller;
 
-import com.pollock.pollockhub.game.enums.GameType;
+import com.pollock.pollockhub.game.entity.GameType;
 import com.pollock.pollockhub.game.service.GameService;
 import com.pollock.pollockhub.user.oauth2.annotation.Auth;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;

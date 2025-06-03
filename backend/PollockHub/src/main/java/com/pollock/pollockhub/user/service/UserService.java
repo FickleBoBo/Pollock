@@ -1,6 +1,6 @@
 package com.pollock.pollockhub.user.service;
 
-import com.pollock.pollockhub.game.enums.GameType;
+import com.pollock.pollockhub.game.entity.GameType;
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
 import com.pollock.pollockhub.user.dto.request.UserSignupRequestDTO;
 import com.pollock.pollockhub.user.dto.response.UserPrivateInfoResponseDTO;
