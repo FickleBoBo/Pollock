@@ -1,6 +1,5 @@
-package com.pollock.pollockhub.websocket.config;
+package com.pollock.pollockhub.engine.subscriber;
 
-import com.pollock.pollockhub.websocket.subscriber.engine_analysis.EngineAnalysisRedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.websocket.subscriber.engine_analysis;
+package com.pollock.pollockhub.engine.subscriber;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pollock.pollockhub.common.exception.EngineAnalysisRedisErrorException;
