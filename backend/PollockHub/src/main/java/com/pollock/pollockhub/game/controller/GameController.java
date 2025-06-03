@@ -18,7 +18,7 @@ public class GameController {
 
     private final GameService gameService;
 
-    @PostMapping("{gameType}")
+    @PostMapping("/{gameType}")
     public ResponseEntity<Void> requestMatch(@Auth CustomOAuth2User user,
                                              @PathVariable GameType gameType) {
         gameService.enqueueUser(user, gameType);
