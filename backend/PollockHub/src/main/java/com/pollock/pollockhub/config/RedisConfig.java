@@ -16,11 +16,19 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
 
     @Primary
-    @Bean
+    @Bean(name = "userSessionRedisConnectionFactory")
     public RedisConnectionFactory userSessionRedisConnectionFactory(
             @Value("${spring.data.redis.host}") String host,
             @Value("${spring.data.redis.port}") int port) {
         return new LettuceConnectionFactory(host, port);
+    }
+
+    @Bean(name = "userSessionRedisTemplate")
+    public StringRedisTemplate userSessionRedisTemplate(
+            @Qualifier("userSessionRedisConnectionFactory") RedisConnectionFactory factory) {
+        StringRedisTemplate template = new StringRedisTemplate();
+        template.setConnectionFactory(factory);
+        return template;
     }
 
     @Bean(name = "gameEventRedisConnectionFactory")
