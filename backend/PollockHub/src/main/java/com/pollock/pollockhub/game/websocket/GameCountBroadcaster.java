@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.websocket.broadcaster;
+package com.pollock.pollockhub.game.websocket;
 
 import com.pollock.pollockhub.common.exception.GameEventRedisErrorException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,12 +25,12 @@ public class GameCountBroadcaster {
 
     @Scheduled(fixedRate = 1000)
     public void broadcastGameCount() {
-        long count = countGameKeys();
-        messagingTemplate.convertAndSend(TOPIC_GAME_COUNT, count);
+        messagingTemplate.convertAndSend(TOPIC_GAME_COUNT, countGameKeys());
     }
 
     private long countGameKeys() {
         ScanOptions options = ScanOptions.scanOptions()
+                .match("game:*")
                 .count(1000)
                 .build();
 
