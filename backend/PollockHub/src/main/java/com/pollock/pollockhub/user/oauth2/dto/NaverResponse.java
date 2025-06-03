@@ -4,6 +4,7 @@ import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static com.pollock.pollockhub.user.entity.Gender.*;
 import static com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider.NAVER;
@@ -72,11 +73,20 @@ public class NaverResponse implements OAuth2Response {
 
     @Override
     public Gender getGender() {
-        Object gender = attributes.get("gender");
-        if (gender != null) {
-            if (gender.toString().equals("M")) return MALE;
-            if (gender.toString().equals("F")) return FEMALE;
-        }
-        return OTHER;
+        return Optional.ofNullable(attributes.get("gender"))
+                .map(Object::toString)
+                .map(gender -> switch (gender) {
+                    case "M" -> MALE;
+                    case "F" -> FEMALE;
+                    default -> OTHER;
+                })
+                .orElse(OTHER);
+    }
+
+    private boolean isValidBirthDate() {
+        Object birthyear = attributes.get("birthyear");
+        Object birthday = attributes.get("birthday");
+
+        return birthyear != null && birthday != null;
     }
 }
