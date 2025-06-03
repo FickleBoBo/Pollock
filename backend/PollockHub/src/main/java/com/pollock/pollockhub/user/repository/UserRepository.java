@@ -22,7 +22,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             @Param("oauth2_provider_id") String oAuth2ProviderId
     );
 
-
     Optional<UserEntity> findByNickname(String nickname);
 
     Page<UserEntity> findByNicknameStartingWithIgnoreCase(String keyword, Pageable pageable);
