@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import static com.pollock.pollockhub.constant.ChannelConstant.MATCH_KEY;
+import static com.pollock.pollockhub.constant.Constant.ELO_BUCKET_SIZE;
 
 @Service
 public class GameService {
@@ -22,7 +23,7 @@ public class GameService {
     }
 
     public void enqueueUser(CustomOAuth2User user, GameType gameType) {
-        int eloBucket = userService.getEloByGameType(user, gameType) / 10 * 10;
+        int eloBucket = userService.getEloByGameType(user, gameType) / ELO_BUCKET_SIZE * ELO_BUCKET_SIZE;
 
         String queueKey = String.format(MATCH_KEY, gameType, eloBucket);
         matchEventRedisTemplate.opsForList().rightPush(queueKey, user.getNickname());

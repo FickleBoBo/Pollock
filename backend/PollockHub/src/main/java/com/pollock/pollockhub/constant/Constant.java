@@ -10,4 +10,7 @@ public class Constant {
 
     public static final int MIN_NICKNAME_LENGTH = 4;
     public static final int MAX_NICKNAME_LENGTH = 16;
+
+    // Game Domain
+    public static final int ELO_BUCKET_SIZE = 10;
 }
