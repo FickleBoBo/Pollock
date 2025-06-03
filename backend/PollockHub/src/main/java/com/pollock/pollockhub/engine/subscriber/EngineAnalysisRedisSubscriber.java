@@ -1,7 +1,7 @@
 package com.pollock.pollockhub.websocket.subscriber.engine_analysis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pollock.pollockhub.common.exception.InternalServerErrorException;
+import com.pollock.pollockhub.common.exception.EngineAnalysisRedisErrorException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
@@ -28,7 +28,7 @@ public class EngineAnalysisRedisSubscriber implements MessageListener {
             EngineAnalysisResponseDTO responseDTO = objectMapper.readValue(message.getBody(), EngineAnalysisResponseDTO.class);
             messagingTemplate.convertAndSend(String.format(TOPIC_ENGINE_ANALYSIS, channelKey), responseDTO);
         } catch (IOException e) {
-            throw InternalServerErrorException.getInstance();
+            throw EngineAnalysisRedisErrorException.getInstance();
         }
     }
 }
