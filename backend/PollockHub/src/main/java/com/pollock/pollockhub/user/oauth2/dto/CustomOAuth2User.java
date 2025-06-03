@@ -39,7 +39,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public String getName() {
-        return id != null ? id.toString() : "unregistered";
+        return id != null ? id.toString() : GUEST.name();
     }
 
     public boolean isRegistered() {
