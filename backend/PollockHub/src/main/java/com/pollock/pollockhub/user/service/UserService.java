@@ -178,7 +178,8 @@ public class UserService {
         }
     }
 
-    public int getEloByGameType(CustomOAuth2User user, GameType gameType) {
+    public int getEloByGameType(CustomOAuth2User user,
+                                GameType gameType) {
         UserEntity userEntity = getUserEntity(user.getId());
 
         return switch (gameType) {
