@@ -37,38 +37,23 @@ public class NaverResponse implements OAuth2Response {
 
     @Override
     public Integer getBirthyear() {
-        Object birthyear = attributes.get("birthyear");
-        Object birthday = attributes.get("birthday");
-
-        if (birthyear == null || birthday == null) {
-            return null;
-        }
-
-        return Integer.parseInt(birthyear.toString());
+        return isValidBirthDate() ?
+                Integer.parseInt(attributes.get("birthyear").toString())
+                : null;
     }
 
     @Override
     public Integer getBirthmonth() {
-        Object birthyear = attributes.get("birthyear");
-        Object birthday = attributes.get("birthday");
-
-        if (birthyear == null || birthday == null) {
-            return null;
-        }
-
-        return Integer.parseInt(birthday.toString().split("-")[0]);
+        return isValidBirthDate() ?
+                Integer.parseInt(attributes.get("birthday").toString().split("-")[0])
+                : null;
     }
 
     @Override
     public Integer getBirthday() {
-        Object birthyear = attributes.get("birthyear");
-        Object birthday = attributes.get("birthday");
-
-        if (birthyear == null || birthday == null) {
-            return null;
-        }
-
-        return Integer.parseInt(birthday.toString().split("-")[1]);
+        return isValidBirthDate() ?
+                Integer.parseInt(attributes.get("birthday").toString().split("-")[1])
+                : null;
     }
 
     @Override
