@@ -11,6 +11,6 @@ public class EngineAnalysisResponseDTO {
 
     private Integer score;
     private Integer mate;
-    private Integer currentPv;
+    private int currentPv;
     private List<String> pvList;
 }
