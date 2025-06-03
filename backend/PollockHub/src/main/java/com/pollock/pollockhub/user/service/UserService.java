@@ -43,13 +43,13 @@ public class UserService {
         assertValidNickname(requestDTO.getNickname());
 
         UserEntity savedUser = userRepository.save(UserEntity.builder()
-                .oAuth2Provider(OAuth2Provider.valueOf(session.getAttribute("oAuth2Provider").toString()))
-                .oAuth2ProviderId(session.getAttribute("oAuth2ProviderId").toString())
-                .email(session.getAttribute("email") == null ? null : session.getAttribute("email").toString())
-                .birthyear(session.getAttribute("birthyear") == null ? null : Integer.parseInt(session.getAttribute("birthyear").toString()))
-                .birthmonth(session.getAttribute("birthmonth") == null ? null : Integer.parseInt(session.getAttribute("birthmonth").toString()))
-                .birthday(session.getAttribute("birthday") == null ? null : Integer.parseInt(session.getAttribute("birthday").toString()))
-                .gender(Gender.valueOf(session.getAttribute("gender").toString()))
+                .oAuth2Provider(OAuth2Provider.valueOf(getStringAttribute(session, "oAuth2Provider")))
+                .oAuth2ProviderId(getStringAttribute(session, "oAuth2ProviderId"))
+                .email(getStringAttribute(session, "email"))
+                .birthyear(getIntegerAttribute(session, "birthyear"))
+                .birthmonth(getIntegerAttribute(session, "birthmonth"))
+                .birthday(getIntegerAttribute(session, "birthday"))
+                .gender(Gender.valueOf(getStringAttribute(session, "gender")))
                 .profileImageUrl(defaultProfileImageUrl)
                 .nickname(requestDTO.getNickname())
                 .build());
@@ -158,6 +158,16 @@ public class UserService {
                                                             Pageable pageable) {
         return followRepository.findAllByFollowee(getUserEntity(nickname), pageable)
                 .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollower()));
+    }
+
+    private Integer getIntegerAttribute(HttpSession session, String key) {
+        Object value = session.getAttribute(key);
+        return value != null ? Integer.parseInt(value.toString()) : null;
+    }
+
+    private String getStringAttribute(HttpSession session, String key) {
+        Object value = session.getAttribute(key);
+        return value != null ? value.toString() : null;
     }
 
     private UserEntity getUserEntity(Long id) {
