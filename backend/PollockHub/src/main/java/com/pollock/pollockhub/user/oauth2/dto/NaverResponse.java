@@ -29,8 +29,9 @@ public class NaverResponse implements OAuth2Response {
 
     @Override
     public String getEmail() {
-        Object email = attributes.get("email");
-        return email != null ? email.toString() : null;
+        return Optional.ofNullable(attributes.get("email"))
+                .map(Object::toString)
+                .orElse(null);
     }
 
     @Override
