@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 
 import static com.pollock.pollockhub.constant.Constant.DEFAULT_ELO;
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
@@ -79,12 +78,6 @@ public class UserEntity {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
-
-    @OneToMany(mappedBy = "follower")
-    private List<FollowEntity> following;
-
-    @OneToMany(mappedBy = "followee")
-    private List<FollowEntity> followers;
 
     @Column(name = "following_count", nullable = false)
     private long followingCount;
