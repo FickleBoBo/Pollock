@@ -77,6 +77,7 @@ public class SecurityConfig {
                 .accessDeniedHandler(customAccessDeniedHandler)
         );
 
+        // 허용 경로 설정
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/api/pollock/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/pollock/public/**").permitAll()
