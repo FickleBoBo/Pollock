@@ -10,7 +10,7 @@ import api from "@/common/api";
 
 import Button from "@/components/common/Button";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import UserCard from "@/components/social/UserCard";
+import UserCard from "@/components/common/UserCard";
 
 const size = 30;
 
@@ -25,20 +25,20 @@ const SearchPage = () => {
 
   const navigate = useNavigate();
 
-  const fetchSearchUsers = async () => {
+  const fetchUsers = async () => {
     if (isLoading) return;
     setIsLoading(true);
 
     try {
       const { data } = await api.get<Page<UserSimpleInfo>>(
-        "/api/pollock/users/search",
+        "/api/pollock/public/users",
         {
           params: { keyword: searchKeyword, page, size },
         }
       );
       setUserPage(data);
     } catch (error) {
-      console.error("유저 목록 조회 실패:", error);
+      console.error("fetchUsers", error);
       setUserPage(null);
     } finally {
       setIsLoading(false);
@@ -60,7 +60,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (searchKeyword) {
-      fetchSearchUsers();
+      fetchUsers();
     }
   }, [searchKeyword, page]);
 
