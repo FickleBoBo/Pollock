@@ -18,6 +18,8 @@ public class ChannelConstant {
     public static final String TOPIC_ENGINE_ANALYSIS = "/topic/engine/analysis/%s";
 
     // Redis Key
+    public static final String GAME_KEY = "game:%s";
+
     public static final String MATCH_KEY = "match:%s:%d";
 
     // Redis Pub/Sub Pattern
