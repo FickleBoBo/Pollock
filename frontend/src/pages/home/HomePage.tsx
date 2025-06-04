@@ -45,8 +45,8 @@ const HomePage = () => {
   };
 
   // 새 게임 시작 핸들러
-  const handleStartNewGame = async (gameType: number) => {
-    alert(`아직 ${gameType} 타입 게임을 시작할 수 없습니다.`);
+  const handleStartNewGame = async () => {
+    navigate("/match/BULLET_1_0");
   };
 
   return (
@@ -104,7 +104,7 @@ const HomePage = () => {
                 {gameModes.map((mode, index) => (
                   <Button
                     key={index}
-                    onClick={() => handleStartNewGame(mode.gameType)}
+                    onClick={() => handleStartNewGame()}
                     className="w-full flex flex-col justify-center gap-4 text-xl font-bold p-4 bg-pollock750 hover:bg-pollock650"
                   >
                     <div>{mode.timeControl}</div>
