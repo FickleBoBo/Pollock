@@ -4,13 +4,20 @@ import Layout from "@/pages/Layout";
 
 import HomePage from "@/pages/home/HomePage";
 import ProfilePage from "@/pages/profile/ProfilePage";
+
 import PlayPage from "@/pages/play/PlayPage";
 import ComputerPage from "@/pages/play/computer/ComputerPage";
+import MatchPage from "@/pages/play/MatchPage";
+
 import PuzzlePage from "@/pages/puzzle/PuzzlePage";
+
 import OpeningPage from "@/pages/learn/opening/OpeningPage";
 import AnalysisPage from "@/pages/learn/analysis/AnalysisPage";
+
 import NewsPage from "@/pages/news/NewsPage";
+
 import SearchPage from "@/pages/social/search/SearchPage";
+
 import RankingPage from "@/pages/etc/ranking/RankingPage";
 import StorePage from "@/pages/etc/store/StorePage";
 
@@ -26,8 +33,9 @@ const App = () => {
           <Route path="home" element={<HomePage />} />
           <Route path="profile/:nickname" element={<ProfilePage />} />
 
-          <Route path="play" element={<PlayPage />} />
+          <Route path="play/:gameId" element={<PlayPage />} />
           <Route path="play/computer" element={<ComputerPage />} />
+          <Route path="match/:gameType" element={<MatchPage />} />
 
           <Route path="puzzle" element={<PuzzlePage />} />
 
