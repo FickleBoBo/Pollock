@@ -38,8 +38,7 @@ public class UserService {
     private final FollowRepository followRepository;
 
     @Transactional
-    public void signup(UserSignupRequestDTO requestDTO,
-                       HttpSession session) {
+    public void signup(UserSignupRequestDTO requestDTO, HttpSession session) {
         assertValidNickname(requestDTO.getNickname());
 
         UserEntity savedUser = userRepository.save(UserEntity.builder()
@@ -61,8 +60,7 @@ public class UserService {
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
     }
 
-    public Page<UserPublicInfoResponseDTO> getUsers(String keyword,
-                                                    Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getUsers(String keyword, Pageable pageable) {
         return userRepository.findByNicknameStartingWithIgnoreCase(keyword, pageable)
                 .map(UserPublicInfoResponseDTO::from);
     }
@@ -100,8 +98,7 @@ public class UserService {
     }
 
     @Transactional
-    public void follow(CustomOAuth2User user,
-                       String nickname) {
+    public void follow(CustomOAuth2User user, String nickname) {
         UserEntity follower = getUserEntity(user.getId());
         UserEntity followee = getUserEntity(nickname);
 
@@ -125,8 +122,7 @@ public class UserService {
     }
 
     @Transactional
-    public void unfollow(CustomOAuth2User user,
-                         String nickname) {
+    public void unfollow(CustomOAuth2User user, String nickname) {
         UserEntity follower = getUserEntity(user.getId());
         UserEntity followee = getUserEntity(nickname);
 
@@ -136,26 +132,22 @@ public class UserService {
         followee.decreaseFollowersCount();
     }
 
-    public Page<UserPublicInfoResponseDTO> getMyFollowing(CustomOAuth2User user,
-                                                          Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getMyFollowing(CustomOAuth2User user, Pageable pageable) {
         return followRepository.findAllByFollower(getUserEntity(user.getId()), pageable)
                 .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollowee()));
     }
 
-    public Page<UserPublicInfoResponseDTO> getMyFollowers(CustomOAuth2User user,
-                                                          Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getMyFollowers(CustomOAuth2User user, Pageable pageable) {
         return followRepository.findAllByFollowee(getUserEntity(user.getId()), pageable)
                 .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollower()));
     }
 
-    public Page<UserPublicInfoResponseDTO> getUserFollowing(String nickname,
-                                                            Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getUserFollowing(String nickname, Pageable pageable) {
         return followRepository.findAllByFollower(getUserEntity(nickname), pageable)
                 .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollowee()));
     }
 
-    public Page<UserPublicInfoResponseDTO> getUserFollowers(String nickname,
-                                                            Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getUserFollowers(String nickname, Pageable pageable) {
         return followRepository.findAllByFollowee(getUserEntity(nickname), pageable)
                 .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollower()));
     }
@@ -188,8 +180,7 @@ public class UserService {
         }
     }
 
-    public int getEloByGameType(CustomOAuth2User user,
-                                GameType gameType) {
+    public int getEloByGameType(CustomOAuth2User user, GameType gameType) {
         UserEntity userEntity = getUserEntity(user.getId());
 
         return switch (gameType) {
