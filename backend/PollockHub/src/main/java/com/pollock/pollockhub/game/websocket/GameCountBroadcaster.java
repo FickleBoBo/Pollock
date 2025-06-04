@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.websocket.broadcaster;
+package com.pollock.pollockhub.game.websocket;
 
 import com.pollock.pollockhub.common.exception.GameEventRedisErrorException;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,7 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_GAME_COUNT;
+import static com.pollock.pollockhub.constant.ChannelConstant.TOPIC_GAME_COUNT;
 
 @Component
 public class GameCountBroadcaster {
@@ -23,14 +23,14 @@ public class GameCountBroadcaster {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @Scheduled(fixedRate = 300)
+    @Scheduled(fixedRate = 1000)
     public void broadcastGameCount() {
-        long count = countGameKeys();
-        messagingTemplate.convertAndSend(TOPIC_GAME_COUNT, count);
+        messagingTemplate.convertAndSend(TOPIC_GAME_COUNT, countGameKeys());
     }
 
     private long countGameKeys() {
         ScanOptions options = ScanOptions.scanOptions()
+                .match("game:*")
                 .count(1000)
                 .build();
 

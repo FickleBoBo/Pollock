@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
 
   jpa:
     hibernate:
@@ -21,6 +21,13 @@ spring:
     redis:
       host: ${USER_SESSION_REDIS_HOST}
       port: ${USER_SESSION_REDIS_PORT}
+
+    mongodb:
+      host: ${MONGO_HOST}
+      port: ${MONGO_PORT}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      authentication-database: admin
 
   security:
     oauth2:
@@ -60,6 +67,11 @@ custom:
     redis:
       host: ${GAME_EVENT_REDIS_HOST}
       port: ${GAME_EVENT_REDIS_PORT}
+
+  match-event:
+    redis:
+      host: ${MATCH_EVENT_REDIS_HOST}
+      port: ${MATCH_EVENT_REDIS_PORT}
 
   engine-analysis:
     redis:

@@ -34,12 +34,12 @@ public class CustomOAuth2User implements OAuth2User, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
     public String getName() {
-        return id != null ? id.toString() : "unregistered";
+        return id != null ? id.toString() : GUEST.name();
     }
 
     public boolean isRegistered() {

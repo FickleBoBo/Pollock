@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
 import api from "@/common/api";
 
 import Button from "@/components/common/Button";
@@ -19,7 +21,7 @@ const SignupPage = () => {
     setIsLoading(true);
 
     try {
-      await api.post("/api/pollock/users/signup", {
+      await api.post("/api/pollock/public/users", {
         nickname,
       });
       navigate("/home");
@@ -33,21 +35,22 @@ const SignupPage = () => {
 
   const fetchCheckNickname = async (value: string) => {
     try {
-      const { data } = await api.get<boolean>("/api/pollock/users/exists", {
-        params: { nickname: value },
-      });
+      const response = await api.head(`/api/pollock/public/users/${value}`);
 
-      if (data) {
+      if (response.status === 200) {
         setIsValid(false);
         setError("이미 존재하는 닉네임입니다.");
-      } else {
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        // 닉네임 없음 (사용 가능)
         setIsValid(true);
         setError("");
+      } else {
+        console.error("fetchCheckNickname", error);
+        setIsValid(false);
+        setError("닉네임 확인 중 오류가 발생했습니다.");
       }
-    } catch (error) {
-      console.error("fetchCheckNickname", error);
-      setIsValid(false);
-      setError("닉네임 확인 중 오류가 발생했습니다.");
     }
   };
 

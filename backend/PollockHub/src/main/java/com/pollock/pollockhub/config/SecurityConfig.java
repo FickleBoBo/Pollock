@@ -1,8 +1,7 @@
 package com.pollock.pollockhub.config;
 
-import com.pollock.pollockhub.user.oauth2.handler.CustomLoginSuccessHandler;
+import com.pollock.pollockhub.user.oauth2.handler.*;
 import com.pollock.pollockhub.user.oauth2.service.CustomOAuth2UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +22,10 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomLoginSuccessHandler customLoginSuccessHandler;
+    private final CustomLoginFailureHandler customLoginFailureHandler;
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final CustomAuthenticationEntryPointHandler customAuthenticationEntryPointHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,22 +59,30 @@ public class SecurityConfig {
                         .baseUri("/api/pollock/users/login/oauth2/code/*"))
                 .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                         .userService(customOAuth2UserService)))
-                .successHandler(customLoginSuccessHandler));
+                .successHandler(customLoginSuccessHandler)
+                .failureHandler(customLoginFailureHandler)
+        );
 
         // 로그아웃
         http.logout(logout -> logout
                 .logoutUrl("/api/pollock/users/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("SESSION")
-                .logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK)));
+                .logoutSuccessHandler(customLogoutSuccessHandler)
+        );
 
         // 미인증 미인가 예외처리
         http.exceptionHandling(exception -> exception
-                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED)));
+                .authenticationEntryPoint(customAuthenticationEntryPointHandler)
+                .accessDeniedHandler(customAccessDeniedHandler)
+        );
 
+        // 허용 경로 설정
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/api/pollock/users/**").authenticated()
-                .anyRequest().permitAll());
+                .requestMatchers("/api/pollock/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/pollock/public/**").permitAll()
+                .anyRequest().authenticated()
+        );
 
         return http.build();
     }

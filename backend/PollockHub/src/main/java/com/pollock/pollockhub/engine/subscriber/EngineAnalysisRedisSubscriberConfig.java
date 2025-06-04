@@ -1,6 +1,5 @@
-package com.pollock.pollockhub.websocket.config;
+package com.pollock.pollockhub.engine.subscriber;
 
-import com.pollock.pollockhub.websocket.subscriber.engine_analysis.EngineAnalysisRedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +8,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
-import static com.pollock.pollockhub.websocket.constant.WebSocketPath.SUBSCRIBE_ENGINE_ANALYSIS_PATTERN;
+import static com.pollock.pollockhub.constant.ChannelConstant.SUBSCRIBE_ENGINE_ANALYSIS_PATTERN;
 
 @Configuration
 @RequiredArgsConstructor

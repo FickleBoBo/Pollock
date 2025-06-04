@@ -3,17 +3,20 @@ import { create } from "zustand";
 import { Gender, Role, Title } from "@/types/user";
 
 export interface UserInfo {
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  bulletElo: number;
-  blitzElo: number;
-  classicalElo: number;
-  puzzleElo: number;
-  birthyear: string | null;
+  email: string | null;
+  birthyear: number | null;
+  birthmonth: number | null;
+  birthday: number | null;
   gender: Gender;
+  profileImageUrl: string;
+  nickname: string;
   role: Role;
   title: Title;
+  bulletElo: number;
+  blitzElo: number;
+  rapidElo: number;
+  classicalElo: number;
+  puzzleElo: number;
   createdAt: string;
   followingCount: number;
   followersCount: number;

@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.websocket.config;
+package com.pollock.pollockhub.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

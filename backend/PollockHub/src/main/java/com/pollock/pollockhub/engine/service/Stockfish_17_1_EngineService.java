@@ -5,7 +5,6 @@ import com.pollock.pollockhub.engine.dto.request.EngineAnalysisRequestDTO;
 import com.pollock.pollockhub.engine.router.EngineType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -27,13 +26,9 @@ public class Stockfish_17_1_EngineService implements EngineService {
     }
 
     @Override
-    public void getEngineAnalysis(EngineAnalysisRequestDTO requestDTO) {
+    public void publishEngineAnalysis(EngineAnalysisRequestDTO requestDTO) {
         try {
-            ResponseEntity<Void> responseEntity = restTemplate.postForEntity(stockfish_17_1_ProxyServerUri + "/publish", requestDTO, Void.class);
-
-            if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-                throw BadGatewayException.getInstance();
-            }
+            restTemplate.postForEntity(stockfish_17_1_ProxyServerUri + "/publish", requestDTO, Void.class);
         } catch (RestClientException e) {
             throw BadGatewayException.getInstance();
         }

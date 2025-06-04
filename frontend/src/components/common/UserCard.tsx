@@ -26,18 +26,18 @@ const UserCard = ({ user }: UserCardProps) => {
             <div>Followers</div>
             <div>Bullet</div>
             <div>Blitz</div>
-            <div>Puzzle</div>
+            <div>Rapid</div>
             <div>Classical</div>
-            <div>Role</div>
+            <div>Puzzle</div>
           </div>
           <div className="flex flex-col justify-between items-end">
             <div>{user.followingCount}</div>
             <div>{user.followersCount}</div>
             <div>{user.bulletElo}</div>
             <div>{user.blitzElo}</div>
+            <div>{user.rapidElo}</div>
             <div>{user.classicalElo}</div>
             <div>{user.puzzleElo}</div>
-            <div>{user.role}</div>
           </div>
         </div>
       </div>

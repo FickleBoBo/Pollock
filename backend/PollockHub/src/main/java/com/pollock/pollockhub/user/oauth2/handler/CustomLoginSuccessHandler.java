@@ -23,10 +23,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-        if (customOAuth2User.isRegistered()) {
-            response.sendRedirect(frontendUri);
-        } else {
-            response.sendRedirect(frontendUri + "/auth/callback");
-        }
+        response.sendRedirect(customOAuth2User.isRegistered()
+                ? frontendUri
+                : frontendUri + "/auth/callback");
     }
 }

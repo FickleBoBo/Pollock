@@ -1,4 +1,4 @@
-package com.pollock.pollockhub.websocket.controller;
+package com.pollock.pollockhub.websocket;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import static com.pollock.pollockhub.websocket.constant.WebSocketPath.TOPIC_PING;
+import static com.pollock.pollockhub.constant.ChannelConstant.TOPIC_PING;
 
 @Controller
 @RequiredArgsConstructor

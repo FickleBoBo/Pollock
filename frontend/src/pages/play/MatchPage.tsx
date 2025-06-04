@@ -9,9 +9,11 @@ import SockJS from "sockjs-client";
 
 import ChessBoard from "@/components/chessboard/ChessBoard";
 import { useUserStore } from "@/store/userStore";
-import { useParams } from "react-router-dom";
+import api from "@/common/api";
 
-const PlayPage = () => {
+import { useNavigate } from "react-router-dom";
+
+const MatchPage = () => {
   const [game, setGame] = useState(new Chess());
 
   const [scoreCp, setScoreCp] = useState(0);
@@ -25,14 +27,26 @@ const PlayPage = () => {
   const clientRef = useRef<Client | null>(null);
   const channelKey = userInfo?.nickname;
 
-  const [user1, setUser1] = useState<string>("");
+  const [gameId, setUUID] = useState<string>("");
   const [user2, setUser2] = useState<string>("");
 
-  const { gameId } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleStartNewGame = async () => {
+      try {
+        await api.post("/api/pollock/games/BULLET_1_0");
+        // 요청 성공 후 원하는 페이지로 이동
+      } catch (error) {
+        console.error("매칭 요청 실패:", error);
+      }
+    };
+
+    handleStartNewGame();
+  }, []);
 
   useEffect(() => {
     console.log("🔌 STOMP 연결 시도");
-    console.log("김치");
 
     const socket = new SockJS("http://localhost:8080/ws");
 
@@ -46,8 +60,8 @@ const PlayPage = () => {
         console.log("✅ STOMP 연결 성공");
 
         client.subscribe(`/topic/match/${channelKey}`, (message) => {
-          console.log(channelKey);
-          setUserCnt(message.body);
+          setUUID(message.body);
+          navigate("/play/" + gameId);
         });
       },
 
@@ -104,10 +118,11 @@ const PlayPage = () => {
             capturedScore={capturedScore}
           />
         </div>
-        <div>게임</div>
       </div>
+
+      <div>매치</div>
     </div>
   );
 };
 
-export default PlayPage;
+export default MatchPage;

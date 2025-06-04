@@ -1,14 +1,16 @@
 package com.pollock.pollockhub.user.service;
 
+import com.pollock.pollockhub.game.entity.GameType;
 import com.pollock.pollockhub.user.dto.request.UpdateUserProfileRequestDTO;
 import com.pollock.pollockhub.user.dto.request.UserSignupRequestDTO;
-import com.pollock.pollockhub.user.dto.response.UserInfoResponseDTO;
-import com.pollock.pollockhub.user.dto.response.UserSimpleInfoResponseDTO;
+import com.pollock.pollockhub.user.dto.response.UserPrivateInfoResponseDTO;
+import com.pollock.pollockhub.user.dto.response.UserPublicInfoResponseDTO;
 import com.pollock.pollockhub.user.entity.FollowEntity;
 import com.pollock.pollockhub.user.entity.Gender;
 import com.pollock.pollockhub.user.entity.UserEntity;
 import com.pollock.pollockhub.user.exception.*;
 import com.pollock.pollockhub.user.oauth2.dto.CustomOAuth2User;
+import com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider;
 import com.pollock.pollockhub.user.repository.FollowRepository;
 import com.pollock.pollockhub.user.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -37,15 +39,18 @@ public class UserService {
 
     @Transactional
     public void signup(UserSignupRequestDTO requestDTO, HttpSession session) {
-        validateNickname(requestDTO.getNickname());
+        assertValidNickname(requestDTO.getNickname());
 
         UserEntity savedUser = userRepository.save(UserEntity.builder()
-                .oauthId(session.getAttribute("oauthId").toString())
-                .email(session.getAttribute("email") == null ? null : session.getAttribute("email").toString())
-                .nickname(requestDTO.getNickname())
+                .oAuth2Provider(OAuth2Provider.valueOf(getStringAttribute(session, "oAuth2Provider")))
+                .oAuth2ProviderId(getStringAttribute(session, "oAuth2ProviderId"))
+                .email(getStringAttribute(session, "email"))
+                .birthyear(getIntegerAttribute(session, "birthyear"))
+                .birthmonth(getIntegerAttribute(session, "birthmonth"))
+                .birthday(getIntegerAttribute(session, "birthday"))
+                .gender(Gender.valueOf(getStringAttribute(session, "gender")))
                 .profileImageUrl(defaultProfileImageUrl)
-                .birthyear(session.getAttribute("birthyear") == null ? null : (Integer) session.getAttribute("birthyear"))
-                .gender((Gender) session.getAttribute("gender"))
+                .nickname(requestDTO.getNickname())
                 .build());
 
         CustomOAuth2User customOAuth2User = CustomOAuth2User.from(savedUser);
@@ -55,54 +60,47 @@ public class UserService {
         session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
     }
 
-    public UserInfoResponseDTO getUserInfo(CustomOAuth2User user) {
-        UserEntity userEntity = getUserEntity(user.getId());
+    public Page<UserPublicInfoResponseDTO> getUsers(String keyword, Pageable pageable) {
+        return userRepository.findByNicknameStartingWithIgnoreCase(keyword, pageable)
+                .map(UserPublicInfoResponseDTO::from);
+    }
 
-        return UserInfoResponseDTO.from(
-                userEntity,
-                followRepository.countByFollower(userEntity),
-                followRepository.countByFollowee(userEntity)
-        );
+    public UserPublicInfoResponseDTO getUser(String nickname) {
+        return UserPublicInfoResponseDTO.from(getUserEntity(nickname));
+    }
+
+    public boolean checkNicknameExists(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    public UserPrivateInfoResponseDTO getMyInfo(CustomOAuth2User user) {
+        return UserPrivateInfoResponseDTO.from(getUserEntity(user.getId()));
     }
 
     @Transactional
-    public UserInfoResponseDTO updateUserProfile(CustomOAuth2User user, UpdateUserProfileRequestDTO requestDTO) {
-        validateNickname(requestDTO.getNickname(), user.getNickname());
+    public UserPrivateInfoResponseDTO updateMyProfile(CustomOAuth2User user,
+                                                      UpdateUserProfileRequestDTO requestDTO) {
+        assertValidNickname(requestDTO.getNickname());
 
         UserEntity userEntity = getUserEntity(user.getId());
 
         userEntity.updateProfile(
                 requestDTO.getEmail(),
-                requestDTO.getNickname(),
-                requestDTO.getProfileImageUrl(),
                 requestDTO.getBirthyear(),
-                requestDTO.getGender()
+                requestDTO.getBirthmonth(),
+                requestDTO.getBirthday(),
+                requestDTO.getGender(),
+                requestDTO.getProfileImageUrl(),
+                requestDTO.getNickname()
         );
 
-        return UserInfoResponseDTO.from(
-                userEntity,
-                followRepository.countByFollower(userEntity),
-                followRepository.countByFollowee(userEntity)
-        );
-    }
-
-    public Page<UserSimpleInfoResponseDTO> searchUsers(String keyword, Pageable pageable) {
-        return userRepository.findByNicknameStartingWith(keyword, pageable)
-                .map(user -> UserSimpleInfoResponseDTO.from(
-                        user,
-                        followRepository.countByFollower(user),
-                        followRepository.countByFollowee(user)
-                ));
-    }
-
-    public boolean isNicknameExists(String nickname) {
-        return userRepository.existsByNickname(nickname);
+        return UserPrivateInfoResponseDTO.from(userEntity);
     }
 
     @Transactional
-    public void follow(CustomOAuth2User user, String followeeNickname) {
+    public void follow(CustomOAuth2User user, String nickname) {
         UserEntity follower = getUserEntity(user.getId());
-        UserEntity followee = getUserEntity(followeeNickname);
+        UserEntity followee = getUserEntity(nickname);
 
         if (follower.getId().equals(followee.getId())) {
             throw SelfFollowNotAllowedException.getInstance();
@@ -112,40 +110,56 @@ public class UserService {
             throw AlreadyFollowingException.getInstance();
         }
 
-        followRepository.save(FollowEntity.builder()
-                .follower(follower)
-                .followee(followee)
-                .build()
+        followRepository.save(
+                FollowEntity.builder()
+                        .follower(follower)
+                        .followee(followee)
+                        .build()
         );
+
+        follower.increaseFollowingCount();
+        followee.increaseFollowersCount();
     }
 
-    public void unfollow(CustomOAuth2User user, String followeeNickname) {
+    @Transactional
+    public void unfollow(CustomOAuth2User user, String nickname) {
         UserEntity follower = getUserEntity(user.getId());
-        UserEntity followee = getUserEntity(followeeNickname);
+        UserEntity followee = getUserEntity(nickname);
 
         followRepository.deleteByFollowerAndFollowee(follower, followee);
+
+        follower.decreaseFollowingCount();
+        followee.decreaseFollowersCount();
     }
 
-    public Page<UserSimpleInfoResponseDTO> getFollowing(CustomOAuth2User user, Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getMyFollowing(CustomOAuth2User user, Pageable pageable) {
         return followRepository.findAllByFollower(getUserEntity(user.getId()), pageable)
-                .map(follow -> {
-                    UserEntity followee = follow.getFollowee();
-                    long followingCount = followRepository.countByFollower(followee);
-                    long followersCount = followRepository.countByFollowee(followee);
-
-                    return UserSimpleInfoResponseDTO.from(followee, followingCount, followersCount);
-                });
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollowee()));
     }
 
-    public Page<UserSimpleInfoResponseDTO> getFollowers(CustomOAuth2User user, Pageable pageable) {
+    public Page<UserPublicInfoResponseDTO> getMyFollowers(CustomOAuth2User user, Pageable pageable) {
         return followRepository.findAllByFollowee(getUserEntity(user.getId()), pageable)
-                .map(follow -> {
-                    UserEntity follower = follow.getFollower();
-                    long followingCount = followRepository.countByFollower(follower);
-                    long followersCount = followRepository.countByFollowee(follower);
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollower()));
+    }
 
-                    return UserSimpleInfoResponseDTO.from(follower, followingCount, followersCount);
-                });
+    public Page<UserPublicInfoResponseDTO> getUserFollowing(String nickname, Pageable pageable) {
+        return followRepository.findAllByFollower(getUserEntity(nickname), pageable)
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollowee()));
+    }
+
+    public Page<UserPublicInfoResponseDTO> getUserFollowers(String nickname, Pageable pageable) {
+        return followRepository.findAllByFollowee(getUserEntity(nickname), pageable)
+                .map(follow -> UserPublicInfoResponseDTO.from(follow.getFollower()));
+    }
+
+    private Integer getIntegerAttribute(HttpSession session, String key) {
+        Object value = session.getAttribute(key);
+        return value != null ? Integer.parseInt(value.toString()) : null;
+    }
+
+    private String getStringAttribute(HttpSession session, String key) {
+        Object value = session.getAttribute(key);
+        return value != null ? value.toString() : null;
     }
 
     private UserEntity getUserEntity(Long id) {
@@ -156,23 +170,24 @@ public class UserService {
         return userRepository.findByNickname(nickname).orElseThrow(UserNotFoundException::getInstance);
     }
 
-    private void validateNickname(String nickname) {
+    private void assertValidNickname(String nickname) {
         if (nickname == null || nickname.isBlank() || nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH) {
             throw InvalidNicknameException.getInstance();
         }
 
-        if (isNicknameExists(nickname)) {
-            throw DuplicateNicknameException.getInstance();
+        if (checkNicknameExists(nickname)) {
+            throw DuplicatedNicknameException.getInstance();
         }
     }
 
-    private void validateNickname(String newNickname, String currentNickname) {
-        if (newNickname == null || newNickname.isBlank() || newNickname.length() < MIN_NICKNAME_LENGTH || newNickname.length() > MAX_NICKNAME_LENGTH) {
-            throw InvalidNicknameException.getInstance();
-        }
+    public int getEloByGameType(CustomOAuth2User user, GameType gameType) {
+        UserEntity userEntity = getUserEntity(user.getId());
 
-        if (!newNickname.equals(currentNickname) && isNicknameExists(newNickname)) {
-            throw DuplicateNicknameException.getInstance();
-        }
+        return switch (gameType) {
+            case BULLET_1_0, BULLET_1_1, BULLET_2_1 -> userEntity.getBulletElo();
+            case BLITZ_3_0, BLITZ_3_2, BLITZ_5_0 -> userEntity.getBlitzElo();
+            case RAPID_10_0, RAPID_10_5, RAPID_15_10 -> userEntity.getRapidElo();
+            case CLASSICAL_30_0, CLASSICAL_30_20, CLASSICAL_90_30 -> userEntity.getClassicalElo();
+        };
     }
 }

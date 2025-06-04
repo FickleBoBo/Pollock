@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/pollock/engine")
+@RequestMapping("/api/pollock/public/engine")
 @RequiredArgsConstructor
-public class EngineController {
+public class EnginePublicController {
 
     private final EngineServiceRouter engineServiceRouter;
 
     @PostMapping("/analysis")
-    public ResponseEntity<Void> getEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
+    public ResponseEntity<Void> publishEngineAnalysis(@RequestBody EngineAnalysisRequestDTO requestDTO) {
         EngineService engineService = engineServiceRouter.resolve(requestDTO.getEngineType());
-        engineService.getEngineAnalysis(requestDTO);
+        engineService.publishEngineAnalysis(requestDTO);
         return ResponseEntity.accepted().build();
     }
 }

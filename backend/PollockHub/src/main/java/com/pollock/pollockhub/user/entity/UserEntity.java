@@ -1,15 +1,15 @@
 package com.pollock.pollockhub.user.entity;
 
+import com.pollock.pollockhub.user.oauth2.enums.OAuth2Provider;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.pollock.pollockhub.constant.Constant.DEFAULT_ELO;
 import static com.pollock.pollockhub.user.entity.Role.BASIC;
@@ -25,46 +25,53 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String oauthId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth2_provider", nullable = false)
+    private OAuth2Provider oAuth2Provider;
 
-    @Column
+    @Column(name = "oauth2_provider_id", nullable = false)
+    private String oAuth2ProviderId;
+
+    @Column(name = "email")
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String nickname;
-
-    @Column(nullable = false)
-    private String profileImageUrl;
-
-    @Column(nullable = false)
-    private Integer bulletElo = DEFAULT_ELO;
-
-    @Column(nullable = false)
-    private Integer blitzElo = DEFAULT_ELO;
-
-    @Column(nullable = false)
-    private Integer classicalElo = DEFAULT_ELO;
-
-    @Column(nullable = false)
-    private Integer puzzleElo = DEFAULT_ELO;
-
-    @Column
-    private Integer birthyear;
+    @Column(name = "birthdate")
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "gender", nullable = false)
     private Gender gender;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role = BASIC;
+    @Column(name = "profile_image_url", nullable = false)
+    private String profileImageUrl;
+
+    @Column(name = "nickname", nullable = false, unique = true)
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Title title = NONE;
+    @Column(name = "role", nullable = false)
+    private Role role;
 
-    @Column(nullable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "title", nullable = false)
+    private Title title;
+
+    @Column(name = "bullet_elo", nullable = false)
+    private int bulletElo;
+
+    @Column(name = "blitz_elo", nullable = false)
+    private int blitzElo;
+
+    @Column(name = "rapid_elo", nullable = false)
+    private int rapidElo;
+
+    @Column(name = "classical_elo", nullable = false)
+    private int classicalElo;
+
+    @Column(name = "puzzle_elo", nullable = false)
+    private int puzzleElo;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
@@ -72,43 +79,79 @@ public class UserEntity {
         this.createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
-    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FollowEntity> following = new ArrayList<>();
+    @Column(name = "following_count", nullable = false)
+    private long followingCount;
 
-    @OneToMany(mappedBy = "followee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FollowEntity> followers = new ArrayList<>();
+    @Column(name = "followers_count", nullable = false)
+    private long followersCount;
 
     @Builder
-    public UserEntity(String oauthId, String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
-        this.oauthId = oauthId;
+    public UserEntity(
+            OAuth2Provider oAuth2Provider,
+            String oAuth2ProviderId,
+            String email,
+            Integer birthyear,
+            Integer birthmonth,
+            Integer birthday,
+            Gender gender,
+            String profileImageUrl,
+            String nickname
+    ) {
+        this.oAuth2Provider = oAuth2Provider;
+        this.oAuth2ProviderId = oAuth2ProviderId;
         this.email = email;
-        this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
-        this.birthyear = birthyear;
+        this.birthdate = (birthyear != null && birthmonth != null && birthday != null)
+                ? LocalDate.of(birthyear, birthmonth, birthday)
+                : null;
         this.gender = gender;
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
+        this.role = BASIC;
+        this.title = NONE;
+        this.bulletElo = DEFAULT_ELO;
+        this.blitzElo = DEFAULT_ELO;
+        this.rapidElo = DEFAULT_ELO;
+        this.classicalElo = DEFAULT_ELO;
+        this.puzzleElo = DEFAULT_ELO;
+        this.followingCount = 0L;
+        this.followersCount = 0L;
     }
 
-    public void updateProfile(String email, String nickname, String profileImageUrl, Integer birthyear, Gender gender) {
+    public void updateProfile(
+            String email,
+            Integer birthyear,
+            Integer birthmonth,
+            Integer birthday,
+            Gender gender,
+            String profileImageUrl,
+            String nickname
+    ) {
         this.email = email;
-        this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
-        this.birthyear = birthyear;
+        this.birthdate = (birthyear != null && birthmonth != null && birthday != null)
+                ? LocalDate.of(birthyear, birthmonth, birthday)
+                : null;
         this.gender = gender;
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
     }
 
-    public void updateBulletElo(Integer bulletElo) {
+    public void updateBulletElo(int bulletElo) {
         this.bulletElo = bulletElo;
     }
 
-    public void updateBlitzElo(Integer blitzElo) {
+    public void updateBlitzElo(int blitzElo) {
         this.blitzElo = blitzElo;
     }
 
-    public void updateClassicalElo(Integer classicalElo) {
+    public void updateRapidElo(int rapidElo) {
+        this.rapidElo = rapidElo;
+    }
+
+    public void updateClassicalElo(int classicalElo) {
         this.classicalElo = classicalElo;
     }
 
-    public void updatePuzzleElo(Integer puzzleElo) {
+    public void updatePuzzleElo(int puzzleElo) {
         this.puzzleElo = puzzleElo;
     }
 
@@ -118,5 +161,21 @@ public class UserEntity {
 
     public void changeTitle(Title title) {
         this.title = title;
+    }
+
+    public void increaseFollowingCount() {
+        this.followingCount++;
+    }
+
+    public void decreaseFollowingCount() {
+        this.followingCount--;
+    }
+
+    public void increaseFollowersCount() {
+        this.followersCount++;
+    }
+
+    public void decreaseFollowersCount() {
+        this.followersCount--;
     }
 }

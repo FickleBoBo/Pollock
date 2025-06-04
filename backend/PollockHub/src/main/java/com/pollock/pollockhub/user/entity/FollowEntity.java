@@ -27,7 +27,7 @@ public class FollowEntity {
     @JoinColumn(name = "followee_id", nullable = false)
     private UserEntity followee;
 
-    @Column(nullable = false)
+    @Column(name = "followed_at", nullable = false)
     private LocalDateTime followedAt;
 
     @PrePersist
