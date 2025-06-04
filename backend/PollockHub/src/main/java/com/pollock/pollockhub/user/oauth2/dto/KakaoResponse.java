@@ -16,6 +16,7 @@ public class KakaoResponse implements OAuth2Response {
         this.attributes = attributes;
     }
 
+    @Override
     public OAuth2Provider getOAuth2Provider() {
         return KAKAO;
     }
