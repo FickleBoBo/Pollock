@@ -17,27 +17,16 @@ public class Main {
 
                 CompressorUtil.filteringEmptyGame(input, output);
             }
-            case "extract" -> {
+            case "filteringEvalGame" -> {
                 if (args.length != 3) {
-                    System.out.println("Usage: extract <input.zst> <outputDir>");
+                    System.out.println("Usage: filteringEvalGame <input.zst> <output.zst>");
                     return;
                 }
 
                 Path input = Path.of(args[1]);
-                Path outputDir = Path.of(args[2]);
-
-                CompressorUtil.extract(input, outputDir);
-            }
-            case "compress" -> {
-                if (args.length != 3) {
-                    System.out.println("Usage: compress <inputDir> <output.zst>");
-                    return;
-                }
-
-                Path inputDir = Path.of(args[1]);
                 Path output = Path.of(args[2]);
 
-//                CompressorUtil.compress(inputDir, output);
+                CompressorUtil.filteringEvalGame(input, output);
             }
             default -> System.out.println("Unknown command: " + args[0]);
         }
