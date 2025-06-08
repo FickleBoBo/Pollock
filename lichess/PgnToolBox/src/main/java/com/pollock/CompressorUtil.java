@@ -9,7 +9,7 @@ import java.nio.file.Path;
 
 public class CompressorUtil {
 
-    private static final String PGN_PREFIX = "1.";
+    private static final String NOTATION_PREFIX = "1.";
     private static final String EVAL_TAG = "eval";
 
     private CompressorUtil() {
@@ -34,7 +34,7 @@ public class CompressorUtil {
             while ((line = br.readLine()) != null) {
                 sb.append(line).append("\n");
 
-                if (line.startsWith(PGN_PREFIX)) {
+                if (line.startsWith(NOTATION_PREFIX)) {
                     isEmptyGame = false;
 
                     if (line.contains(EVAL_TAG)) {
