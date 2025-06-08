@@ -28,6 +28,17 @@ public class Main {
 
                 CompressorUtil.filteringEvalGame(input, output);
             }
+            case "filteringEmptyGameEvalGame" -> {
+                if (args.length != 3) {
+                    System.out.println("Usage: filteringEvalGame <input.zst> <output.zst>");
+                    return;
+                }
+
+                Path input = Path.of(args[1]);
+                Path output = Path.of(args[2]);
+
+                CompressorUtil.filteringEmptyGameEvalGame(input, output);
+            }
             default -> System.out.println("Unknown command: " + args[0]);
         }
     }
