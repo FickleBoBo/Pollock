@@ -12,6 +12,20 @@ public class Main {
                     return;
                 }
 
+                int level = 3;
+                if (args.length == 3) {
+                    try {
+                        level = Integer.parseInt(args[2]);
+
+                        if (level < 1 || level > 22) {
+                            throw new NumberFormatException();
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid compression level(1-22): " + args[2]);
+                        return;
+                    }
+                }
+
                 Path input = Path.of(args[1]);
                 Path output = input.getParent().resolve(input.getFileName().toString().replaceAll("\\.zst$", "") + "_filter_" + level + ".zst");
 
