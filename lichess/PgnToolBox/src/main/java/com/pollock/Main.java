@@ -27,7 +27,7 @@ public class Main {
                 }
 
                 Path input = Path.of(args[1]);
-                Path output = input.getParent().resolve(input.getFileName().toString().replaceAll("\\.zst$", "") + "_filter_" + level + ".zst");
+                Path output = input.getParent().resolve(input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "_filter_" + level + ".pgn.zst"));
 
                 CompressorUtil.filter(input, output, level);
             }
