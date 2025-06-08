@@ -15,7 +15,7 @@ public class Main {
                 Path input = Path.of(args[1]);
                 Path output = input.getParent().resolve(input.getFileName().toString().replaceAll("\\.zst$", "") + "_filter_" + level + ".zst");
 
-                CompressorUtil.filter(input, output);
+                CompressorUtil.filter(input, output, level);
             }
             default -> System.out.println("Unknown command: " + args[0]);
         }
