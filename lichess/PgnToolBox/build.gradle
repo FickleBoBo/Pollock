@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id 'application'
+
+    // Shadow Plugin for Fat JAR
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
@@ -12,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    // Zstandard 압축 라이브러리
     implementation 'com.github.luben:zstd-jni:1.5.5-10'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
