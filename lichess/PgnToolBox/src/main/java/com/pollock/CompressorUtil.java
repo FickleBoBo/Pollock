@@ -15,7 +15,14 @@ public class CompressorUtil {
     private CompressorUtil() {
     }
 
-    public static void filter(Path input, Path output) throws IOException {
+    public static void filter(Path input, Path output, int level) throws IOException {
+        long start = System.currentTimeMillis();
+        long elapsed;
+        long millis;
+        long seconds;
+        long minutes;
+        long hours;
+
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))));
              var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)))) {
 
@@ -61,20 +68,37 @@ public class CompressorUtil {
                     sb.setLength(0);
 
                     if (totalGameCnt % 1_000_000 == 0) {
-                        System.out.printf("Processing StreamedGameCnt = %,d\n", streamedGameCnt);
+                        System.out.println("--------------------------------------------------");
                         System.out.printf("Processing Exclude EmptyGameCnt = %,d\n", totalGameCnt - emptyGameCnt);
+                        System.out.printf("Processing StreamedGameCnt = %,d\n", streamedGameCnt);
                         System.out.printf("Processing TotalGameCnt = %,d\n", totalGameCnt);
-                        System.out.printf("Processing StreamedGame Ratio = %.4f\n\n", (streamedGameCnt * 100.0) / totalGameCnt);
-                        System.out.printf("Processing Exclude EmptyGameCnt Ratio = %.4f\n\n", ((totalGameCnt - emptyGameCnt) * 100.0) / totalGameCnt);
+                        System.out.printf("Processing Exclude EmptyGameCnt Ratio = %.4f\n", ((totalGameCnt - emptyGameCnt) * 100.0) / totalGameCnt);
+                        System.out.printf("Processing StreamedGame Ratio = %.4f\n", (streamedGameCnt * 100.0) / totalGameCnt);
+
+                        elapsed = System.currentTimeMillis() - start;
+                        millis = elapsed % 1000;
+                        seconds = (elapsed / 1000) % 60;
+                        minutes = (elapsed / (1000 * 60)) % 60;
+                        hours = (elapsed / (1000 * 60 * 60));
+                        System.out.printf("Processing Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
                     }
                 }
             }
 
-            System.out.printf("StreamedGameCnt = %,d\n", streamedGameCnt);
+            System.out.println("==================================================");
             System.out.printf("Exclude EmptyGameCnt = %,d\n", totalGameCnt - emptyGameCnt);
+            System.out.printf("StreamedGameCnt = %,d\n", streamedGameCnt);
             System.out.printf("TotalGameCnt = %,d\n", totalGameCnt);
-            System.out.printf("StreamedGame Ratio = %.4f\n\n", (streamedGameCnt * 100.0) / totalGameCnt);
-            System.out.printf("Exclude EmptyGameCnt Ratio = %.4f\n\n", ((totalGameCnt - emptyGameCnt) * 100.0) / totalGameCnt);
+            System.out.printf("Exclude EmptyGameCnt Ratio = %.4f\n", ((totalGameCnt - emptyGameCnt) * 100.0) / totalGameCnt);
+            System.out.printf("StreamedGame Ratio = %.4f\n", (streamedGameCnt * 100.0) / totalGameCnt);
+
+            elapsed = System.currentTimeMillis() - start;
+            millis = elapsed % 1000;
+            seconds = (elapsed / 1000) % 60;
+            minutes = (elapsed / (1000 * 60)) % 60;
+            hours = (elapsed / (1000 * 60 * 60));
+            System.out.printf("Processed Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
+            System.out.println("==================================================");
         }
     }
 }
