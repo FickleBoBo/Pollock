@@ -17,7 +17,7 @@ public class CompressorUtil {
 
     public static void filter(Path input, Path output) throws IOException {
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))));
-             var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output))))) {
+             var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)))) {
 
             StringBuilder sb = new StringBuilder();
 
