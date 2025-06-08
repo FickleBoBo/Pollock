@@ -34,8 +34,8 @@ public class CompressorUtil {
             boolean isEmptyGame = true;
             boolean isEvalGame = false;
 
-            int streamedGameCnt = 0;
             int emptyGameCnt = 0;
+            int streamedGameCnt = 0;
             int totalGameCnt = 0;
 
             while ((line = br.readLine()) != null) {
