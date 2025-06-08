@@ -8,14 +8,14 @@ public class Main {
         switch (args[0]) {
             case "filter" -> {
                 if (args.length < 2 || args.length > 3) {
-                    System.out.println("Usage: filter <input.zst> [level(1-22)]");
+                    System.out.println("Usage: filter <input.zst> [-level(1-22)]");
                     return;
                 }
 
                 int level = 3;
                 if (args.length == 3) {
                     try {
-                        level = Integer.parseInt(args[2]);
+                        level = Integer.parseInt(args[2].substring(1));
 
                         if (level < 1 || level > 22) {
                             throw new NumberFormatException();
