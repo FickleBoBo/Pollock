@@ -7,8 +7,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         switch (args[0]) {
             case "filter" -> {
-                if (args.length != 3) {
-                    System.out.println("Usage: filter <input.zst> <output.zst>");
+                if (args.length < 2 || args.length > 3) {
+                    System.out.println("Usage: filter <input.zst> [level(1-22)]");
                     return;
                 }
 
