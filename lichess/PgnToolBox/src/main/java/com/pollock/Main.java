@@ -13,7 +13,7 @@ public class Main {
                 }
 
                 Path input = Path.of(args[1]);
-                Path output = Path.of(args[2]);
+                Path output = input.getParent().resolve(input.getFileName().toString().replaceAll("\\.zst$", "") + "_filter_" + level + ".zst");
 
                 CompressorUtil.filter(input, output);
             }
