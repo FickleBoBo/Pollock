@@ -176,7 +176,11 @@ public class CompressorUtil {
             String line = null;
             int chunkCnt = 1;
             int emptyLineCnt = 0;
-            Path output = Path.of(input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") + "_" + chunkCnt + ".pgn.zst");
+            Path output = Path.of(
+                    input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") +
+                            "_" + String.format("%06d", chunkCnt) +
+                            ".pgn.zst"
+            );
             var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)));
 
             while ((line = br.readLine()) != null) {
@@ -191,7 +195,11 @@ public class CompressorUtil {
 
                     chunkCnt++;
                     emptyLineCnt = 0;
-                    output = Path.of(input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") + "_" + chunkCnt + ".pgn.zst");
+                    output = Path.of(
+                            input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") +
+                                    "_" + String.format("%06d", chunkCnt) +
+                                    ".pgn.zst"
+                    );
                     bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)));
                 }
             }
