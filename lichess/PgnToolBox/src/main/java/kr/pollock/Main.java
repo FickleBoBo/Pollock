@@ -2,6 +2,8 @@ package kr.pollock;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -51,6 +53,33 @@ public class Main {
                 Path output = Path.of(args[2]);
 
                 CompressorUtil.recompress(input, output, level);
+            }
+            case "merge" -> {
+                if (args.length < 5) {
+                    System.out.println("Usage: merge <input1.zst> <input2.zst> ... <inputN.zst> <output.zst> <compression-level>");
+                    return;
+                }
+
+                int level;
+                try {
+                    level = Integer.parseInt(args[args.length - 1]);
+
+                    if (level < 1 || level > 22) {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid compression level(1-22): " + args[args.length - 1]);
+                    return;
+                }
+
+                List<Path> inputs = new ArrayList<>();
+                for (int i = 1; i < args.length - 2; i++) {
+                    inputs.add(Path.of(args[i]));
+                }
+
+                Path output = Path.of(args[args.length - 2]);
+
+                CompressorUtil.merge(inputs, output, level);
             }
             default -> System.out.println("Unknown command: " + args[0]);
         }
