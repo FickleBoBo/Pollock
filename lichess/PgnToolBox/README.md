@@ -18,6 +18,16 @@ build/libs/PgnToolBox-1.0-SNAPSHOT-all.jar
 
 ---
 
+## 🔢 Count the Number of PGN Games
+
+Count how many PGN games are included in a `.zst` file:
+
+```bash
+java -jar build/libs/PgnToolBox-1.0-SNAPSHOT-all.jar count <input.zst>
+```
+
+---
+
 ## 🧠 Filter Games with Engine Analysis (Eval Tag)
 
 Extract only games that include an engine evaluation (`%eval`) tag:
