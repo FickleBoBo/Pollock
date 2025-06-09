@@ -1,4 +1,4 @@
-package com.pollock;
+package kr.pollock;
 
 import com.github.luben.zstd.ZstdInputStream;
 import com.github.luben.zstd.ZstdOutputStream;
