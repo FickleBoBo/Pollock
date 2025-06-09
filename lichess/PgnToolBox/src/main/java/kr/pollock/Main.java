@@ -7,52 +7,48 @@ public class Main {
     public static void main(String[] args) throws IOException {
         switch (args[0]) {
             case "filter" -> {
-                if (args.length < 2 || args.length > 3) {
-                    System.out.println("Usage: filter <input.zst> [-level(1-22)]");
+                if (args.length != 4) {
+                    System.out.println("Usage: filter <input.zst> <output.zst> <compression-level>");
                     return;
                 }
 
-                int level = 3;
-                if (args.length == 3) {
-                    try {
-                        level = Integer.parseInt(args[2].substring(1));
+                int level;
+                try {
+                    level = Integer.parseInt(args[3]);
 
-                        if (level < 1 || level > 22) {
-                            throw new NumberFormatException();
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid compression level(1-22): " + args[2]);
-                        return;
+                    if (level < 1 || level > 22) {
+                        throw new NumberFormatException();
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid compression level(1-22): " + args[3]);
+                    return;
                 }
 
                 Path input = Path.of(args[1]);
-                Path output = input.getParent().resolve(input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "_filter_" + level + ".pgn.zst"));
+                Path output = Path.of(args[2]);
 
                 CompressorUtil.filter(input, output, level);
             }
             case "recompress" -> {
-                if (args.length < 2 || args.length > 3) {
-                    System.out.println("Usage: recompress <input.zst> [-level(1-22)]");
+                if (args.length != 4) {
+                    System.out.println("Usage: recompress <input.zst> <output.zst> <compression-level>");
                     return;
                 }
 
-                int level = 3;
-                if (args.length == 3) {
-                    try {
-                        level = Integer.parseInt(args[2].substring(1));
+                int level;
+                try {
+                    level = Integer.parseInt(args[3]);
 
-                        if (level < 1 || level > 22) {
-                            throw new NumberFormatException();
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid compression level(1-22): " + args[2]);
-                        return;
+                    if (level < 1 || level > 22) {
+                        throw new NumberFormatException();
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid compression level(1-22): " + args[3]);
+                    return;
                 }
 
                 Path input = Path.of(args[1]);
-                Path output = input.getParent().resolve(input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "_filter_" + level + ".pgn.zst"));
+                Path output = Path.of(args[2]);
 
                 CompressorUtil.recompress(input, output, level);
             }
