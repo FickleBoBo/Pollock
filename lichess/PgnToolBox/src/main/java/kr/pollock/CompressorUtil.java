@@ -187,18 +187,17 @@ public class CompressorUtil {
 
                 if (emptyLineCnt == gamesPerChunk * 2) {
                     bw.close();
+                    System.out.printf("Processing Split = %d\n", chunkCnt);
 
                     chunkCnt++;
                     emptyLineCnt = 0;
                     output = Path.of(input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") + "_" + chunkCnt + ".pgn.zst");
                     bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)));
-
-                    System.out.printf("Processing Split = %d\n", chunkCnt);
                 }
             }
 
             bw.close();
-
+            System.out.printf("Processing Split = %d\n", chunkCnt);
             System.out.println("--------------------------------------------------");
 
             elapsed = System.currentTimeMillis() - start;
