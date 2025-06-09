@@ -6,6 +6,7 @@ import com.github.luben.zstd.ZstdOutputStream;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 public class CompressorUtil {
 
@@ -118,6 +119,37 @@ public class CompressorUtil {
             while ((line = br.readLine()) != null) {
                 bw.write(line);
                 bw.newLine();
+            }
+        }
+
+        elapsed = System.currentTimeMillis() - start;
+        millis = elapsed % 1000;
+        seconds = (elapsed / 1000) % 60;
+        minutes = (elapsed / (1000 * 60)) % 60;
+        hours = (elapsed / (1000 * 60 * 60));
+
+        System.out.printf("Processed Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
+    }
+
+    public static void merge(List<Path> inputs, Path output, int level) throws IOException {
+        long start = System.currentTimeMillis();
+        long elapsed;
+        long millis;
+        long seconds;
+        long minutes;
+        long hours;
+
+        try (var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)))) {
+
+            for (Path input : inputs) {
+                try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
+                    String line = null;
+
+                    while ((line = br.readLine()) != null) {
+                        bw.write(line);
+                        bw.newLine();
+                    }
+                }
             }
         }
 
