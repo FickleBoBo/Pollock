@@ -8,6 +8,16 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws IOException {
         switch (args[0]) {
+            case "count" -> {
+                if (args.length != 2) {
+                    System.out.println("Usage: count <input.zst>");
+                    return;
+                }
+
+                Path input = Path.of(args[1]);
+
+                CompressorUtil.count(input);
+            }
             case "filter" -> {
                 if (args.length != 4) {
                     System.out.println("Usage: filter <input.zst> <output.zst> <compression-level>");
