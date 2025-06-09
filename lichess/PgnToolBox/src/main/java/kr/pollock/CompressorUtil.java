@@ -52,7 +52,7 @@ public class CompressorUtil {
             System.out.printf("Processing Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
 
             System.out.println();
-            System.out.println("PGN: " + pgnCnt);
+            System.out.printf("Total PGN: %,d\n", pgnCnt);
         }
     }
 
