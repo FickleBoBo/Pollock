@@ -16,6 +16,46 @@ public class CompressorUtil {
     private CompressorUtil() {
     }
 
+    public static void count(Path input) throws IOException {
+        long start = System.currentTimeMillis();
+        long elapsed;
+        long millis;
+        long seconds;
+        long minutes;
+        long hours;
+
+        try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
+
+            String line = null;
+            int emptyLineCnt = 0;
+            int pgnCnt = 0;
+
+            while ((line = br.readLine()) != null) {
+                if (line.isEmpty()) emptyLineCnt++;
+
+                if (emptyLineCnt == 2) {
+                    emptyLineCnt = 0;
+                    pgnCnt++;
+
+                    if (pgnCnt % 100_000 == 0) {
+                        System.out.printf("Processing PGN: %,d\n", pgnCnt);
+                    }
+                }
+            }
+            System.out.printf("Processing PGN: %,d\n", pgnCnt);
+
+            elapsed = System.currentTimeMillis() - start;
+            millis = elapsed % 1000;
+            seconds = (elapsed / 1000) % 60;
+            minutes = (elapsed / (1000 * 60)) % 60;
+            hours = (elapsed / (1000 * 60 * 60));
+            System.out.printf("Processing Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
+
+            System.out.println();
+            System.out.println("PGN: " + pgnCnt);
+        }
+    }
+
     public static void filter(Path input, Path output, int level) throws IOException {
         long start = System.currentTimeMillis();
         long elapsed;
