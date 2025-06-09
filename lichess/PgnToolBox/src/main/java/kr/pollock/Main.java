@@ -81,6 +81,36 @@ public class Main {
 
                 CompressorUtil.merge(inputs, output, level);
             }
+            case "split" -> {
+                if (args.length != 4) {
+                    System.out.println("Usage: split <input.zst> <games-per-chunk> <compression-level>");
+                    return;
+                }
+
+                int gamesPerChunk;
+                try {
+                    gamesPerChunk = Integer.parseInt(args[2]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid GamesPerChunk: " + args[2]);
+                    return;
+                }
+
+                int level;
+                try {
+                    level = Integer.parseInt(args[3]);
+
+                    if (level < 1 || level > 22) {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid compression level(1-22): " + args[3]);
+                    return;
+                }
+
+                Path input = Path.of(args[1]);
+
+                CompressorUtil.split(input, gamesPerChunk, level);
+            }
             default -> System.out.println("Unknown command: " + args[0]);
         }
     }
