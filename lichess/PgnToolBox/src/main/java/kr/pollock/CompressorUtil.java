@@ -214,7 +214,7 @@ public class CompressorUtil {
 
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
             String line = null;
-            int chunkCnt = 1;
+            int chunkCnt = 0;
             int emptyLineCnt = 0;
             Path output = Path.of(
                     input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") +
