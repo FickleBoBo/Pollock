@@ -180,17 +180,32 @@ public class CompressorUtil {
         long hours;
 
         try (var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)))) {
+            int pgnCnt = 0;
 
             for (Path input : inputs) {
                 try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
                     String line = null;
+                    int emptyLineCnt = 0;
 
                     while ((line = br.readLine()) != null) {
                         bw.write(line);
                         bw.newLine();
+
+                        if (line.isEmpty()) emptyLineCnt++;
+
+                        if (emptyLineCnt == 2) {
+                            pgnCnt++;
+                            emptyLineCnt = 0;
+
+                            if (pgnCnt % 1_000_000 == 0) {
+                                System.out.printf("Processing PGN: %,d\n", pgnCnt);
+                            }
+                        }
                     }
                 }
             }
+
+            System.out.printf("Processing PGN: %,d\n", pgnCnt);
         }
 
         elapsed = System.currentTimeMillis() - start;
