@@ -10,6 +10,7 @@ import java.util.List;
 
 public class CompressorUtil {
 
+    private static final String EVENT_PREFIX = "[Event";
     private static final String NOTATION_PREFIX = "1.";
     private static final String EVAL_TAG = "eval";
 
@@ -27,19 +28,13 @@ public class CompressorUtil {
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
 
             String line = null;
-            int emptyLineCnt = 0;
             int pgnCnt = 0;
 
             while ((line = br.readLine()) != null) {
-                if (line.isEmpty()) emptyLineCnt++;
+                if (line.startsWith(EVENT_PREFIX)) pgnCnt++;
 
-                if (emptyLineCnt == 2) {
-                    emptyLineCnt = 0;
-                    pgnCnt++;
-
-                    if (pgnCnt % 100_000 == 0) {
-                        System.out.printf("Processing PGN: %,d\n", pgnCnt);
-                    }
+                if (pgnCnt % 100_000 == 0) {
+                    System.out.printf("Processing PGN: %,d\n", pgnCnt);
                 }
             }
             System.out.printf("Processing PGN: %,d\n", pgnCnt);
@@ -49,9 +44,8 @@ public class CompressorUtil {
             seconds = (elapsed / 1000) % 60;
             minutes = (elapsed / (1000 * 60)) % 60;
             hours = (elapsed / (1000 * 60 * 60));
-            System.out.printf("Processing Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
 
-            System.out.println();
+            System.out.printf("Processing Time = %02d:%02d:%02d.%03d\n\n", hours, minutes, seconds, millis);
             System.out.printf("Total PGN: %,d\n", pgnCnt);
         }
     }
@@ -229,7 +223,7 @@ public class CompressorUtil {
 
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
             String line = null;
-            int chunkCnt = 0;
+            int chunkCnt = 8327;
             int emptyLineCnt = 0;
             Path output = Path.of(
                     input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") +
