@@ -256,6 +256,8 @@ public class CompressorUtil {
 
             bw.close();
             System.out.printf("Processing Split = %d\n", chunkCnt);
+
+            System.out.printf("Processing Split = %,d\n", chunkCnt);
             System.out.println("--------------------------------------------------");
 
             elapsed = System.currentTimeMillis() - start;
