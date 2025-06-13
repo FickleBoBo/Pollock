@@ -26,16 +26,16 @@ public class CompressorUtil {
         long hours;
 
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
-
             String line = null;
-            int pgnCnt = 0;
+            long pgnCnt = 0;
+            long lineCnt = 0;
 
             while ((line = br.readLine()) != null) {
+                lineCnt++;
+
                 if (line.startsWith(EVENT_PREFIX)) pgnCnt++;
 
-                if (pgnCnt % 100_000 == 0) {
-                    System.out.printf("Processing PGN: %,d\n", pgnCnt);
-                }
+                if (pgnCnt % 1_000_000 == 0) System.out.printf("Processing PGN: %,d\n", pgnCnt);
             }
             System.out.printf("Processing PGN: %,d\n", pgnCnt);
 
@@ -46,6 +46,7 @@ public class CompressorUtil {
             hours = (elapsed / (1000 * 60 * 60));
 
             System.out.printf("Processing Time = %02d:%02d:%02d.%03d\n\n", hours, minutes, seconds, millis);
+            System.out.printf("Total Line: %,d\n", lineCnt);
             System.out.printf("Total PGN: %,d\n", pgnCnt);
         }
     }
