@@ -27,15 +27,17 @@ public class CompressorUtil {
 
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
             String line = null;
-            long pgnCnt = 0;
             long lineCnt = 0;
+            long pgnCnt = 0;
 
             while ((line = br.readLine()) != null) {
                 lineCnt++;
 
-                if (line.startsWith(EVENT_PREFIX)) pgnCnt++;
+                if (line.startsWith(EVENT_PREFIX)) {
+                    pgnCnt++;
 
-                if (pgnCnt % 1_000_000 == 0) System.out.printf("Processing PGN: %,d\n", pgnCnt);
+                    if (pgnCnt % 1_000_000 == 0) System.out.printf("Processing PGN: %,d\n", pgnCnt);
+                }
             }
             System.out.printf("Processing PGN: %,d\n", pgnCnt);
 
@@ -61,21 +63,25 @@ public class CompressorUtil {
 
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))));
              var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)))) {
-
-            StringBuilder sb = new StringBuilder();
+            StringBuilder pgnData = new StringBuilder();
 
             String line = null;
-            int emptyLineCnt = 0;
+            long lineCnt = 0;
 
+            boolean isFullPgn = false;
             boolean isEmptyGame = true;
             boolean isEvalGame = false;
 
             int emptyGameCnt = 0;
-            int streamedGameCnt = 0;
+            int evalGameCnt = 0;
             int totalGameCnt = 0;
 
             while ((line = br.readLine()) != null) {
-                sb.append(line).append("\n");
+                lineCnt++;
+
+                if (line.startsWith(EVENT_PREFIX)) totalGameCnt++;
+
+                if (!line.isEmpty() && !line.startsWith("[")) isFullPgn = true;
 
                 if (line.startsWith(NOTATION_PREFIX)) {
                     isEmptyGame = false;
@@ -85,31 +91,29 @@ public class CompressorUtil {
                     }
                 }
 
-                if (line.isEmpty()) emptyLineCnt++;
+                pgnData.append(line).append("\n");
 
-                if (emptyLineCnt > 1) {
-                    if (isEmptyGame) {
-                        emptyGameCnt++;
-                    }
+                if (!line.isEmpty() && isFullPgn) {
+                    if (isEmptyGame) emptyGameCnt++;
 
                     if (isEvalGame) {
-                        bw.write(sb.toString());
-                        streamedGameCnt++;
+                        bw.write(pgnData.toString());
+                        evalGameCnt++;
                     }
 
-                    emptyLineCnt = 0;
+                    isFullPgn = false;
                     isEmptyGame = true;
                     isEvalGame = false;
-                    totalGameCnt++;
-                    sb.setLength(0);
+                    pgnData.setLength(0);
 
                     if (totalGameCnt % 1_000_000 == 0) {
                         System.out.println("--------------------------------------------------");
                         System.out.printf("Processing Exclude EmptyGameCnt = %,d\n", totalGameCnt - emptyGameCnt);
-                        System.out.printf("Processing StreamedGameCnt = %,d\n", streamedGameCnt);
+                        System.out.printf("Processing StreamedGameCnt = %,d\n", evalGameCnt);
                         System.out.printf("Processing TotalGameCnt = %,d\n", totalGameCnt);
                         System.out.printf("Processing Exclude EmptyGameCnt Ratio = %.4f\n", ((totalGameCnt - emptyGameCnt) * 100.0) / totalGameCnt);
-                        System.out.printf("Processing StreamedGame Ratio = %.4f\n", (streamedGameCnt * 100.0) / totalGameCnt);
+                        System.out.printf("Processing StreamedGame Ratio = %.4f\n", (evalGameCnt * 100.0) / totalGameCnt);
+                        System.out.printf("Processing Line: %,d\n", lineCnt);
 
                         elapsed = System.currentTimeMillis() - start;
                         millis = elapsed % 1000;
@@ -120,13 +124,13 @@ public class CompressorUtil {
                     }
                 }
             }
-
             System.out.println("==================================================");
             System.out.printf("Exclude EmptyGameCnt = %,d\n", totalGameCnt - emptyGameCnt);
-            System.out.printf("StreamedGameCnt = %,d\n", streamedGameCnt);
+            System.out.printf("StreamedGameCnt = %,d\n", evalGameCnt);
             System.out.printf("TotalGameCnt = %,d\n", totalGameCnt);
             System.out.printf("Exclude EmptyGameCnt Ratio = %.4f\n", ((totalGameCnt - emptyGameCnt) * 100.0) / totalGameCnt);
-            System.out.printf("StreamedGame Ratio = %.4f\n", (streamedGameCnt * 100.0) / totalGameCnt);
+            System.out.printf("StreamedGame Ratio = %.4f\n", (evalGameCnt * 100.0) / totalGameCnt);
+            System.out.printf("Total Line: %,d\n", lineCnt);
 
             elapsed = System.currentTimeMillis() - start;
             millis = elapsed % 1000;
