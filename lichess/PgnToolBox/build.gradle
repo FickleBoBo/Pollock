@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'application'
+
+    // Shadow Plugin for Fat JAR
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'kr.pollock'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Zstandard 압축 라이브러리
+    implementation 'com.github.luben:zstd-jni:1.5.5-10'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+application {
+    mainClass = 'kr.pollock.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'kr.pollock.Main'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
