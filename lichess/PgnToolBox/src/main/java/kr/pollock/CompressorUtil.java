@@ -152,22 +152,25 @@ public class CompressorUtil {
 
         try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))));
              var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)))) {
-
             String line = null;
+            long lineCnt = 0;
 
             while ((line = br.readLine()) != null) {
+                lineCnt++;
+
                 bw.write(line);
                 bw.newLine();
             }
+
+            elapsed = System.currentTimeMillis() - start;
+            millis = elapsed % 1000;
+            seconds = (elapsed / 1000) % 60;
+            minutes = (elapsed / (1000 * 60)) % 60;
+            hours = (elapsed / (1000 * 60 * 60));
+
+            System.out.printf("Processed Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
+            System.out.printf("Total Line: %,d\n", lineCnt);
         }
-
-        elapsed = System.currentTimeMillis() - start;
-        millis = elapsed % 1000;
-        seconds = (elapsed / 1000) % 60;
-        minutes = (elapsed / (1000 * 60)) % 60;
-        hours = (elapsed / (1000 * 60 * 60));
-
-        System.out.printf("Processed Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
     }
 
     public static void merge(List<Path> inputs, Path output, int level) throws IOException {
