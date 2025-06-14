@@ -175,41 +175,39 @@ public class CompressorUtil {
         long hours;
 
         try (var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)))) {
-            int pgnCnt = 0;
+            long lineCnt = 0;
+            long pgnCnt = 0;
 
             for (Path input : inputs) {
                 try (var br = new BufferedReader(new InputStreamReader(new ZstdInputStream(Files.newInputStream(input))))) {
                     String line = null;
-                    int emptyLineCnt = 0;
 
                     while ((line = br.readLine()) != null) {
+                        lineCnt++;
+
                         bw.write(line);
                         bw.newLine();
 
-                        if (line.isEmpty()) emptyLineCnt++;
-
-                        if (emptyLineCnt == 2) {
+                        if (line.startsWith(EVENT_PREFIX)) {
                             pgnCnt++;
-                            emptyLineCnt = 0;
 
-                            if (pgnCnt % 1_000_000 == 0) {
-                                System.out.printf("Processing PGN: %,d\n", pgnCnt);
-                            }
+                            if (pgnCnt % 1_000_000 == 0) System.out.printf("Processing PGN: %,d\n", pgnCnt);
                         }
                     }
                 }
             }
-
             System.out.printf("Processing PGN: %,d\n", pgnCnt);
+
+            elapsed = System.currentTimeMillis() - start;
+            millis = elapsed % 1000;
+            seconds = (elapsed / 1000) % 60;
+            minutes = (elapsed / (1000 * 60)) % 60;
+            hours = (elapsed / (1000 * 60 * 60));
+
+            System.out.printf("Processing Time = %02d:%02d:%02d.%03d\n\n", hours, minutes, seconds, millis);
+            System.out.printf("Total Line: %,d\n", lineCnt);
+            System.out.printf("Total PGN: %,d\n", pgnCnt);
         }
-
-        elapsed = System.currentTimeMillis() - start;
-        millis = elapsed % 1000;
-        seconds = (elapsed / 1000) % 60;
-        minutes = (elapsed / (1000 * 60)) % 60;
-        hours = (elapsed / (1000 * 60 * 60));
-
-        System.out.printf("Processed Time = %02d:%02d:%02d.%03d\n", hours, minutes, seconds, millis);
     }
 
     public static void split(Path input, int gamesPerChunk, int level) throws IOException {
