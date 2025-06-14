@@ -234,28 +234,28 @@ public class CompressorUtil {
             var bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)));
 
             while ((line = br.readLine()) != null) {
+                if (line.startsWith(EVENT_PREFIX)) {
+                    if (pgnCnt == gamesPerChunk) {
+                        bw.close();
+
+                        pgnCnt = 0;
+                        chunkCnt++;
+
+                        output = Path.of(
+                                input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") +
+                                        "_" + String.format("%06d", chunkCnt) +
+                                        ".pgn.zst"
+                        );
+                        bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)));
+                    }
+
+                    pgnCnt++;
+                }
+
                 bw.write(line);
                 bw.newLine();
-
-                if (line.isEmpty()) emptyLineCnt++;
-
-                if (emptyLineCnt == gamesPerChunk * 2) {
-                    bw.close();
-                    System.out.printf("Processing Split = %d\n", chunkCnt);
-
-                    chunkCnt++;
-                    emptyLineCnt = 0;
-                    output = Path.of(
-                            input.getFileName().toString().replaceFirst("\\.pgn\\.zst$", "") +
-                                    "_" + String.format("%06d", chunkCnt) +
-                                    ".pgn.zst"
-                    );
-                    bw = new BufferedWriter(new OutputStreamWriter(new ZstdOutputStream(Files.newOutputStream(output), level)));
-                }
             }
-
             bw.close();
-            System.out.printf("Processing Split = %d\n", chunkCnt);
 
             System.out.printf("Processing Split = %,d\n", chunkCnt);
             System.out.println("--------------------------------------------------");
